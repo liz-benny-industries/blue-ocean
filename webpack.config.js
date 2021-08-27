@@ -11,7 +11,7 @@ const stylesHandler = MiniCssExtractPlugin.loader;
 const config = {
   entry: './client/src/index.jsx',
   output: {
-    path: path.resolve(__dirname, 'client/build'),
+    path: path.resolve(__dirname, 'client/public/'),
   },
   devServer: {
     open: true,
