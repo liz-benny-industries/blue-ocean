@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 app.use(
   '/public',
-  express.static(path.join(__dirname, '../client/public')),
+  express.static(path.join(__dirname, '../client/public'))
 );
 app.use(express.json());
 
