@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
+import User from './user.model';
 
-export default (sequelize) => sequelize.define('Donation', {
+const Donation = (sequelize) => sequelize.define('Donation', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
@@ -28,14 +29,18 @@ export default (sequelize) => sequelize.define('Donation', {
     ),
     allowNull: false,
   },
-  donor_id: {
-    type: DataTypes.UUID,
-    references: 'users', // if breaks, refactor per image model
-    referencesKey: 'id',
-  },
-  claimant_id: {
-    type: DataTypes.UUID,
-    references: 'users',
-    referencesKey: 'id',
-  },
+  // donor_id: {
+  //   type: DataTypes.UUID,
+  //   references: 'users', // if breaks, refactor per image model
+  //   referencesKey: 'id',
+  // },
+  // claimant_id: {
+  //   type: DataTypes.UUID,
+  //   references: 'users',
+  //   referencesKey: 'id',
+  // },
 });
+
+Donation.hasMany(User);
+
+export default Donation;
