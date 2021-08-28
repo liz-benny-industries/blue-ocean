@@ -13,5 +13,8 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react'],
-  rules: { 'comma-dangle': 0 },
+  rules: {
+    'comma-dangle': 0,
+    'import/prefer-default-export': 0,
+  },
 };

@@ -3,3 +3,6 @@ config/config.js
 .env.local
 client/public/main.js
 client/public/main.js.LICENSE.txt
+client/public/index.html
+.env
+db/config.js
