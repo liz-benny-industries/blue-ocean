@@ -28,10 +28,10 @@ const defineModels = (sequelize) => {
 
 const configureRelationships = (sequelize) => {
   try {
-    const { User, Donation, Image } = sequelize.models;
-    Donation.belongsTo(User, { as: 'claimant_id', foreignKey: 'id' });
-    Donation.belongsTo(User, { as: 'donor_id', foreignKey: 'id' });
-    Donation.hasMany(Image);
+    const { user, donation, image } = sequelize.models;
+    donation.belongsTo(user, { as: 'claimant' });
+    donation.belongsTo(user, { as: 'donor' });
+    donation.hasMany(image);
   } catch (e) {
     console.error(e);
     throw e;

@@ -1,13 +1,12 @@
 const { DataTypes } = require('sequelize');
-const User = require('./user.model');
+// const user = require('./user.model');
 
 // https://stackoverflow.com/questions/43523203/two-foreign-key-of-same-table-in-one-table-in-sequelize
 
-const Donation = (sequelize) => sequelize.define('Donation', {
+const donation = (sequelize) => sequelize.define('donation', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    // autoIncrement: true,
     allowNull: false,
   },
   location: {
@@ -47,4 +46,4 @@ const Donation = (sequelize) => sequelize.define('Donation', {
 // Donation.hasOne(User, { as: 'claimant_id', foreignKey: 'id' });
 // Donation.hasOne(User, { as: 'donor_id', foreignKey: 'id' });
 
-module.exports = Donation;
+module.exports = donation;

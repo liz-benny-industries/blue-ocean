@@ -1,11 +1,10 @@
 const { DataTypes } = require('sequelize');
 // const Donation = require('./donation.model');
 
-module.exports = (sequelize) => sequelize.define('Image', {
+module.exports = (sequelize) => sequelize.define('image', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    // autoIncrement: true,
     allowNull: false,
   },
   // donation_id: {

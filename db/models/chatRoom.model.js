@@ -1,12 +1,11 @@
 const { DataTypes } = require('sequelize');
-const Donation = require('./donation.model');
+const donation = require('./donation.model');
 const user = require('./user.model');
 
 const chatRoom = (sequelize) => sequelize.define('chatRoom', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    // autoIncrement: true,
     allowNull: false,
   },
   // claimant_id: {
@@ -32,7 +31,7 @@ const chatRoom = (sequelize) => sequelize.define('chatRoom', {
   // },
 });
 
-chatRoom.hasOne(Donation);
+chatRoom.hasOne(donation);
 chatRoom.BelongsToMany(user);
 user.hasMany(chatRoom);
 
