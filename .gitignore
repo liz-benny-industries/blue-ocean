@@ -4,3 +4,4 @@ config/config.js
 client/public/main.js
 client/public/main.js.LICENSE.txt
 .env
+db/config.js
