@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
@@ -67,11 +67,8 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
 
   const handleSubmit = () => {
     isSignIn ? signInUser() : signUpUser();
-    console.log(setAuthOpen);
     setAuthOpen(false);
   };
-
-  console.log(setAuthOpen);
 
   return (
     <div className="UserForm">
