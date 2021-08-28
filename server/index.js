@@ -8,10 +8,7 @@ const {
 const sequelize = require('../db');
 
 const app = express();
-app.use(
-  '/public',
-  express.static(path.join(__dirname, '../client/public'))
-);
+app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(express.json());
 
 const init = async () => {
