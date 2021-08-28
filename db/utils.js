@@ -1,9 +1,6 @@
-// const sequelize = require('./index');
 const userModel = require('./models/user.model');
 const donationModel = require('./models/donation.model');
 const imageModel = require('./models/image.model');
-// require('./models/chatRoom.model');
-// require('./models/notification.model');
 
 /* eslint-disable global-require */
 

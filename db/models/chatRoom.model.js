@@ -8,31 +8,10 @@ const chatRoom = (sequelize) => sequelize.define('chatRoom', {
     type: DataTypes.UUID,
     allowNull: false,
   },
-  // claimant_id: {
-  //   type: DataTypes.UUID,
-  //   references: {
-  //     model: User,
-  //     key: 'id',
-  //   },
-  // },
-  // donor_id: {
-  //   type: DataTypes.UUID,
-  //   references: {
-  //     model: User,
-  //     key: 'id',
-  //   },
-  // },
-  // donation_id: {
-  //   type: DataTypes.UUID,
-  //   references: {
-  //     model: Donation,
-  //     key: 'id',
-  //   },
-  // },
 });
 
-chatRoom.hasOne(donation);
-chatRoom.BelongsToMany(user);
-user.hasMany(chatRoom);
+// chatRoom.hasOne(donation);
+// chatRoom.BelongsToMany(user);
+// user.hasMany(chatRoom);
 
 module.exports = chatRoom;

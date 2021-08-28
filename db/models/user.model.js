@@ -4,7 +4,6 @@ module.exports = (sequelize) => sequelize.define('user', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    // autoIncrement: true,
     allowNull: false,
   },
   is_individual: {

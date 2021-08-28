@@ -1,4 +1,3 @@
-// Create connection and export
 const { Sequelize } = require('sequelize');
 const config = require('./config');
 
