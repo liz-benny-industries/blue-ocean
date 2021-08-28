@@ -10,9 +10,10 @@ import Button from '@material-ui/core/Button';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import Modal from '../Helpers/Modal';
+import { apiKey } from '../../../../config/config';
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey,
   authDomain: 'sandbox-3a2e3.firebaseapp.com',
   projectId: 'sandbox-3a2e3',
   storageBucket: 'sandbox-3a2e3.appspot.com',

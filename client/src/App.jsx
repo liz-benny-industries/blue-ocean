@@ -20,19 +20,9 @@ const App = () => {
     if (user) {
       const { uid } = user;
       setUserSession(uid);
-      // console.log(uid);
-      // ...
-    } else {
-      // User is signed out
-      // ...
     }
   });
 
-  // useEffect(() => {
-
-  // });
-
-  console.log(userSession);
   return (
     <div>
       <NavBar
@@ -40,9 +30,8 @@ const App = () => {
         setAuthOpen={setAuthOpen}
         setUserSession={setUserSession}
       />
-      Hello World!!
       <br />
-      <h2>{userSession}</h2>
+      <h2>{userSession || 'No User is signed in'}</h2>
       <Auth
         setAuthOpen={setAuthOpen}
         isAuthOpen={isAuthOpen}
