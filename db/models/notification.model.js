@@ -12,8 +12,8 @@ const Notification = (sequelize) => sequelize.define('notification', {
   },
 });
 
-// User.hasMany(Notification);
-// Notification.belongsToMany(User);
-// Notification.hasOne(Donation);
+// TODO: add to configureRelations User.hasMany(Notification);
+// TODO: add to configureRelations Notification.belongsToMany(User);
+// TODO: add to configureRelations Notification.hasOne(Donation);
 
 module.exports = Notification;

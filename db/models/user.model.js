@@ -24,6 +24,6 @@ module.exports = (sequelize) => sequelize.define('user', {
   },
   google_id: {
     type: DataTypes.TEXT,
-    allowNull: true,
+    allowNull: false,
   },
 });
