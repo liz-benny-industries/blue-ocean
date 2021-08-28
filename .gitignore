@@ -1,4 +1,5 @@
 node_modules
-client/public
 config/config.js
 .env.local
+client/public/main.js
+client/public/main.js.LICENSE.txt
