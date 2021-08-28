@@ -24,6 +24,8 @@ const config = {
 
     new MiniCssExtractPlugin(),
 
+    // new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG'])
+
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],

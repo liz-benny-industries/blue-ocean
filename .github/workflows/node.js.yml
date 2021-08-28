@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    environment: process
     runs-on: ubuntu-latest
 
     strategy:
