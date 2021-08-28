@@ -1,3 +1,4 @@
 node_modules
 client/public
 config/config.js
+.env.local
