@@ -1,12 +1,12 @@
-import { DataTypes } from 'sequelize';
-import Donation from './donation.model';
-import User from './user.model';
+const { DataTypes } = require('sequelize');
+const Donation = require('./donation.model');
+const user = require('./user.model');
 
-const ChatRoom = (sequelize) => sequelize.define('ChatRoom', {
+const chatRoom = (sequelize) => sequelize.define('chatRoom', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    autoIncrement: true,
+    // autoIncrement: true,
     allowNull: false,
   },
   // claimant_id: {
@@ -32,8 +32,8 @@ const ChatRoom = (sequelize) => sequelize.define('ChatRoom', {
   // },
 });
 
-ChatRoom.hasOne(Donation);
-ChatRoom.BelongsToMany(User);
-User.hasMany(ChatRoom);
+chatRoom.hasOne(Donation);
+chatRoom.BelongsToMany(user);
+user.hasMany(chatRoom);
 
-export default ChatRoom;
+module.exports = chatRoom;

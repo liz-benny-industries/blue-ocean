@@ -1,11 +1,11 @@
-import { DataTypes } from 'sequelize';
-import Donation from './donation.model';
+const { DataTypes } = require('sequelize');
+// const Donation = require('./donation.model');
 
-const Image = (sequelize) => sequelize.define('Image', {
+module.exports = (sequelize) => sequelize.define('Image', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    autoIncrement: true,
+    // autoIncrement: true,
     allowNull: false,
   },
   // donation_id: {
@@ -21,6 +21,6 @@ const Image = (sequelize) => sequelize.define('Image', {
   },
 });
 
-Donation.hasMany(Image);
+// Donation.hasMany(Image);
 
-export default Image;
+// module.exports = Image;

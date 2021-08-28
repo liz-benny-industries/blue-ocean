@@ -1,11 +1,10 @@
-import { DataTypes } from 'sequelize';
-// import ChatRoom from './chatRoom.model';
+const { DataTypes } = require('sequelize');
 
-const User = (sequelize) => sequelize.define('User', {
+module.exports = (sequelize) => sequelize.define('User', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    autoIncrement: true,
+    // autoIncrement: true,
     allowNull: false,
   },
   is_individual: {
@@ -29,5 +28,3 @@ const User = (sequelize) => sequelize.define('User', {
     allowNull: true,
   },
 });
-
-export default User;

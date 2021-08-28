@@ -1,12 +1,12 @@
-import { DataTypes } from 'sequelize';
-import User from './user.model';
-import Donation from './donation.model';
+const { DataTypes } = require('sequelize');
+const User = require('./user.model');
+const Donation = require('./user.model');
 
 const Notification = (sequelize) => sequelize.define('Notification', {
   id: {
     primaryKey: true,
     type: DataTypes.UUID,
-    autoIncrement: true,
+    // autoIncrement: true,
     allowNull: false,
   },
   viewed: {
@@ -40,4 +40,4 @@ User.hasMany(Notification);
 Notification.belongsToMany(User);
 Notification.hasOne(Donation);
 
-export default Notification;
+module.exports = Notification;
