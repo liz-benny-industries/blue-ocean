@@ -11,10 +11,10 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { initializeApp } from 'firebase/app';
 import axios from 'axios';
 import Modal from '../Helpers/Modal';
-import { apiKey } from '../../../../config/config';
+// import { apiKey } from '../../../../config/config';
 
 const firebaseConfig = {
-  apiKey,
+  // apiKey,
   authDomain: 'sandbox-3a2e3.firebaseapp.com',
   projectId: 'sandbox-3a2e3',
   storageBucket: 'sandbox-3a2e3.appspot.com',
