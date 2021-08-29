@@ -20,6 +20,9 @@ const App = () => {
     if (user) {
       const { uid } = user;
       setUserSession(uid);
+      user.getIdToken().then((idToken) => {
+        console.log(idToken);
+      });
     }
   });
 
