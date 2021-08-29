@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
+import axios from 'axios';
 import Modal from '../Helpers/Modal';
 import { apiKey } from '../../../../config/config';
 
@@ -29,7 +30,8 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
     email: '',
     password: '',
     is_individual: true,
-    default_location: ''
+    default_location: '',
+    google_id: ''
   });
   const [isSignIn, setSignIn] = useState(true);
 
@@ -48,15 +50,20 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
 
   const signUpUser = () => {
     const auth = getAuth();
-    createUserWithEmailAndPassword(auth, authInfo.email, authInfo.password)
-      .then((userCredential) => {
-        const { user } = userCredential;
-      })
-      // .then axios post
-      .catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
-      });
+    try {
+      createUserWithEmailAndPassword(auth, authInfo.email, authInfo.password)
+        .then((userCredential) => {
+          const { user } = userCredential;
+          setAuthInfo({ ...authInfo, google_id: user.uid });
+        })
+        .then(axios.post('/someEndPoint', authInfo))
+        .then((res) => {
+          console.log('CREATE ACCOUNT successful');
+        });
+    } catch (error) {
+      console.log(error.code);
+      console.log(error.message);
+    }
   };
 
   const signInUser = () => {
