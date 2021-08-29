@@ -7,19 +7,13 @@ import NavBar from './Components/NavBar';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
-  const [userSession, setUserSession] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState('');
-
-  useEffect(() => {
-    userSession ? setIsLoggedIn(true)
-      : setIsLoggedIn(false);
-  }, [userSession]);
+  const [currentUser, setCurrentUser] = useState();
 
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const { uid } = user;
-      setUserSession(uid);
+      setCurrentUser(uid);
       user.getIdToken().then((idToken) => {
         console.log(idToken);
       });
@@ -29,12 +23,12 @@ const App = () => {
   return (
     <div>
       <NavBar
-        userSession={userSession}
+        currentUser={currentUser}
         setAuthOpen={setAuthOpen}
-        setUserSession={setUserSession}
+        logOut={setCurrentUser}
       />
       <br />
-      <h2>{userSession || 'No User is signed in'}</h2>
+      <h2>{currentUser || 'No User is signed in'}</h2>
       <Auth
         setAuthOpen={setAuthOpen}
         isAuthOpen={isAuthOpen}
