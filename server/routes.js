@@ -1,11 +1,13 @@
 const sequelize = require('../db');
 
+// * example googleId: AiprFavvEEePTwTSooHpgK7OA832
+
 const DonationController = (router, connection) => {
   /* Donations - Get All */
   router.get('/donations', async (req, res) => {
-    const { donation } = connection.models;
     try {
-      const newDonations = await donation.findAll();
+      const { donation: donationModel } = connection.models;
+      const newDonations = await donationModel.findAll();
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
       }
@@ -19,9 +21,9 @@ const DonationController = (router, connection) => {
   /* Donations - Get One By Id */
   router.get('/donations/:donation_id/', (req, res) => {
     try {
-      const { donation } = connection.models;
+      const { donation: donationModel } = connection.models;
       const { donation_id: id } = req.params;
-      const newDonation = donation.findOne({ where: { id } });
+      const newDonation = donationModel.findOne({ where: { id } });
       if (!newDonation) {
         return res.status(404).send('No matching donation found');
       }
@@ -35,7 +37,7 @@ const DonationController = (router, connection) => {
   /* Donations - Post */
   router.post('/donations', async (req, res) => {
     try {
-      const { donation, image } = connection.models;
+      const { donation: donationModel, image: imageModel } = connection.models;
       const t = await sequelize.transaction();
       const {
         location,
@@ -44,7 +46,7 @@ const DonationController = (router, connection) => {
         donorId,
         images,
       } = req.body;
-      const newDonation = await donation.create(
+      const newDonation = await donationModel.create(
         {
           location,
           description,
@@ -62,7 +64,7 @@ const DonationController = (router, connection) => {
           })),
           { transaction: t }
         )
-        : await image.create(
+        : await imageModel.create(
           {
             url: images[0],
             donationId: newDonation.id,
@@ -81,10 +83,10 @@ const DonationController = (router, connection) => {
   /* Donations - Cancel */
   router.put('/donations/:donation_id/cancel', async (req, res) => {
     try {
-      const { donation } = connection.models;
+      const { donation: donationModel } = connection.models;
       const t = await sequelize.transaction();
       const { donationId: id } = req.params;
-      await donation.update(
+      await donationModel.update(
         { status: 'canceled' },
         {
           where: {
@@ -104,10 +106,10 @@ const DonationController = (router, connection) => {
   /* Donations - Claim */
   router.put('/donations/:donation_id/claim', async (req, res) => {
     try {
-      const { donation } = connection.models;
+      const { donation: donationModel } = connection.models;
       const t = await sequelize.transaction();
       const { donationId: id } = req.params;
-      await donation.update(
+      await donationModel.update(
         { status: 'canceled' },
         {
           where: {
@@ -125,13 +127,13 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Add Image to Existing Donation */
-  router.put('donations/:donation_id/image', async (req, res) => {
+  router.post('donations/:donation_id/image', async (req, res) => {
     try {
-      const { image } = connection.models;
+      const { imageModel } = connection.models;
       const t = await sequelize.transaction();
       const { image: url } = req.body;
       const { donation_id: donationId } = req.params;
-      await image.create(
+      await imageModel.create(
         {
           url,
           donationId,
@@ -147,6 +149,96 @@ const DonationController = (router, connection) => {
   });
 };
 
-// const UserController = (router) => {};
+const UserController = (router, connection) => {
+  router.get('/users', async (req, res) => {
+    try {
+      const { user: userModel } = connection.models;
+      const users = await userModel.findAll();
+      if (!users) {
+        return res.status(404).send('No matching donation found');
+      }
+      return res.status(200).send(users);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).end();
+    }
+  });
 
-module.exports = { DonationController };
+  router.get('/users/:user_id', async (req, res) => {
+    try {
+      const { user: userModel } = connection.models;
+      const { user_id: id } = req.params;
+      const user = await userModel.findOne({ where: { id } });
+      if (!user) {
+        return res.status(404).send('No matching user found');
+      }
+      return res.status(200).send(user);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).end();
+    }
+  });
+
+  router.post('/users', async (req, res) => {
+    try {
+      const { user: userModel } = connection.models;
+      const {
+        isIndividual, username, email, googleId
+      } = req.body;
+      const defaultLocation = req.body.defaultLocation || null;
+      const newUser = await userModel.create({
+        isIndividual,
+        username,
+        email,
+        googleId,
+        defaultLocation,
+      });
+      if (!newUser) {
+        return res.status(406).send('User could not be created');
+      }
+      return res.status(201).send(newUser);
+    } catch (e) {
+      console.error(e);
+      return res.status(500).end();
+    }
+  });
+
+  router.put('/users/:user_id', async (req, res) => {
+    try {
+      const { user: userModel } = connection.models;
+      const { fixedUser } = req.body;
+      const { user_id: id } = req.params;
+      const t = await sequelize.transaction();
+      await userModel.update(
+        {
+          ...fixedUser,
+        },
+        {
+          where: {
+            id,
+          },
+        },
+        { transaction: t }
+      );
+      await t.commit();
+      return res.status(201).end();
+    } catch (e) {
+      console.error(e);
+      return res.status(500).end();
+    }
+  });
+
+  router.delete('/users/:user_id', async (req, res) => {
+    try {
+      const { user: userModel } = connection.models;
+      const { user_id: id } = req.params;
+      await userModel.destroy({ where: { id } });
+      return res.status(201).end();
+    } catch (e) {
+      console.error(e);
+      return res.status(500).end();
+    }
+  });
+};
+
+module.exports = { DonationController, UserController };

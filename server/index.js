@@ -6,7 +6,7 @@ const {
   configureRelationships,
 } = require('../db/utils');
 const sequelize = require('../db');
-const { DonationController } = require('./routes');
+const { DonationController, UserController } = require('./routes');
 
 const app = express();
 app.use(express.static(path.join(__dirname, '../client/public')));
@@ -20,6 +20,7 @@ const init = async () => {
     await sequelize.sync();
     // console.log('connection:', sequelize);
     DonationController(app, sequelize);
+    UserController(app, sequelize);
     app.listen(3000, () => {
       console.log('👂👀 Server Listening on PORT 3000👂👀');
     });
