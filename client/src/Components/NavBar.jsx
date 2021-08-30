@@ -5,6 +5,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
+import Logo from './Logo';
 import './NavBar.css';
 
 const Nav = ({ currentUser, setAuthOpen, logOut }) => {
@@ -21,7 +22,7 @@ const Nav = ({ currentUser, setAuthOpen, logOut }) => {
   return (
     <header className="navbar">
       <div className="navbar__title navbar__item">
-        Logo
+        <Logo />
         <input className="search" />
       </div>
       <div
