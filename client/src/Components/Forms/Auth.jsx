@@ -13,6 +13,7 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
+import axios from 'axios';
 import Modal from '../Helpers/Modal';
 
 const firebaseConfig = {
@@ -26,12 +27,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// console.log(app);
-
 const Auth = ({ isAuthOpen, setAuthOpen }) => {
   const [authInfo, setAuthInfo] = useState({
+    username: '',
     email: '',
     password: '',
+    is_individual: true,
+    default_location: '',
+    google_id: '',
   });
   const [isSignIn, setSignIn] = useState(true);
 
@@ -40,22 +43,34 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
     setAuthInfo({ ...authInfo, [name]: value });
   };
 
+  const isChecked = (e) => {
+    if (authInfo[e.target.name] === false) {
+      setAuthInfo({ ...authInfo, [e.target.name]: true });
+    } else {
+      setAuthInfo({ ...authInfo, [e.target.name]: false });
+    }
+  };
+
   const signUpUser = () => {
     const auth = getAuth();
-    createUserWithEmailAndPassword(
-      auth,
-      authInfo.email,
-      authInfo.password
-    )
-      .then((userCredential) => {
-        const { user } = userCredential;
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+    try {
+      createUserWithEmailAndPassword(
+        auth,
+        authInfo.email,
+        authInfo.password
+      )
+        .then((userCredential) => {
+          const { user } = userCredential;
+          setAuthInfo({ ...authInfo, google_id: user.uid });
+        })
+        .then(axios.post('/someEndPoint', authInfo))
+        .then((res) => {
+          console.log('CREATE ACCOUNT successful');
+        });
+    } catch (error) {
+      console.log(error.code);
+      console.log(error.message);
+    }
   };
 
   const signInUser = () => {
@@ -69,15 +84,14 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
         const { user } = userCredential;
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
+        console.log(error.code);
+        console.log(error.message);
       });
   };
 
   const handleSubmit = () => {
     isSignIn ? signInUser() : signUpUser();
+    console.log(authInfo);
     setAuthOpen(false);
   };
 
@@ -86,7 +100,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
       <Modal
         isOpen={isAuthOpen}
         close={() => {
-          setAuthOpen;
+          setAuthOpen(false);
         }}
       >
         <h2
@@ -98,8 +112,32 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
           }}
         >
           {' '}
-          SIGN IN
+          {isSignIn ? 'Sign In' : 'Create Account'}
         </h2>
+        {!isSignIn && (
+          <>
+            {' '}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <label>Username</label>
+              <input
+                onChange={handleInputChange}
+                name="username"
+                value={authInfo.username}
+                style={{ width: '20vw' }}
+                autoComplete="off"
+              />
+            </div>
+            <br />
+            <br />
+          </>
+        )}
         <div
           style={{
             display: 'flex',
@@ -138,12 +176,66 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
             autoComplete="off"
           />
           <br />
+          {!isSignIn && (
+            <>
+              {' '}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <label>Location</label>
+                <input
+                  onChange={handleInputChange}
+                  name="default_location"
+                  value={authInfo.default_location}
+                  style={{ width: '20vw' }}
+                  autoComplete="off"
+                />
+              </div>
+              <br />
+              <br />
+            </>
+          )}
+          {!isSignIn && (
+            <>
+              {' '}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  alignItems: 'center',
+                }}
+              >
+                <label>Register as a Charirity</label>
+                <div
+                  style={{ display: 'flex', flexDirection: 'row' }}
+                >
+                  <input
+                    type="checkbox"
+                    id="is_individual"
+                    name="is_individual"
+                    value="false"
+                    onChange={isChecked}
+                  />
+                  {' '}
+                  Yes
+                </div>
+                <br />
+              </div>
+            </>
+          )}
           <span
             onClick={() => {
-              setSignIn(false);
+              setSignIn(!isSignIn);
             }}
           >
-            Sign Up
+            {isSignIn ? 'Sign Up' : 'Sign In'}
           </span>
           <br />
           <Button
