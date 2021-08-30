@@ -1,12 +1,9 @@
 const { Sequelize } = require('sequelize');
-const config = require('../config/config');
-
-const {
-  DB_USER, DB_PASSWORD, DB_PORT, DB_NAME, DB_HOST
-} = config;
+// const config = require('../config/config');
+require('dotenv').config();
 
 const connection = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+  `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`
 );
 
 module.exports = connection;

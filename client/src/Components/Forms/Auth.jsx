@@ -14,10 +14,9 @@ import {
 } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import Modal from '../Helpers/Modal';
-import { apiKey } from '../../../../config/config';
 
 const firebaseConfig = {
-  apiKey,
+  apiKey: 'AIzaSyBlgQeLZhCz0J5AUUmSqdwhvW9JsLS47Mg',
   authDomain: 'sandbox-3a2e3.firebaseapp.com',
   projectId: 'sandbox-3a2e3',
   storageBucket: 'sandbox-3a2e3.appspot.com',

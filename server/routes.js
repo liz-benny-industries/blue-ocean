@@ -36,6 +36,10 @@ const DonationController = (router, connection) => {
     }
   });
 
+  /* Donations - Get All by DonorId */
+
+  router.get('/donations/:donorId', (req, res) => {});
+
   /* Donations - Post */
   router.post('/donations', async (req, res) => {
     try {
