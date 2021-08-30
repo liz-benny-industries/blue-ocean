@@ -11,7 +11,7 @@ const stylesHandler = MiniCssExtractPlugin.loader;
 const config = {
   entry: './client/src/index.jsx',
   output: {
-    path: path.resolve(__dirname, 'client/build'),
+    path: path.resolve(__dirname, 'client/public/'),
   },
   devServer: {
     open: true,
@@ -23,6 +23,8 @@ const config = {
     }),
 
     new MiniCssExtractPlugin(),
+
+    // new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG'])
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
