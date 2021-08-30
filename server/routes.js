@@ -19,11 +19,13 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Get One By Id */
-  router.get('/donations/:donation_id/', (req, res) => {
+  router.get('/donations/:donationId', async (req, res) => {
     try {
       const { donation: donationModel } = connection.models;
-      const { donation_id: id } = req.params;
-      const newDonation = donationModel.findOne({ where: { id } });
+      const { donationId: id } = req.params;
+      const newDonation = await donationModel.findOne({
+        where: { id },
+      });
       if (!newDonation) {
         return res.status(404).send('No matching donation found');
       }
@@ -81,7 +83,7 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Cancel */
-  router.put('/donations/:donation_id/cancel', async (req, res) => {
+  router.put('/donations/:donationId/cancel', async (req, res) => {
     try {
       const { donation: donationModel } = connection.models;
       const t = await sequelize.transaction();
@@ -104,13 +106,13 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Claim */
-  router.put('/donations/:donation_id/claim', async (req, res) => {
+  router.put('/donations/:donationId/claim', async (req, res) => {
     try {
       const { donation: donationModel } = connection.models;
       const t = await sequelize.transaction();
       const { donationId: id } = req.params;
       await donationModel.update(
-        { status: 'canceled' },
+        { status: 'claimed' },
         {
           where: {
             id,
@@ -126,13 +128,25 @@ const DonationController = (router, connection) => {
     }
   });
 
-  /* Donations - Add Image to Existing Donation */
-  router.post('donations/:donation_id/image', async (req, res) => {
+  router.delete('/donations/:donationId', async (req, res) => {
     try {
-      const { imageModel } = connection.models;
+      const { donation: donationModel } = connection.models;
+      const { donationId: id } = req.params;
+      await donationModel.destroy({ where: { id } });
+      return res.status(201).end();
+    } catch (e) {
+      console.error(e);
+      return res.status(500).end();
+    }
+  });
+
+  /* Donations - Add Image to Existing Donation */
+  router.post('/donations/:donationId/image', async (req, res) => {
+    try {
+      const { image: imageModel } = connection.models;
       const t = await sequelize.transaction();
       const { image: url } = req.body;
-      const { donation_id: donationId } = req.params;
+      const { donationId } = req.params;
       await imageModel.create(
         {
           url,
