@@ -5,6 +5,7 @@ const Notification = (sequelize) => sequelize.define('notification', {
     primaryKey: true,
     type: DataTypes.UUID,
     allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
   },
   viewed: {
     type: DataTypes.BOOLEAN,
