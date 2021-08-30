@@ -36,9 +36,9 @@ const DonationController = (router, connection) => {
     }
   });
 
-  /* Donations - Get All by DonorId */
+  /* Donations - Get All by Firebase UID */
 
-  router.get('/donations/:donorId', (req, res) => {});
+  router.get('/donations/:uid', (req, res) => {});
 
   /* Donations - Post */
   router.post('/donations', async (req, res) => {
