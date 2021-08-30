@@ -8,12 +8,12 @@ import { getAuth, signOut } from 'firebase/auth';
 import Logo from './Logo';
 import './NavBar.css';
 
-const Nav = ({ userSession, setAuthOpen, setUserSession }) => {
+const Nav = ({ currentUser, setAuthOpen, logOut }) => {
   const signOutUser = () => {
     const auth = getAuth();
-    !userSession ? setAuthOpen(true)
+    !currentUser ? setAuthOpen(true)
       : signOut(auth).then(() => {
-        setUserSession('');
+        logOut('');
       }).catch((error) => {
         console.log(error);
       });
@@ -30,7 +30,7 @@ const Nav = ({ userSession, setAuthOpen, setUserSession }) => {
         style={{ cursor: 'pointer' }}
         onClick={signOutUser}
       >
-        {userSession ? 'Logout' : 'Sign In'}
+        {currentUser ? 'Logout' : 'Sign In'}
       </div>
     </header>
   );

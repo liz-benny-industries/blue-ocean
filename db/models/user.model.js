@@ -5,8 +5,9 @@ module.exports = (sequelize) => sequelize.define('user', {
     primaryKey: true,
     type: DataTypes.UUID,
     allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
   },
-  is_individual: {
+  isIndividual: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
@@ -14,7 +15,7 @@ module.exports = (sequelize) => sequelize.define('user', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  default_location: {
+  defaultLocation: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
@@ -22,7 +23,7 @@ module.exports = (sequelize) => sequelize.define('user', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  google_id: {
+  googleId: {
     type: DataTypes.TEXT,
     allowNull: false,
   },

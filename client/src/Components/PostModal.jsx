@@ -1,6 +1,9 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import axios from 'axios';
 import {
   TextField,
   Modal,
@@ -38,6 +41,18 @@ const useStyles = makeStyles((theme) => ({
 export default function TransitionsModal() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [donationInfo, setDonationInfo] = useState({
+    title: '',
+    descripton: '',
+    location: '',
+    charitiesOnly: 'false',
+    status: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setDonationInfo({ ...donationInfo, [name]: value });
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -45,6 +60,15 @@ export default function TransitionsModal() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const donate = () => {
+    console.log(donationInfo);
+    axios.post('/someEndPoint', donationInfo)
+      .then((res) => {
+        console.log('DONATION POST Successful');
+      // do something cool
+      });
   };
 
   return (
@@ -79,6 +103,9 @@ export default function TransitionsModal() {
                 id="modal-item-title"
                 label="Item Title"
                 type="item-title"
+                name="title"
+                value={donationInfo.title}
+                onChange={handleInputChange}
                 style={{ margin: '1rem' }}
               />
               <TextField
@@ -86,6 +113,9 @@ export default function TransitionsModal() {
                 id="modal-item-location"
                 label="Item Location"
                 type="item-title"
+                name="location"
+                onChange={handleInputChange}
+                value={donationInfo.location}
                 style={{ margin: '1rem' }}
               />
               <TextField
@@ -96,6 +126,9 @@ export default function TransitionsModal() {
                 rows={4}
                 placeholder="Please enter a description"
                 variant="outlined"
+                name="descripton"
+                onChange={handleInputChange}
+                value={donationInfo.descripton}
                 style={{ margin: '1rem' }}
               />
               <div className={classes.buttonBox}>
