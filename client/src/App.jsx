@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Auth from './Components/Forms/Auth';
 import NavBar from './Components/NavBar';
-import Logo from './Components/Logo';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);

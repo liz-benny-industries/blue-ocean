@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import {
   Typography,
@@ -5,8 +6,8 @@ import {
 
 const Logo = () => (
   <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
-    <Typography variant="h3">Lendl Global</Typography>
-    <Typography variant="h6">We're in Everything</Typography>
+    <Typography style={{ marginRight: '1rem' }} variant="h3">Lendl Global</Typography>
+    <Typography style={{ fontStyle: 'italic' }} variant="h6">We're in Everything</Typography>
   </div>
 );
 
