@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
