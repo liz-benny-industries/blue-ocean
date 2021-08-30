@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Auth from './Components/Forms/Auth';
 import NavBar from './Components/NavBar';
+import PostModal from './Components/PostModal';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
@@ -36,6 +37,7 @@ const App = () => {
         setAuthOpen={setAuthOpen}
         isAuthOpen={isAuthOpen}
       />
+      <PostModal />
     </div>
   );
 };
