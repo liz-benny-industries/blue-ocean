@@ -129,7 +129,6 @@ export default function TransitionsModal() {
                   <Typography>Donor's Username</Typography>
                   <Typography>Location</Typography>
                   <Button
-                    // className={classes.share}
                     size="small"
                     color="primary"
                   >
