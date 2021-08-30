@@ -8,11 +8,11 @@ const donation = (sequelize) => sequelize.define('donation', {
   },
   location: {
     type: DataTypes.TEXT,
-    allowNull: true,
+    allowNull: false,
   },
   description: {
     type: DataTypes.TEXT,
-    allowNull: true,
+    allowNull: false,
   },
   charitiesOnly: {
     type: DataTypes.BOOLEAN,
@@ -25,6 +25,7 @@ const donation = (sequelize) => sequelize.define('donation', {
       'claimed',
       'delivered'
     ),
+    defaultValue: 'active',
     allowNull: false,
   },
 });
