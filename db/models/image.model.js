@@ -5,6 +5,7 @@ module.exports = (sequelize) => sequelize.define('image', {
     primaryKey: true,
     type: DataTypes.UUID,
     allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
   },
   url: {
     type: DataTypes.STRING,

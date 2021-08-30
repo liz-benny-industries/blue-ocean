@@ -7,6 +7,7 @@ const chatRoom = (sequelize) => sequelize.define('chatRoom', {
     primaryKey: true,
     type: DataTypes.UUID,
     allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
   },
 });
 

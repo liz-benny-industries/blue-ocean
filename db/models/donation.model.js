@@ -5,6 +5,7 @@ const donation = (sequelize) => sequelize.define('donation', {
     primaryKey: true,
     type: DataTypes.UUID,
     allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
   },
   location: {
     type: DataTypes.TEXT,
