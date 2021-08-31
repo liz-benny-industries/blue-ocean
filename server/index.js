@@ -6,7 +6,7 @@ const {
   configureRelationships,
 } = require('../db/utils');
 const sequelize = require('../db');
-const { decodeIDToken } = require('./middleware');
+const { decodeIDToken } = require('./routes/middleware');
 const { DonationController, UserController } = require('./routes');
 
 const app = express();
