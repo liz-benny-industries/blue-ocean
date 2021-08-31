@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Auth from './Components/Forms/Auth';
 import NavBar from './Components/NavBar';
-import PostModal from './Components/PostModal';
+import DonationList from './Components/DonationList';
+import DonationCard from './Components/DonationCard';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
@@ -28,13 +29,14 @@ const App = () => {
         setAuthOpen={setAuthOpen}
         logOut={setCurrentUser}
       />
-      <PostModal />
       <br />
       <h2>{currentUser || 'No User is signed in'}</h2>
       <Auth
         setAuthOpen={setAuthOpen}
         isAuthOpen={isAuthOpen}
       />
+      <DonationCard />
+      <DonationList />
     </div>
   );
 };

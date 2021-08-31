@@ -21,6 +21,7 @@ const items = [
   {
     name: 'Random Name #1',
     description: 'Probably the most random thing you have ever seen!',
+    Image: tempImg,
   },
   {
     name: 'Random Name #2',
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: '.5rem',
     width: '30rem',
   },
   media: {
@@ -70,9 +71,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '24rem',
   },
+  userControls: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: '.5rem',
+  }
 }));
 
-export default function TransitionsModal() {
+export default function DonationCard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -84,18 +90,30 @@ export default function TransitionsModal() {
     setOpen(false);
   };
 
+  const handleContact = () => {
+    // open email client
+  };
+
+  const handleCancel = () => {
+    // relist the item (unclaim)
+  };
+
+  const handleDelete = () => {
+    // delete the listing
+  };
+
   return (
     <div>
       <button type="button" onClick={handleOpen}>
         Donation Card
       </button>
       <Modal
+        closeAfterTransition
         aria-labelledby="transition-donate-modal-title"
         aria-describedby="transition-donate-modal-description"
-        className={classes.modal}
         open={open}
         onClose={handleClose}
-        closeAfterTransition
+        className={classes.modal}
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
@@ -113,7 +131,7 @@ export default function TransitionsModal() {
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={tempImg}
+                    // image={tempImg}
                     title="Image Title(optional)"
                   />
                   <CardContent>
@@ -136,12 +154,21 @@ export default function TransitionsModal() {
                 </CardActions>
               </Card>
               <Button
+                onClick={handleContact}
                 className={classes.button}
                 variant="contained"
                 color="primary"
               >
                 Contact Listing Owner
               </Button>
+              <div className={classes.userControls}>
+                <Button onClick={handleCancel}>
+                  Cancel Claim
+                </Button>
+                <Button onClick={handleDelete}>
+                  Delete Post
+                </Button>
+              </div>
             </form>
           </div>
         </Fade>

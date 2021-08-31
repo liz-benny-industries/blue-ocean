@@ -1,12 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { deepOrange } from '@material-ui/core/colors';
-import BackspaceRoundedIcon from '@material-ui/icons/BackspaceRounded';
 import {
   Paper,
   Avatar,
   Typography,
 } from '@material-ui/core';
+import DonationCard from './DonationCard';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 
@@ -14,9 +14,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     '& > *': {
-      width: theme.spacing(66),
-      height: theme.spacing(6),
+      width: '55rem',
+      height: '3rem',
       padding: '.5rem',
+      margin: '.5rem',
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-around',
@@ -27,30 +28,33 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
   },
   innerText: {
-    width: theme.spacing(22),
+    width: '18rem',
     padding: '.5rem',
     display: 'flex',
     alignItems: 'center',
   },
-  square: {
+  image: {
     color: theme.palette.getContrastText(deepOrange[500]),
     backgroundColor: deepOrange[500],
-    height: theme.spacing(6),
-    width: theme.spacing(6),
-  },
-  icon: {
-    display: 'flex',
-    alignSelf: 'center',
+    height: '3rem',
+    width: '3rem',
   },
 }));
 
-export default function Variants() {
+export default function Listing({ open, setOpen }) {
   const classes = useStyles();
+
+  const handleClick = () => {
+    <DonationCard />;
+  };
 
   return (
     <div className={classes.shell}>
       <div className={classes.root}>
-        <Paper variant="outlined">
+        <Paper
+          onClick={handleClick}
+          variant="outlined"
+        >
           <Paper variant="outlined" className={classes.innerText}>
             <Typography>Listing Title</Typography>
           </Paper>
@@ -60,14 +64,11 @@ export default function Variants() {
           <Avatar
             src={tempImg}
             variant="square"
-            className={classes.square}
+            className={classes.image}
           >
             N
           </Avatar>
         </Paper>
-      </div>
-      <div className={classes.icon}>
-        <BackspaceRoundedIcon />
       </div>
     </div>
   );
