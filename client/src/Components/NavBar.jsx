@@ -87,8 +87,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = ({ currentUser, setAuthOpen, logOut }) => {
+const Navigation = ({ currentUser, setAuthOpen, logOut, setOpenPostModal }) => {
   const classes = useStyles();
+
+  const handleClick = () => {
+    setOpenPostModal(true);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -154,6 +159,7 @@ const Navigation = ({ currentUser, setAuthOpen, logOut }) => {
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
+            onClick={handleClick}
             className={classes.listItem}
             primary='Post a Donation'
           />

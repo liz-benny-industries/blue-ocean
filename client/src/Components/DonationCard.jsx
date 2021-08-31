@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,7 +22,6 @@ const items = [
   {
     name: 'Random Name #1',
     description: 'Probably the most random thing you have ever seen!',
-    Image: tempImg,
   },
   {
     name: 'Random Name #2',
@@ -78,16 +78,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function DonationCard() {
+export default function DonationCard({ setOpenDonationCard, donation }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDonationCard(false);
   };
 
   const handleContact = () => {
@@ -104,14 +99,11 @@ export default function DonationCard() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Donation Card
-      </button>
       <Modal
         closeAfterTransition
         aria-labelledby="transition-donate-modal-title"
         aria-describedby="transition-donate-modal-description"
-        open={open}
+        open={setOpenDonationCard}
         onClose={handleClose}
         className={classes.modal}
         BackdropComponent={Backdrop}
@@ -119,7 +111,7 @@ export default function DonationCard() {
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={setOpenDonationCard}>
           <div className={classes.paper}>
             <form
               noValidate

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper } from '@material-ui/core';
 import Listing from './Listing';
 
-export default function DonationList() {
-  const [open, setOpen] = React.useState(false);
+export default function DonationList({ setOpenDonationCard }) {
   const useStyles = makeStyles(() => ({
     root: {
       display: 'flex',
@@ -30,7 +30,7 @@ export default function DonationList() {
     <div className={classes.shell}>
       <Paper className={classes.root}>
         <Typography variant="h4">Donations</Typography>
-        <Listing open={open} setOpen={setOpen} />
+        <Listing setOpenDonationCard={setOpenDonationCard} />
       </Paper>
     </div>
   );

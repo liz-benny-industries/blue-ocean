@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal() {
+export default function TransitionsModal({ setOpenPostModal }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [donationInfo, setDonationInfo] = useState({
@@ -55,11 +56,11 @@ export default function TransitionsModal() {
   };
 
   const handleOpen = () => {
-    setOpen(true);
+    setOpenPostModal(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenPostModal(false);
   };
 
   const donate = () => {
@@ -73,14 +74,11 @@ export default function TransitionsModal() {
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Post a Donation
-      </button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={open}
+        open={setOpenPostModal}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -88,7 +86,7 @@ export default function TransitionsModal() {
           timeout: 300,
         }}
       >
-        <Fade in={open}>
+        <Fade in={setOpenPostModal}>
           <div className={classes.paper}>
             <Typography variant="h4" id="transition-modal-title">Decribe the Item</Typography>
             <form

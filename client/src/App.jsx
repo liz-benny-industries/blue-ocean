@@ -6,10 +6,13 @@ import Auth from './Components/Forms/Auth';
 import NavBar from './Components/NavBar';
 import DonationList from './Components/DonationList';
 import DonationCard from './Components/DonationCard';
+import PostModal from './Components/PostModal';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState();
+  const [openDonationCard, setOpenDonationCard] = React.useState(false);
+  const [openPostModal, setOpenPostModal] = React.useState(false);
 
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -24,6 +27,7 @@ const App = () => {
   return (
     <div>
       <NavBar
+        setOpenPostModal={setOpenPostModal}
         currentUser={currentUser}
         setAuthOpen={setAuthOpen}
         logOut={setCurrentUser}
@@ -34,8 +38,9 @@ const App = () => {
         setAuthOpen={setAuthOpen}
         isAuthOpen={isAuthOpen}
       />
-      <DonationCard />
-      <DonationList />
+      {openDonationCard ? <DonationCard setOpenDonationCard={setOpenDonationCard} /> : null}
+      {openPostModal ? <PostModal setOpenPostModal={setOpenPostModal} /> : null}
+      <DonationList setOpenDonationCard={setOpenDonationCard} />
     </div>
   );
 };

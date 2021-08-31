@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { deepOrange } from '@material-ui/core/colors';
@@ -6,7 +7,6 @@ import {
   Avatar,
   Typography,
 } from '@material-ui/core';
-import DonationCard from './DonationCard';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 
@@ -41,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Listing({ open, setOpen }) {
+export default function Listing({ setOpenDonationCard }) {
   const classes = useStyles();
 
   const handleClick = () => {
-    <DonationCard />;
+    setOpenDonationCard(true);
   };
 
   return (
