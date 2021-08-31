@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -90,6 +89,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Navigation = ({ currentUser, setAuthOpen, logOut }) => {
   const classes = useStyles();
+
+  const handleSignOut = () => {};
+
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -133,7 +135,21 @@ const Navigation = ({ currentUser, setAuthOpen, logOut }) => {
           >
             <AccountCircleOutlined fontSize='large' />
           </IconButton>
-          <Button variant='contained'>
+          <Button
+            variant='contained'
+            onClick={() => {
+              const auth = getAuth();
+              currentUser
+                ? signOut(auth)
+                    .then(() => {
+                      logOut('');
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    })
+                : setAuthOpen(true);
+            }}
+          >
             {currentUser ? 'Sign Out' : 'Sign In'}
           </Button>
         </Toolbar>
@@ -165,36 +181,3 @@ const Navigation = ({ currentUser, setAuthOpen, logOut }) => {
 };
 
 export default Navigation;
-
-// const Nav = ({ currentUser, setAuthOpen, logOut }) => {
-//   const signOutUser = () => {
-//     const auth = getAuth();
-//     !currentUser
-//       ? setAuthOpen(true)
-//       : signOut(auth)
-//           .then(() => {
-//             logOut('');
-//           })
-//           .catch((error) => {
-//             console.log(error);
-//           });
-//   };
-
-//   return (
-//     <header className='navbar'>
-//       <div className='navbar__title navbar__item'>
-//         Logo
-//         <input className='search' />
-//       </div>
-//       <div
-//         className='navbar__item'
-//         style={{ cursor: 'pointer' }}
-//         onClick={signOutUser}
-//       >
-//         {currentUser ? 'Logout' : 'Sign In'}
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default Nav;
