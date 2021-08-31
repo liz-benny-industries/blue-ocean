@@ -54,6 +54,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${idToken}`,
         };
+        console.log('newly generated idToken: ', idToken);
         return axios.post('/users', authInfo, { headers });
       })
       .then(() => { setAuthOpen(false); })
