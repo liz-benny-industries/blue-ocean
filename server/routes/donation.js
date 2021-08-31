@@ -131,6 +131,7 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Claim */
+  // Jordan: need to update to add claimantId to donation record
   router.put('/donations/:donationId/claim', async (req, res) => {
     if (!req.user) {
       return res.status(401).send('Unauthorized');
