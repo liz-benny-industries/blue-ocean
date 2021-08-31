@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import axios from 'axios';
 import {
   TextField,
@@ -9,7 +10,7 @@ import {
   Backdrop,
   Button,
   Fade,
-  Icon,
+  Typography,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +25,16 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     width: '30rem',
+  },
+  button: {
+    width: '12rem',
+  },
+  buttonBox: {
+    display: 'flex',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '26rem',
   },
 }));
 
@@ -74,12 +85,12 @@ export default function TransitionsModal() {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 300,
         }}
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Decribe the Item</h2>
+            <Typography variant="h4" id="transition-modal-title">Decribe the Item</Typography>
             <form
               require
               noValidate
@@ -120,15 +131,23 @@ export default function TransitionsModal() {
                 value={donationInfo.descripton}
                 style={{ margin: '1rem' }}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={donate}
-                endIcon={<Icon>send</Icon>}
-              >
-                Donate
-              </Button>
+              <div className={classes.buttonBox}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                >
+                  Add Image
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  endIcon={<SendRoundedIcon />}
+                >
+                  Donate
+                </Button>
+              </div>
             </form>
           </div>
         </Fade>

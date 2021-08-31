@@ -21,7 +21,6 @@ const items = [
   {
     name: 'Random Name #1',
     description: 'Probably the most random thing you have ever seen!',
-    Image: 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png',
   },
   {
     name: 'Random Name #2',

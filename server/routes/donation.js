@@ -80,6 +80,7 @@ const DonationController = (router, connection) => {
           },
           { transaction: t }
         );
+      /* eslint-enable no-unused-expressions */
 
       await t.commit();
       return res.status(201).end(); // * To send back the new data here, refetch, or...?
