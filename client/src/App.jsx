@@ -17,7 +17,6 @@ const App = () => {
       const { uid } = user;
       setCurrentUser(uid);
       user.getIdToken().then((idToken) => {
-        console.log(idToken);
       });
     }
   });

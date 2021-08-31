@@ -3,9 +3,8 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => sequelize.define('user', {
   id: {
     primaryKey: true,
-    type: DataTypes.UUID,
+    type: DataTypes.TEXT,
     allowNull: false,
-    defaultValue: DataTypes.UUIDV4,
   },
   isIndividual: {
     type: DataTypes.BOOLEAN,
@@ -20,10 +19,6 @@ module.exports = (sequelize) => sequelize.define('user', {
     allowNull: true,
   },
   email: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  googleId: {
     type: DataTypes.TEXT,
     allowNull: false,
   },

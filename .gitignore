@@ -7,3 +7,4 @@ client/public/index.html
 .env
 db/config.js
 coverage
+firebase-private-key.json

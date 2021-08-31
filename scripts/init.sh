@@ -1,1 +1,2 @@
+dropdb donation_station
 createdb donation_station
