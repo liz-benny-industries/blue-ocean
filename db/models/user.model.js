@@ -5,7 +5,7 @@ module.exports = (sequelize) => sequelize.define('user', {
     primaryKey: true,
     type: DataTypes.UUID,
     allowNull: false,
-    defaultValue: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4, // TODO: Replace with FirebaseUID
   },
   isIndividual: {
     type: DataTypes.BOOLEAN,
