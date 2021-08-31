@@ -89,9 +89,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Navigation = ({ currentUser, setAuthOpen, logOut }) => {
   const classes = useStyles();
-
-  const handleSignOut = () => {};
-
   return (
     <div className={classes.root}>
       <AppBar position='static'>
