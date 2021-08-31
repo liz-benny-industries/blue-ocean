@@ -7,6 +7,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
+import Alert from '@material-ui/lab/Alert';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -37,6 +38,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
     google_id: '',
   });
   const [isSignIn, setSignIn] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,24 +55,20 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
 
   const signUpUser = () => {
     const auth = getAuth();
-    try {
-      createUserWithEmailAndPassword(
-        auth,
-        authInfo.email,
-        authInfo.password
-      )
-        .then((userCredential) => {
-          const { user } = userCredential;
-          setAuthInfo({ ...authInfo, google_id: user.uid });
-        })
-        .then(axios.post('/someEndPoint', authInfo))
-        .then((res) => {
-          console.log('CREATE ACCOUNT successful');
-        });
-    } catch (error) {
-      console.log(error.code);
-      console.log(error.message);
-    }
+    createUserWithEmailAndPassword(
+      auth,
+      authInfo.email,
+      authInfo.password
+    )
+      .then((userCredential) => {
+        const { user } = userCredential;
+        setAuthInfo({ ...authInfo, google_id: user.uid });
+      })
+      .then(() => { setAuthOpen(false); })
+      // .then(axios.post('/someEndPoint', authInfo))
+      .catch((err) => {
+        setError(err.code);
+      });
   };
 
   const signInUser = () => {
@@ -83,16 +81,14 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
       .then((userCredential) => {
         const { user } = userCredential;
       })
-      .catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
+      .then(() => { setAuthOpen(false); })
+      .catch((err) => {
+        setError(err.code);
       });
   };
 
   const handleSubmit = () => {
     isSignIn ? signInUser() : signUpUser();
-    console.log(authInfo);
-    setAuthOpen(false);
   };
 
   return (
@@ -111,12 +107,10 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
             alignItems: 'center',
           }}
         >
-          {' '}
           {isSignIn ? 'Sign In' : 'Create Account'}
         </h2>
         {!isSignIn && (
           <>
-            {' '}
             <div
               style={{
                 display: 'flex',
@@ -178,7 +172,6 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
           <br />
           {!isSignIn && (
             <>
-              {' '}
               <div
                 style={{
                   display: 'flex',
@@ -202,7 +195,6 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
           )}
           {!isSignIn && (
             <>
-              {' '}
               <div
                 style={{
                   display: 'flex',
@@ -212,7 +204,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
                   alignItems: 'center',
                 }}
               >
-                <label>Register as a Charirity</label>
+                <label>Register as a Charity</label>
                 <div
                   style={{ display: 'flex', flexDirection: 'row' }}
                 >
@@ -223,7 +215,6 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
                     value="false"
                     onChange={isChecked}
                   />
-                  {' '}
                   Yes
                 </div>
                 <br />
@@ -245,6 +236,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
           >
             Submit
           </Button>
+          {error ? <Alert severity="error">{error}</Alert> : null}
         </div>
       </Modal>
     </div>

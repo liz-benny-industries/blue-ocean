@@ -168,20 +168,6 @@ const DonationController = (router, connection) => {
 };
 
 const UserController = (router, connection) => {
-  router.get('/users', async (req, res) => {
-    try {
-      const { user: userModel } = connection.models;
-      const users = await userModel.findAll();
-      if (!users) {
-        return res.status(404).send('No matching donation found');
-      }
-      return res.status(200).send(users);
-    } catch (e) {
-      console.error(e);
-      return res.status(500).end();
-    }
-  });
-
   router.get('/users/:user_id', async (req, res) => {
     try {
       const { user: userModel } = connection.models;
