@@ -4,13 +4,13 @@
   "description": "Deeper than a puddle, as wide as the sky.",
   "main": "index.js",
   "scripts": {
-    "test": "",
+    "test": "jest",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
-    "watch": "webpack --watch",
+    "watch": "webpack --mode=development --watch",
     "serve": "webpack serve",
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/"
   },
   "repository": {
     "type": "git",
@@ -34,12 +34,14 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "html-webpack-plugin": "^5.3.2",
     "jest": "^27.0.6",
     "mini-css-extract-plugin": "^2.1.0",
+    "nodemon": "^2.0.12",
     "prettier": "^2.3.2",
     "sass": "^1.36.0",
     "sass-loader": "^12.1.0",
@@ -53,6 +55,7 @@
     "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "firebase": "^9.0.0",
     "morgan": "^1.10.0",
@@ -60,6 +63,12 @@
     "pg": "^8.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-material-ui-carousel": "^2.3.1",
+    "react-scripts": "^4.0.3",
+    "sequelize": "^6.6.5",
     "styled-components": "^5.3.1"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }

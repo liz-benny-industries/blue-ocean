@@ -1,12 +1,16 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import axios from 'axios';
 import {
   TextField,
   Modal,
   Backdrop,
   Button,
   Fade,
-  Icon,
+  Typography,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,11 +26,33 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
     width: '30rem',
   },
+  button: {
+    width: '12rem',
+  },
+  buttonBox: {
+    display: 'flex',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '26rem',
+  },
 }));
 
 export default function TransitionsModal() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [donationInfo, setDonationInfo] = useState({
+    title: '',
+    descripton: '',
+    location: '',
+    charitiesOnly: 'false',
+    status: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setDonationInfo({ ...donationInfo, [name]: value });
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -34,6 +60,15 @@ export default function TransitionsModal() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const donate = () => {
+    console.log(donationInfo);
+    axios.post('/someEndPoint', donationInfo)
+      .then((res) => {
+        console.log('DONATION POST Successful');
+      // do something cool
+      });
   };
 
   return (
@@ -50,12 +85,12 @@ export default function TransitionsModal() {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 300,
         }}
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Decribe the Item</h2>
+            <Typography variant="h4" id="transition-modal-title">Decribe the Item</Typography>
             <form
               require
               noValidate
@@ -68,6 +103,9 @@ export default function TransitionsModal() {
                 id="modal-item-title"
                 label="Item Title"
                 type="item-title"
+                name="title"
+                value={donationInfo.title}
+                onChange={handleInputChange}
                 style={{ margin: '1rem' }}
               />
               <TextField
@@ -75,6 +113,9 @@ export default function TransitionsModal() {
                 id="modal-item-location"
                 label="Item Location"
                 type="item-title"
+                name="location"
+                onChange={handleInputChange}
+                value={donationInfo.location}
                 style={{ margin: '1rem' }}
               />
               <TextField
@@ -85,16 +126,28 @@ export default function TransitionsModal() {
                 rows={4}
                 placeholder="Please enter a description"
                 variant="outlined"
+                name="descripton"
+                onChange={handleInputChange}
+                value={donationInfo.descripton}
                 style={{ margin: '1rem' }}
               />
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                endIcon={<Icon>send</Icon>}
-              >
-                Donate
-              </Button>
+              <div className={classes.buttonBox}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                >
+                  Add Image
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  endIcon={<SendRoundedIcon />}
+                >
+                  Donate
+                </Button>
+              </div>
             </form>
           </div>
         </Fade>
