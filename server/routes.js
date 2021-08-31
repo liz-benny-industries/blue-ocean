@@ -1,7 +1,5 @@
 const sequelize = require('../db');
 
-// * example googleId: AiprFavvEEePTwTSooHpgK7OA832
-
 const DonationController = (router, connection) => {
   /* Donations - Get All */
   router.get('/donations', async (req, res) => {
@@ -37,11 +35,14 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Get All by Firebase UID */
-
   router.get('/donations/:uid', (req, res) => {});
 
   /* Donations - Post */
   router.post('/donations', async (req, res) => {
+    if (!req.user) {
+      return res.status(401).send('Must be signed in to post a donation');
+    }
+    const { uid } = req.user;
     try {
       const { donation: donationModel, image: imageModel } = connection.models;
       const t = await sequelize.transaction();
@@ -184,17 +185,22 @@ const UserController = (router, connection) => {
   });
 
   router.post('/users', async (req, res) => {
+    if (!req.user) {
+      return res.status(401).send('Unauthorized');
+    }
+    const { uid } = req.user;
     try {
       const { user: userModel } = connection.models;
       const {
-        isIndividual, username, email, googleId
+        isIndividual, username, email
       } = req.body;
       const defaultLocation = req.body.defaultLocation || null;
+
       const newUser = await userModel.create({
         isIndividual,
         username,
         email,
-        googleId,
+        googleId: uid,
         defaultLocation,
       });
       if (!newUser) {

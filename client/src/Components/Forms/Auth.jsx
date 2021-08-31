@@ -13,29 +13,17 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
 import axios from 'axios';
+import firebase from '../../firebase';
 import Modal from '../Helpers/Modal';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyBlgQeLZhCz0J5AUUmSqdwhvW9JsLS47Mg',
-  authDomain: 'sandbox-3a2e3.firebaseapp.com',
-  projectId: 'sandbox-3a2e3',
-  storageBucket: 'sandbox-3a2e3.appspot.com',
-  messagingSenderId: '1045233270084',
-  appId: '1:1045233270084:web:6233b7f5ed56fc47406b11',
-};
-
-const app = initializeApp(firebaseConfig);
 
 const Auth = ({ isAuthOpen, setAuthOpen }) => {
   const [authInfo, setAuthInfo] = useState({
     username: '',
     email: '',
     password: '',
-    is_individual: true,
-    default_location: '',
-    google_id: '',
+    isIndividual: true,
+    defaultLocation: '',
   });
   const [isSignIn, setSignIn] = useState(true);
   const [error, setError] = useState(null);
@@ -60,12 +48,15 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
       authInfo.email,
       authInfo.password
     )
-      .then((userCredential) => {
-        const { user } = userCredential;
-        setAuthInfo({ ...authInfo, google_id: user.uid });
+      .then((userCredential) => userCredential.user.getIdToken())
+      .then((idToken) => {
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        };
+        return axios.post('/users', authInfo, { headers });
       })
       .then(() => { setAuthOpen(false); })
-      // .then(axios.post('/someEndPoint', authInfo))
       .catch((err) => {
         setError(err.code);
       });
@@ -183,8 +174,8 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
                 <label>Location</label>
                 <input
                   onChange={handleInputChange}
-                  name="default_location"
-                  value={authInfo.default_location}
+                  name="defaultLocation"
+                  value={authInfo.defaultLocation}
                   style={{ width: '20vw' }}
                   autoComplete="off"
                 />
@@ -210,8 +201,8 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
                 >
                   <input
                     type="checkbox"
-                    id="is_individual"
-                    name="is_individual"
+                    id="isIndividual"
+                    name="isIndividual"
                     value="false"
                     onChange={isChecked}
                   />

@@ -6,11 +6,13 @@ const {
   configureRelationships,
 } = require('../db/utils');
 const sequelize = require('../db');
+const { decodeIDToken } = require('./middleware');
 const { DonationController, UserController } = require('./routes');
 
 const app = express();
 app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(express.json());
+app.use(decodeIDToken);
 
 const init = async () => {
   try {
@@ -18,7 +20,6 @@ const init = async () => {
     defineModels(sequelize);
     configureRelationships(sequelize);
     await sequelize.sync();
-    // console.log('connection:', sequelize);
     DonationController(app, sequelize);
     UserController(app, sequelize);
     app.listen(3000, () => {

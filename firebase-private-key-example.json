@@ -1,0 +1,11 @@
+{
+  "type": "service_account",
+  "project_id": "sandbox-3a2e3",
+  "private_key_id": "FILL_ME_IN",
+  "private_key": "FILL_ME_IN",
+  "client_id": "FILL_ME_IN",
+  "auth_uri": "FILL_ME_IN",
+  "token_uri": "FILL_ME_IN",
+  "auth_provider_x509_cert_url": "FILL_ME_IN",
+  "client_x509_cert_url": "FILL_ME_IN"
+}
