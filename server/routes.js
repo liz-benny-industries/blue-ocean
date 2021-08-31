@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 const sequelize = require('../db');
+const { sendMail } = require('./notification');
 
 // * example googleId: AiprFavvEEePTwTSooHpgK7OA832
 
@@ -63,7 +66,7 @@ const DonationController = (router, connection) => {
       );
       /* eslint-disable no-unused-expressions */
       images.length > 1
-        ? await ImageBitmapRenderingContext.bulkCreate(
+        ? await imageModel.bulkCreate(
           images.map((url) => ({
             url,
             donationId: newDonation.id,
@@ -112,12 +115,22 @@ const DonationController = (router, connection) => {
 
   /* Donations - Claim */
   router.put('/donations/:donationId/claim', async (req, res) => {
+    const { claimantId, description } = req.body;
+    const message = `
+      <div>
+        Someone has claimed your item: ${description}! 
+      </div>
+      <span>Please login to coordinate pick-up details!</span>`;
+
     try {
       const { donation: donationModel } = connection.models;
       const t = await sequelize.transaction();
       const { donationId: id } = req.params;
       await donationModel.update(
-        { status: 'claimed' },
+        {
+          status: 'claimed',
+          claimantId,
+        },
         {
           where: {
             id,
@@ -125,6 +138,7 @@ const DonationController = (router, connection) => {
         },
         { transaction: t }
       );
+      sendMail(message);
       await t.commit();
       return res.status(201).end();
     } catch (e) {
