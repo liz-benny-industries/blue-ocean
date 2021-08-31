@@ -111,12 +111,10 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
             alignItems: 'center',
           }}
         >
-          {' '}
           {isSignIn ? 'Sign In' : 'Create Account'}
         </h2>
         {!isSignIn && (
           <>
-            {' '}
             <div
               style={{
                 display: 'flex',
@@ -178,7 +176,6 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
           <br />
           {!isSignIn && (
             <>
-              {' '}
               <div
                 style={{
                   display: 'flex',
@@ -202,7 +199,6 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
           )}
           {!isSignIn && (
             <>
-              {' '}
               <div
                 style={{
                   display: 'flex',
@@ -223,7 +219,6 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
                     value="false"
                     onChange={isChecked}
                   />
-                  {' '}
                   Yes
                 </div>
                 <br />
