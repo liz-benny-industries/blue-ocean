@@ -7,6 +7,7 @@ const { sendMail } = require('../notification');
 
 const DonationController = (router, connection) => {
   /* Donations - Get All */
+  // TODO - ALEX: This needs to return usernames (JOIN on users), images (JOIN on donation_id)
   router.get('/donations', async (req, res) => {
     const options = {};
     const { filter, sortBy } = req.query;
@@ -30,6 +31,11 @@ const DonationController = (router, connection) => {
       }
     }
     if (sortBy) {
+      if (sortBy === 'Proximity') {
+        options.order = 'location DESC';
+      } else if (sortBy === 'Newest') {
+        options.order = 'createdAt DESC';
+      }
     }
     try {
       const { donation: donationModel } = connection.models;

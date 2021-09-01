@@ -16,6 +16,8 @@ const App = () => {
   const [sortBy, setSortBy] = useState('');
 
   const [donations, setDonations] = useState([]);
+  const [currentDonation, setCurrentDonation] = useState(null);
+  console.log('currentDonation:', currentDonation);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
 
@@ -58,12 +60,19 @@ const App = () => {
       <h2>{currentUser || 'No User is signed in'}</h2>
       <Auth setAuthOpen={setAuthOpen} isAuthOpen={isAuthOpen} />
       {openDonationCard ? (
-        <DonationCard setOpenDonationCard={setOpenDonationCard} />
+        <DonationCard
+          donation={currentDonation}
+          setOpenDonationCard={setOpenDonationCard}
+        />
       ) : null}
       {openPostModal ? (
         <PostModal setOpenPostModal={setOpenPostModal} />
       ) : null}
-      <DonationList setOpenDonationCard={setOpenDonationCard} />
+      <DonationList
+        setCurrentDonation={setCurrentDonation}
+        donations={donations}
+        setOpenDonationCard={setOpenDonationCard}
+      />
     </div>
   );
 };
