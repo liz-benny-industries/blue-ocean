@@ -94,6 +94,8 @@ export default function DonationCard({
   donation,
   currentDonation,
   currentUser,
+  refetch,
+  setRefetch,
 }) {
   const classes = useStyles();
 
@@ -114,6 +116,7 @@ export default function DonationCard({
       },
     });
     handleClose();
+    setRefetch(!refetch);
     console.log(currentUser);
   };
 
@@ -145,6 +148,7 @@ export default function DonationCard({
       },
     });
     handleClose();
+    setRefetch(!refetch);
     console.log(currentUser);
   };
 

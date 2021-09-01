@@ -21,6 +21,7 @@ const App = () => {
   const [currentDonation, setCurrentDonation] = useState(null);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
+  const [refetch, setRefetch] = React.useState(false);
 
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -47,7 +48,7 @@ const App = () => {
       .catch((e) => {
         console.error(e);
       });
-  }, [filter, sortBy, orderByDesc]);
+  }, [filter, sortBy, orderByDesc, refetch]);
 
   return (
     <div>
@@ -69,10 +70,16 @@ const App = () => {
           setOpenDonationCard={setOpenDonationCard}
           currentDonation={currentDonation}
           currentUser={currentUser}
+          refetch={refetch}
+          setRefetch={setRefetch}
         />
       ) : null}
       {openPostModal ? (
-        <PostModal setOpenPostModal={setOpenPostModal} />
+        <PostModal
+          setOpenPostModal={setOpenPostModal}
+          refetch={refetch}
+          setRefetch={setRefetch}
+        />
       ) : null}
       <DonationList
         setCurrentDonation={setCurrentDonation}
