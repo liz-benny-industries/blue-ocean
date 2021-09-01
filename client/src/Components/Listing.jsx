@@ -59,6 +59,9 @@ export default function Listing({
           <Paper variant="outlined" className={classes.innerText}>
             <Typography>{donation.location}</Typography>
           </Paper>
+          <Paper variant="outlined" className={classes.innerText}>
+            <Typography>{donation.createdAt}</Typography>
+          </Paper>
           <Avatar
             src={tempImg}
             variant="square"

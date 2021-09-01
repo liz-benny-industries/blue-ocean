@@ -8,10 +8,10 @@ const { sendMail } = require('../notification');
 
 const DonationController = (router, connection) => {
   /* Donations - Get All */
-  // TODO - ALEX: This needs to return usernames (JOIN on users), images (JOIN on donation_id)
   router.get('/donations', async (req, res) => {
     const options = {};
-    const { filter, sortBy } = req.query;
+    options.where = { status: { [Op.eq]: 'active' } };
+    const { filter, sortBy, orderBy } = req.query;
     if (filter) {
       if (!req.user) {
         return res
@@ -19,10 +19,11 @@ const DonationController = (router, connection) => {
           .send('Unauthorized - no valid user to sort by');
       }
       const { uid } = req.user;
+
       if (filter === 'claimant') {
-        options.where = { claimantId: uid };
+        options.where.claimantId = uid;
       } else if (filter === 'donor') {
-        options.where = { donorId: uid };
+        options.where.donorId = uid;
       } else {
         return res
           .status(400)
@@ -31,11 +32,12 @@ const DonationController = (router, connection) => {
           );
       }
     }
+
     if (sortBy) {
       if (sortBy === 'Proximity') {
-        options.order = 'location DESC';
-      } else if (sortBy === 'Newest') {
-        options.order = 'createdAt DESC';
+        options.order = [['location', `${orderBy}`]];
+      } else if (sortBy === 'Recency') {
+        options.order = [['createdAt', `${orderBy}`]];
       }
     }
     try {
@@ -44,15 +46,18 @@ const DonationController = (router, connection) => {
         user: userModel,
         image: imageModel,
       } = connection.models;
-      options.include = [{
-        model: userModel,
-        as: 'donor',
-        required: true,
-      },
-      {
-        model: imageModel,
-        required: true,
-      }];
+      options.include = [
+        {
+          model: userModel,
+          as: 'donor',
+          required: true,
+        },
+        {
+          model: imageModel,
+          required: true,
+        },
+      ];
+      console.log('options:', options);
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
@@ -142,7 +147,7 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Cancel */
-  router.put('/donations/:donationId/cancel', async (req, res) => {
+  router.put('/donations/cancel/:donationId', async (req, res) => {
     if (!req.user) {
       return res.status(401).send('Unauthorized');
     }

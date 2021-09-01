@@ -8,16 +8,17 @@ import NavBar from './Components/NavBar';
 import DonationList from './Components/DonationList';
 import DonationCard from './Components/DonationCard';
 import PostModal from './Components/PostModal';
+import { getCurrentUserToken } from './firebase';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
+  const [orderByDesc, setOrderByDesc] = useState(true);
 
   const [donations, setDonations] = useState([]);
   const [currentDonation, setCurrentDonation] = useState(null);
-  console.log('currentDonation:', currentDonation);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
 
@@ -25,25 +26,28 @@ const App = () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const { uid } = user;
-      user.getIdToken().then((idToken) => { setCurrentUser(idToken); });
+      user.getIdToken().then((idToken) => {
+        setCurrentUser(idToken);
+      });
     }
   });
 
   useEffect(() => {
-    const queryString = `/donations${
-      filter !== '' ? `?${filter}` : ''
-    }${sortBy !== '' ? `?${sortBy}` : ''}`;
-
     axios
-      .get(queryString)
+      .get('/donations', {
+        params: {
+          filter,
+          sortBy,
+          orderBy: orderByDesc ? 'DESC' : 'ASC',
+        },
+      })
       .then((response) => {
-        // console.log(response.data);
         setDonations(response.data);
       })
       .catch((e) => {
         console.error(e);
       });
-  }, [filter, sortBy]);
+  }, [filter, sortBy, orderByDesc]);
 
   return (
     <div>
@@ -54,6 +58,8 @@ const App = () => {
         logOut={setCurrentUser}
         setFilter={setFilter}
         setSortBy={setSortBy}
+        setOrderByDesc={setOrderByDesc}
+        orderByDesc={orderByDesc}
       />
       <br />
       <Auth setAuthOpen={setAuthOpen} isAuthOpen={isAuthOpen} />

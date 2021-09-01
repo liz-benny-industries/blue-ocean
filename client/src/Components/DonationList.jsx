@@ -38,7 +38,6 @@ export default function DonationList({
           <Listing
             key={donation.id}
             donation={donation}
-            onClick={setCurrentDonation}
             setOpenDonationCard={setOpenDonationCard}
             setCurrentDonation={setCurrentDonation}
           />
