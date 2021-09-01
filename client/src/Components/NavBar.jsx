@@ -98,6 +98,8 @@ const Navigation = ({
   setFilter,
   setSortBy,
   setOpenPostModal,
+  setOrderByDesc,
+  orderByDesc,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
@@ -224,6 +226,7 @@ const Navigation = ({
             value={'Proximity'}
             onClick={(e) => {
               setSortBy(e.target.value);
+              setOrderByDesc(!orderByDesc);
               handleClose();
             }}
           >
@@ -233,6 +236,7 @@ const Navigation = ({
             value={'Newest'}
             onClick={(e) => {
               setSortBy(e.target.value);
+              setOrderByDesc(!orderByDesc);
               handleClose();
             }}
           >

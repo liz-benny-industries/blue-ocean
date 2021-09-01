@@ -14,10 +14,11 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
+  const [orderByDesc, setOrderByDesc] = useState(true);
 
   const [donations, setDonations] = useState([]);
   const [currentDonation, setCurrentDonation] = useState(null);
-  console.log('currentDonation:', currentDonation);
+  // console.log('currentDonation:', currentDonation);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
 
@@ -31,12 +32,14 @@ const App = () => {
   });
 
   useEffect(() => {
-    const queryString = `/donations${
-      filter !== '' ? `?${filter}` : ''
-    }${sortBy !== '' ? `?${sortBy}` : ''}`;
-
     axios
-      .get(queryString)
+      .get('/donations', {
+        params: {
+          filter,
+          sortBy,
+          orderBy: orderByDesc ? 'DESC' : 'ASC',
+        },
+      })
       .then((response) => {
         // console.log(response.data);
         setDonations(response.data);
@@ -55,6 +58,8 @@ const App = () => {
         logOut={setCurrentUser}
         setFilter={setFilter}
         setSortBy={setSortBy}
+        setOrderByDesc={setOrderByDesc}
+        orderByDesc={orderByDesc}
       />
       <br />
       <Auth setAuthOpen={setAuthOpen} isAuthOpen={isAuthOpen} />

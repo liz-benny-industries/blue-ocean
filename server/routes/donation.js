@@ -10,7 +10,7 @@ const DonationController = (router, connection) => {
   // TODO - ALEX: This needs to return usernames (JOIN on users), images (JOIN on donation_id)
   router.get('/donations', async (req, res) => {
     const options = {};
-    const { filter, sortBy } = req.query;
+    const { filter, sortBy, orderBy } = req.query;
     if (filter) {
       if (!req.user) {
         return res
@@ -19,9 +19,15 @@ const DonationController = (router, connection) => {
       }
       const { uid } = req.user;
       if (filter === 'claimant') {
-        options.where = { claimantId: uid };
+        options.where = {
+          claimantId: uid,
+          status: { $not: 'canceled' },
+        };
       } else if (filter === 'donor') {
-        options.where = { donorId: uid };
+        options.where = {
+          donorId: uid,
+          status: { $not: 'canceled' },
+        };
       } else {
         return res
           .status(400)
@@ -32,9 +38,9 @@ const DonationController = (router, connection) => {
     }
     if (sortBy) {
       if (sortBy === 'Proximity') {
-        options.order = 'location DESC';
+        options.order = `location ${orderBy}`;
       } else if (sortBy === 'Newest') {
-        options.order = 'createdAt DESC';
+        options.order = `createdAt ${orderBy}`;
       }
     }
 
@@ -44,14 +50,17 @@ const DonationController = (router, connection) => {
         user: userModel,
         image: imageModel,
       } = connection.models;
-      options.include = [{
-        model: userModel,
-        as: 'donor',
-        required: true,
-      }, {
-        model: imageModel,
-        required: true,
-      }];
+      options.include = [
+        {
+          model: userModel,
+          as: 'donor',
+          required: true,
+        },
+        {
+          model: imageModel,
+          required: true,
+        },
+      ];
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
@@ -138,7 +147,7 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Cancel */
-  router.put('/donations/:donationId/cancel', async (req, res) => {
+  router.put('/donations/cancel/:donationId', async (req, res) => {
     if (!req.user) {
       return res.status(401).send('Unauthorized');
     }
