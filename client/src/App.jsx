@@ -14,6 +14,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
+
   const [donations, setDonations] = useState([]);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);

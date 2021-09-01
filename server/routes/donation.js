@@ -8,8 +8,8 @@ const { sendMail } = require('../notification');
 const DonationController = (router, connection) => {
   /* Donations - Get All */
   router.get('/donations', async (req, res) => {
-    let options = {};
-    const { filter } = req.query;
+    const options = {};
+    const { filter, sortBy } = req.query;
     if (filter) {
       if (!req.user) {
         return res
@@ -18,9 +18,9 @@ const DonationController = (router, connection) => {
       }
       const { uid } = req.user;
       if (filter === 'claimant') {
-        options = { where: { claimantId: uid } };
+        options.where = { claimantId: uid };
       } else if (filter === 'donor') {
-        options = { where: { donorId: uid } };
+        options.where = { donorId: uid };
       } else {
         return res
           .status(400)
@@ -28,6 +28,8 @@ const DonationController = (router, connection) => {
             'Invalid query - filter must have a value of "claimant" or "donor"'
           );
       }
+    }
+    if (sortBy) {
     }
     try {
       const { donation: donationModel } = connection.models;
@@ -73,7 +75,7 @@ const DonationController = (router, connection) => {
         user: userModel,
       } = connection.models;
       const {
-        location, description, charitiesOnly, images
+        location, description, charitiesOnly, images, title
       } = req.body;
 
       // images are required
@@ -87,6 +89,7 @@ const DonationController = (router, connection) => {
           description,
           charitiesOnly,
           donorId: uid,
+          title,
         },
         { transaction: t }
       );
