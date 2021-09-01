@@ -12,7 +12,10 @@ import {
   Button,
   Fade,
   Typography,
+  FormControlLabel,
+  Checkbox,
 } from '@material-ui/core';
+import { getCurrentUserToken } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -44,15 +47,18 @@ export default function TransitionsModal({ setOpenPostModal }) {
   const [open, setOpen] = React.useState(false);
   const [donationInfo, setDonationInfo] = useState({
     title: '',
-    descripton: '',
+    description: '',
     location: '',
     charitiesOnly: 'false',
-    status: ''
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setDonationInfo({ ...donationInfo, [name]: value });
+    if (name === 'charitiesOnly') {
+      setDonationInfo({ ...donationInfo, [name]: e.target.checked });
+    } else {
+      setDonationInfo({ ...donationInfo, [name]: value });
+    }
   };
 
   const handleOpen = () => {
@@ -65,10 +71,18 @@ export default function TransitionsModal({ setOpenPostModal }) {
 
   const donate = () => {
     console.log(donationInfo);
-    axios.post('/someEndPoint', donationInfo)
+    getCurrentUserToken().then((idToken) => {
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      };
+      return axios.post('/donations', { ...donationInfo, images: ['image.jpg'] }, { headers });
+    })
       .then((res) => {
         console.log('DONATION POST Successful');
-      // do something cool
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -124,10 +138,21 @@ export default function TransitionsModal({ setOpenPostModal }) {
                 rows={4}
                 placeholder="Please enter a description"
                 variant="outlined"
-                name="descripton"
+                name="description"
                 onChange={handleInputChange}
                 value={donationInfo.descripton}
                 style={{ margin: '1rem' }}
+              />
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={donationInfo.charitiesOnly}
+                    onChange={handleInputChange}
+                    name="charitiesOnly"
+                    color="primary"
+                  />
+                )}
+                label="This donation is for charities only"
               />
               <div className={classes.buttonBox}>
                 <Button
@@ -138,6 +163,7 @@ export default function TransitionsModal({ setOpenPostModal }) {
                   Add Image
                 </Button>
                 <Button
+                  onClick={donate}
                   variant="contained"
                   color="primary"
                   className={classes.button}

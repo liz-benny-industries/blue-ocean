@@ -44,7 +44,6 @@ const DonationController = (router, connection) => {
         options.order = [['createdAt', `${orderBy}`]];
       }
     }
-
     try {
       const {
         donation: donationModel,
@@ -124,21 +123,24 @@ const DonationController = (router, connection) => {
         { transaction: t }
       );
       /* eslint-disable no-unused-expressions */
-      images.length > 1
-        ? await imageModel.bulkCreate(
+      if (images.length > 1) {
+        await imageModel.bulkCreate(
           images.map((url) => ({
             url,
             donationId: newDonation.id,
           })),
           { transaction: t }
-        )
-        : await imageModel.create(
+        );
+      } else if (images.length === 1) {
+        await imageModel.create(
           {
             url: images[0],
             donationId: newDonation.id,
           },
           { transaction: t }
         );
+      }
+
       /* eslint-enable no-unused-expressions */
       await t.commit();
       return res.status(201).end();

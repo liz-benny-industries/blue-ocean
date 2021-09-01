@@ -11,7 +11,7 @@ import PostModal from './Components/PostModal';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [orderByDesc, setOrderByDesc] = useState(true);
