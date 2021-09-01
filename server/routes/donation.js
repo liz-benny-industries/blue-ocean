@@ -16,8 +16,10 @@ const DonationController = (router, connection) => {
     console.log('filter:', filter);
     options.where = {
       status: { [Op.eq]: 'active' },
-      title: { [Op.like]: `%${filter}%` },
-      // username: { [Op.like]: `%${filter}%` },
+      [Op.or]: [
+        { title: { [Op.like]: `%${filter}%` } },
+        { '$donor.username$': { [Op.like]: `%${filter}%` } },
+      ],
     };
     if (user) {
       if (!req.user) {
@@ -65,7 +67,7 @@ const DonationController = (router, connection) => {
           required: true,
         },
       ];
-      console.log('options:', options);
+      // console.log('options:', options);
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
