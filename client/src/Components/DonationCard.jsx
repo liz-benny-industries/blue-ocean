@@ -131,6 +131,7 @@ export default function DonationCard({
                   {/* <CardMedia
                     className={classes.media}
                     title={donation.title}
+                    image={donation.image}
                   /> */}
                   {/* <CardContent>
                     <Carousel>
