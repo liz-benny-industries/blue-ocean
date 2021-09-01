@@ -26,8 +26,6 @@ import {
   Button,
   Fade,
 } from '@material-ui/core';
-import axios from 'axios';
-import { getCurrentUserToken } from '../firebase';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 const items = [
@@ -94,7 +92,7 @@ export default function DonationCard({
   setOpenDonationCard,
   donation,
   currentDonation,
-  currentUser
+  currentUser,
 }) {
   const classes = useStyles();
 
@@ -111,8 +109,8 @@ export default function DonationCard({
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`
-      }
+        Authorization: `Bearer ${idToken}`,
+      },
     });
     handleClose();
     console.log(currentUser);
