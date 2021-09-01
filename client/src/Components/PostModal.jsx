@@ -80,6 +80,7 @@ export default function TransitionsModal({ setOpenPostModal }) {
     })
       .then((res) => {
         console.log('DONATION POST Successful');
+        handleClose();
       })
       .catch((err) => {
         console.log(err);
@@ -167,6 +168,7 @@ export default function TransitionsModal({ setOpenPostModal }) {
                   variant="contained"
                   color="primary"
                   className={classes.button}
+                  onClick={donate}
                   endIcon={<SendRoundedIcon />}
                 >
                   Donate

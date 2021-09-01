@@ -10,7 +10,7 @@ const {
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-async function sendMail(message) {
+async function sendMail(message, email) {
   try {
     const accessToken = await oauth2Client.getAccessToken();
 
@@ -28,7 +28,7 @@ async function sendMail(message) {
 
     const mailOptions = {
       from: 'server 👻',
-      to: 'rgcuffee@gmail.com',
+      to: email,
       subject: 'Someone claimed your item!',
       text: 'Hello',
       html: message
