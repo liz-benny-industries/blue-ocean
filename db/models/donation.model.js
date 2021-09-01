@@ -11,6 +11,10 @@ const donation = (sequelize) => sequelize.define('donation', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  claimantId: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
