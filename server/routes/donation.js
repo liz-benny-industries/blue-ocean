@@ -9,6 +9,7 @@ const DonationController = (router, connection) => {
   /* Donations - Get All */
   router.get('/donations', async (req, res) => {
     const options = {};
+    options.where = { status: { [Op.eq]: 'active' } };
     const { filter, sortBy, orderBy } = req.query;
     if (filter) {
       if (!req.user) {
@@ -19,15 +20,9 @@ const DonationController = (router, connection) => {
       const { uid } = req.user;
 
       if (filter === 'claimant') {
-        options.where = {
-          claimantId: uid,
-          status: { [Op.eq]: 'active' },
-        };
+        options.where.claimantId = uid;
       } else if (filter === 'donor') {
-        options.where = {
-          donorId: uid,
-          status: { [Op.eq]: 'active' },
-        };
+        options.where.donorId = uid;
       } else {
         return res
           .status(400)
@@ -61,7 +56,7 @@ const DonationController = (router, connection) => {
           required: true,
         },
       ];
-      // options.attributes =
+      console.log('options:', options);
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');

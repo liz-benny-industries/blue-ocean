@@ -8,6 +8,7 @@ import NavBar from './Components/NavBar';
 import DonationList from './Components/DonationList';
 import DonationCard from './Components/DonationCard';
 import PostModal from './Components/PostModal';
+import { getCurrentUserToken } from './firebase';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
@@ -18,7 +19,6 @@ const App = () => {
 
   const [donations, setDonations] = useState([]);
   const [currentDonation, setCurrentDonation] = useState(null);
-  // console.log('currentDonation:', currentDonation);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
 
@@ -27,7 +27,9 @@ const App = () => {
     if (user) {
       const { uid } = user;
       setCurrentUser(uid);
-      user.getIdToken().then((idToken) => {});
+      user.getIdToken().then((idToken) => {
+        console.log('idToken:', idToken);
+      });
     }
   });
 
