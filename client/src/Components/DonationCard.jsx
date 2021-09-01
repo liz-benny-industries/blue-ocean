@@ -115,8 +115,8 @@ export default function DonationCard({
         Authorization: `Bearer ${idToken}`,
       },
     });
-    handleClose();
     setRefetch(!refetch);
+    handleClose();
     console.log(currentUser);
   };
 
@@ -147,8 +147,8 @@ export default function DonationCard({
         Authorization: `Bearer ${idToken}`,
       },
     });
-    handleClose();
     setRefetch(!refetch);
+    handleClose();
     console.log(currentUser);
   };
 

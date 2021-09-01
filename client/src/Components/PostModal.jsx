@@ -89,9 +89,9 @@ export default function TransitionsModal({
       })
       .then((res) => {
         console.log('DONATION POST Successful');
-        handleClose();
         // console.log(refetch)
         setRefetch(!refetch);
+        handleClose();
       })
       .catch((err) => {
         console.log(err);
