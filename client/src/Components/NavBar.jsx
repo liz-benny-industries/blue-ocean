@@ -22,6 +22,8 @@ import {
   Public,
   Search,
   AccountCircleOutlined,
+  ArrowDropDown,
+  ArrowDropUp,
 } from '@material-ui/icons';
 
 import { debounce } from '../utils';
@@ -224,7 +226,9 @@ const Navigation = ({
         >
           <MenuItem
             value={'Proximity'}
+            key={'Proximity'}
             onClick={(e) => {
+              console.log('e.target:', e.target);
               setSortBy(e.target.value);
               setOrderByDesc(!orderByDesc);
               handleClose();
@@ -233,14 +237,14 @@ const Navigation = ({
             Proximity
           </MenuItem>
           <MenuItem
-            value={'Newest'}
             onClick={(e) => {
-              setSortBy(e.target.value);
+              setSortBy('Recency');
               setOrderByDesc(!orderByDesc);
               handleClose();
             }}
           >
-            Newest
+            'Recency'
+            {orderByDesc ? <ArrowDropDown /> : <ArrowDropUp />}
           </MenuItem>
         </Menu>
       </List>

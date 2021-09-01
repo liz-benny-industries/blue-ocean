@@ -38,9 +38,9 @@ const DonationController = (router, connection) => {
     }
     if (sortBy) {
       if (sortBy === 'Proximity') {
-        options.order = `location ${orderBy}`;
-      } else if (sortBy === 'Newest') {
-        options.order = `createdAt ${orderBy}`;
+        options.order = [['location', `${orderBy}`]];
+      } else if (sortBy === 'Recency') {
+        options.order = [['createdAt', `${orderBy}`]];
       }
     }
 

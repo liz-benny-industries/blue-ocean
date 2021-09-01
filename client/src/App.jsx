@@ -47,7 +47,7 @@ const App = () => {
       .catch((e) => {
         console.error(e);
       });
-  }, [filter, sortBy]);
+  }, [filter, sortBy, orderByDesc]);
 
   return (
     <div>
