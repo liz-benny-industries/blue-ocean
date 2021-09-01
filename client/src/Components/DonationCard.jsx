@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable max-len */
 import React from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 'react-material-ui-carousel';
 import {
@@ -91,6 +92,7 @@ export default function DonationCard({ setOpenDonationCard, donation }) {
 
   const handleCancel = () => {
     // relist the item (unclaim)
+    axios.put();
   };
 
   const handleDelete = () => {

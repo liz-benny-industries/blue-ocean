@@ -7,6 +7,7 @@ import NavBar from './Components/NavBar';
 import DonationList from './Components/DonationList';
 import DonationCard from './Components/DonationCard';
 import PostModal from './Components/PostModal';
+import ImageUpload from './Components/ImageUpload';
 
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
@@ -38,6 +39,7 @@ const App = () => {
         setAuthOpen={setAuthOpen}
         isAuthOpen={isAuthOpen}
       />
+      <ImageUpload />
       {openDonationCard ? <DonationCard setOpenDonationCard={setOpenDonationCard} /> : null}
       {openPostModal ? <PostModal setOpenPostModal={setOpenPostModal} /> : null}
       <DonationList setOpenDonationCard={setOpenDonationCard} />
