@@ -15,6 +15,8 @@ import {
   List,
   ListItem,
   ListItemText,
+  Menu,
+  MenuItem,
 } from '@material-ui/core';
 import {
   Public,
@@ -93,13 +95,25 @@ const Navigation = ({
   currentUser,
   setAuthOpen,
   logOut,
-  setResults,
   setFilter,
+  setSortBy,
 }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
+
   const filterDebounce = debounce(async (filter) => {
-    setFilter(filter);
+    // setFilter(filter);
+    console.debug('filter:', filter);
   }, 500);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -184,6 +198,41 @@ const Navigation = ({
             'My Donations'
           </ListItemText>
         </ListItem>
+        <ListItem button>
+          <ListItemText
+            onClick={handleClick}
+            className={classes.listItem}
+            primary='Sorting'
+          >
+            Sorting
+          </ListItemText>
+        </ListItem>
+        <Menu
+          id='sort-menu'
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem
+            value={'Proximity'}
+            onClick={(e) => {
+              setSortBy(e.target.value);
+              handleClose();
+            }}
+          >
+            Proximity
+          </MenuItem>
+          <MenuItem
+            value={'Newest'}
+            onClick={(e) => {
+              setSortBy(e.target.value);
+              handleClose();
+            }}
+          >
+            Newest
+          </MenuItem>
+        </Menu>
       </List>
     </div>
   );
