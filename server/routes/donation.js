@@ -37,8 +37,21 @@ const DonationController = (router, connection) => {
         options.order = 'createdAt DESC';
       }
     }
+
     try {
-      const { donation: donationModel } = connection.models;
+      const {
+        donation: donationModel,
+        user: userModel,
+        image: imageModel,
+      } = connection.models;
+      options.include = [{
+        model: userModel,
+        as: 'donor',
+        required: true,
+      }, {
+        model: imageModel,
+        required: true,
+      }];
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');

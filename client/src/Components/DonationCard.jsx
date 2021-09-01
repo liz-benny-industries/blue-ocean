@@ -128,11 +128,11 @@ export default function DonationCard({
             >
               <Card className={classes.root}>
                 <CardActionArea>
-                  {/* <CardMedia
+                  <CardMedia
                     className={classes.media}
                     title={donation.title}
-                    image={donation.image}
-                  /> */}
+                    image={donation.images[0].url}
+                  />
                   {/* <CardContent>
                     <Carousel>
                       {items.map((item, i) => (
@@ -146,7 +146,7 @@ export default function DonationCard({
                   </CardContent> */}
                 </CardActionArea>
                 <CardActions className={classes.actions}>
-                  <Typography>{donation.donorId}</Typography>
+                  <Typography>{donation.donor.username}</Typography>
                   <Typography>{donation.location}</Typography>
                   <Button size="small" color="primary">
                     Share

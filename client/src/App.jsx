@@ -57,7 +57,6 @@ const App = () => {
         setSortBy={setSortBy}
       />
       <br />
-      <h2>{currentUser || 'No User is signed in'}</h2>
       <Auth setAuthOpen={setAuthOpen} isAuthOpen={isAuthOpen} />
       {openDonationCard ? (
         <DonationCard
