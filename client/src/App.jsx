@@ -13,6 +13,7 @@ import { getCurrentUserToken } from './firebase';
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [userIdToken, setUserIdToken] = useState('');
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [orderByDesc, setOrderByDesc] = useState(true);
@@ -26,9 +27,10 @@ const App = () => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      setCurrentUser(user);
       const { uid } = user;
       user.getIdToken().then((idToken) => {
-        setCurrentUser(idToken);
+        setUserIdToken(idToken);
       });
     }
   });
@@ -69,17 +71,11 @@ const App = () => {
           donation={currentDonation}
           setOpenDonationCard={setOpenDonationCard}
           currentDonation={currentDonation}
-          currentUser={currentUser}
-          refetch={refetch}
-          setRefetch={setRefetch}
+          userIdToken={userIdToken}
         />
       ) : null}
       {openPostModal ? (
-        <PostModal
-          setOpenPostModal={setOpenPostModal}
-          refetch={refetch}
-          setRefetch={setRefetch}
-        />
+        <PostModal setOpenPostModal={setOpenPostModal} />
       ) : null}
       <DonationList
         setCurrentDonation={setCurrentDonation}

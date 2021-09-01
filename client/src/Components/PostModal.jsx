@@ -42,11 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({
-  setOpenPostModal,
-  refetch,
-  setRefetch,
-}) {
+export default function PostModal({ setOpenPostModal }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [donationInfo, setDonationInfo] = useState({
@@ -89,8 +85,6 @@ export default function TransitionsModal({
       })
       .then((res) => {
         console.log('DONATION POST Successful');
-        // console.log(refetch)
-        setRefetch(!refetch);
         handleClose();
       })
       .catch((err) => {
@@ -181,7 +175,6 @@ export default function TransitionsModal({
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  onClick={donate}
                   endIcon={<SendRoundedIcon />}
                 >
                   Donate
