@@ -26,6 +26,7 @@ import {
   Button,
   Fade,
 } from '@material-ui/core';
+import { getCurrentUserToken } from '../firebase';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 const items = [
@@ -118,15 +119,33 @@ export default function DonationCard({
 
   const handleCancel = () => {
     // relist the item (unclaim)
-    // axios
-    //   .put(`/donations/cancel/${donation.id}`, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${idToken}`,
-    //     },
-    //   })
-    //   .then((response) => console.log('response:', response))
-    //   .catch((e) => console.error(e));
+    // getCurrentUserToken().then((idToken) => {
+    //   const headers = {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${idToken}`,
+    //   };
+    //   return axios
+    //     .put(`/donations/cancel/${donation.id}`, {
+    //       headers,
+    //     })
+    //     .then((response) => {
+    //       console.log('response:', response);
+    //       handleClose();
+    //     })
+    //     .catch((e) => console.error(e));
+    const idToken = currentUser;
+    const donationId = currentDonation.id;
+    axios({
+      method: 'put',
+      url: `/donations/cancel/${donationId}`,
+      baseURL: 'http://localhost:3000',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+    handleClose();
+    console.log(currentUser);
   };
 
   const handleDelete = () => {
