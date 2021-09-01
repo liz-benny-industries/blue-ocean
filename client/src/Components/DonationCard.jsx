@@ -7,32 +7,32 @@
 import React from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import Carousel from 'react-material-ui-carousel';
+// import Carousel from 'react-material-ui-carousel';
 import {
   Typography,
   Card,
   CardActions,
   CardActionArea,
-  CardContent,
+  // CardContent,
   CardMedia,
   Modal,
-  Paper,
+  // Paper,
   Backdrop,
   Button,
   Fade,
 } from '@material-ui/core';
 
-const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
-const items = [
-  {
-    name: 'Random Name #1',
-    description: 'Probably the most random thing you have ever seen!',
-  },
-  {
-    name: 'Random Name #2',
-    description: 'Hello World!',
-  },
-];
+// const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
+// const items = [
+//   {
+//     name: 'Random Name #1',
+//     description: 'Probably the most random thing you have ever seen!',
+//   },
+//   {
+//     name: 'Random Name #2',
+//     description: 'Hello World!',
+//   },
+// ];
 
 // function Item(props) {
 //   return (
@@ -99,7 +99,15 @@ export default function DonationCard({
 
   const handleCancel = () => {
     // relist the item (unclaim)
-    axios.put();
+    // console.log(donation);
+    axios
+      .put(`/donations/${donation.id}/cancel`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleDelete = () => {

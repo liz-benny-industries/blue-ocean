@@ -18,7 +18,7 @@ const App = () => {
 
   const [donations, setDonations] = useState([]);
   const [currentDonation, setCurrentDonation] = useState(null);
-  console.log('currentDonation:', currentDonation);
+  // console.log('currentDonation:', currentDonation);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
 
@@ -73,13 +73,8 @@ const App = () => {
         donations={donations}
         setOpenDonationCard={setOpenDonationCard}
       />
-<<<<<<< HEAD
-      <ImageUpload />
       {openDonationCard ? <DonationCard setOpenDonationCard={setOpenDonationCard} /> : null}
       {openPostModal ? <PostModal setOpenPostModal={setOpenPostModal} /> : null}
-      <DonationList setOpenDonationCard={setOpenDonationCard} />
-=======
->>>>>>> 8768d63ce5279d6f817983cdbda3535d64cdb896
     </div>
   );
 };
