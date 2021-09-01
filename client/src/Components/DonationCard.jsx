@@ -105,7 +105,7 @@ export default function DonationCard({
     const donationId = currentDonation.id;
     axios({
       method: 'put',
-      url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}`,
+      url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}&title=${currentDonation.title}`,
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
