@@ -110,7 +110,7 @@ export default function DonationCard({
         closeAfterTransition
         aria-labelledby="transition-donate-modal-title"
         aria-describedby="transition-donate-modal-description"
-        open={setOpenDonationCard}
+        open={!!donation}
         onClose={handleClose}
         className={classes.modal}
         BackdropComponent={Backdrop}
@@ -118,7 +118,7 @@ export default function DonationCard({
           timeout: 500,
         }}
       >
-        <Fade in={setOpenDonationCard}>
+        <Fade in={!!donation}>
           <div className={classes.paper}>
             <form
               noValidate
@@ -128,10 +128,10 @@ export default function DonationCard({
             >
               <Card className={classes.root}>
                 <CardActionArea>
-                  <CardMedia
+                  {/* <CardMedia
                     className={classes.media}
                     title={donation.title}
-                  />
+                  /> */}
                   {/* <CardContent>
                     <Carousel>
                       {items.map((item, i) => (

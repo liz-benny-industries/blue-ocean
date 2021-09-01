@@ -36,6 +36,7 @@ export default function DonationList({
         <Typography variant="h4">Donations</Typography>
         {donations.map((donation) => (
           <Listing
+            key={donation.id}
             donation={donation}
             onClick={setCurrentDonation}
             setOpenDonationCard={setOpenDonationCard}
