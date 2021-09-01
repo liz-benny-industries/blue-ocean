@@ -1,4 +1,8 @@
-const sequelize = require('../../db');
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+const { sendMail } = require('../notification');
+
+// * example googleId: AiprFavvEEePTwTSooHpgK7OA832
 
 const DonationController = (router, connection) => {
   /* Donations - Get All */
@@ -68,7 +72,7 @@ const DonationController = (router, connection) => {
       if (!images || images.length === 0) {
         return res.status(400).send('Request must include images!');
       }
-      const t = await sequelize.transaction();
+      const t = await connection.transaction();
       const newDonation = await donationModel.create(
         {
           location,
@@ -95,7 +99,6 @@ const DonationController = (router, connection) => {
           { transaction: t }
         );
       /* eslint-enable no-unused-expressions */
-
       await t.commit();
       return res.status(201).end(); // * To send back the new data here, refetch, or...?
     } catch (e) {
@@ -131,26 +134,33 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Claim */
-  // Jordan: need to update to add claimantId to donation record
   router.put('/donations/:donationId/claim', async (req, res) => {
     if (!req.user) {
       return res.status(401).send('Unauthorized');
     }
     const { uid } = req.user;
+    const { description } = req.body;
+    const message = `
+      <div>
+        Someone has claimed your item: ${description}!
+      </div>
+      <span>Please login to coordinate pick-up details!</span>`;
+
     try {
       const { donation: donationModel } = connection.models;
-      const t = await sequelize.transaction();
       const { donationId: id } = req.params;
       await donationModel.update(
-        { status: 'claimed' },
+        {
+          status: 'claimed',
+          claimantId: uid,
+        },
         {
           where: {
             id,
           },
         },
-        { transaction: t }
       );
-      await t.commit();
+      sendMail(message);
       return res.status(201).end();
     } catch (e) {
       console.error(e);
