@@ -1,7 +1,9 @@
+
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
-/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/no-u
 /* eslint-disable max-len */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -56,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: '.5rem',
     width: '30rem',
   },
   media: {
@@ -74,38 +76,47 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     width: '24rem',
   },
+  userControls: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: '.5rem',
+  }
 }));
 
-export default function TransitionsModal() {
+export default function DonationCard({ setOpenDonationCard, donation }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDonationCard(false);
+  };
+
+  const handleContact = () => {
+    // open email client
+  };
+
+  const handleCancel = () => {
+    // relist the item (unclaim)
+  };
+
+  const handleDelete = () => {
+    // delete the listing
   };
 
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Donation Card
-      </button>
       <Modal
+        closeAfterTransition
         aria-labelledby="transition-donate-modal-title"
         aria-describedby="transition-donate-modal-description"
-        className={classes.modal}
-        open={open}
+        open={setOpenDonationCard}
         onClose={handleClose}
-        closeAfterTransition
+        className={classes.modal}
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={setOpenDonationCard}>
           <div className={classes.paper}>
             <form
               noValidate
@@ -117,7 +128,7 @@ export default function TransitionsModal() {
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    image={tempImg}
+                    // image={tempImg}
                     title="Image Title(optional)"
                   />
                   <CardContent>
@@ -140,12 +151,21 @@ export default function TransitionsModal() {
                 </CardActions>
               </Card>
               <Button
+                onClick={handleContact}
                 className={classes.button}
                 variant="contained"
                 color="primary"
               >
                 Contact Listing Owner
               </Button>
+              <div className={classes.userControls}>
+                <Button onClick={handleCancel}>
+                  Cancel Claim
+                </Button>
+                <Button onClick={handleDelete}>
+                  Delete Post
+                </Button>
+              </div>
             </form>
           </div>
         </Fade>
