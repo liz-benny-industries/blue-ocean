@@ -15,8 +15,7 @@ const App = () => {
     if (user) {
       const { uid } = user;
       setCurrentUser(uid);
-      user.getIdToken().then((idToken) => {
-      });
+      user.getIdToken().then((idToken) => {});
     }
   });
 
@@ -30,10 +29,7 @@ const App = () => {
       <PostModal />
       <br />
       <h2>{currentUser || 'No User is signed in'}</h2>
-      <Auth
-        setAuthOpen={setAuthOpen}
-        isAuthOpen={isAuthOpen}
-      />
+      <Auth setAuthOpen={setAuthOpen} isAuthOpen={isAuthOpen} />
     </div>
   );
 };

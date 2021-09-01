@@ -22,6 +22,8 @@ import {
   AccountCircleOutlined,
 } from '@material-ui/icons';
 
+import { debounce } from '../utils';
+
 const useStyles = makeStyles((theme) => ({
   flatList: {
     display: 'flex',
@@ -87,8 +89,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = ({ currentUser, setAuthOpen, logOut }) => {
+const Navigation = ({
+  currentUser,
+  setAuthOpen,
+  logOut,
+  setResults,
+  setFilter,
+}) => {
   const classes = useStyles();
+  const filterDebounce = debounce(async (filter) => {
+    setFilter(filter);
+  }, 500);
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -116,6 +127,7 @@ const Navigation = ({ currentUser, setAuthOpen, logOut }) => {
               <Search />
             </div>
             <InputBase
+              onChange={(e) => filterDebounce(e.target.value)}
               placeholder='Search...'
               classes={{
                 root: classes.inputRoot,

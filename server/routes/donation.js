@@ -1,4 +1,4 @@
-const sequelize = require('../../db');
+const { Op } = require('sequelize');
 
 const DonationController = (router, connection) => {
   /* Donations - Get All */
@@ -43,8 +43,8 @@ const DonationController = (router, connection) => {
   router.post('/donations', async (req, res) => {
     // Jordan - if not user - send 401
     try {
-      const { donation: donationModel, image: imageModel, user: userModel } = connection.models;
-      const t = await sequelize.transaction();
+      const { donation: donationModel, image: imageModel } = connection.models;
+      const t = await connection.transaction();
 
       // Jordan - come back to this
       // const donorId = await userModel
@@ -66,7 +66,7 @@ const DonationController = (router, connection) => {
       );
       /* eslint-disable no-unused-expressions */
       images.length > 1
-        ? await ImageBitmapRenderingContext.bulkCreate(
+        ? await imageModel.bulkCreate(
           images.map((url) => ({
             url,
             donationId: newDonation.id,
@@ -94,7 +94,7 @@ const DonationController = (router, connection) => {
   router.put('/donations/:donationId/cancel', async (req, res) => {
     try {
       const { donation: donationModel } = connection.models;
-      const t = await sequelize.transaction();
+      const t = await connection.transaction();
       const { donationId: id } = req.params;
       await donationModel.update(
         { status: 'canceled' },
@@ -117,7 +117,7 @@ const DonationController = (router, connection) => {
   router.put('/donations/:donationId/claim', async (req, res) => {
     try {
       const { donation: donationModel } = connection.models;
-      const t = await sequelize.transaction();
+      const t = await connection.transaction();
       const { donationId: id } = req.params;
       await donationModel.update(
         { status: 'claimed' },
@@ -152,7 +152,7 @@ const DonationController = (router, connection) => {
   router.post('/donations/:donationId/image', async (req, res) => {
     try {
       const { image: imageModel } = connection.models;
-      const t = await sequelize.transaction();
+      const t = await connection.transaction();
       const { image: url } = req.body;
       const { donationId } = req.params;
       await imageModel.create(
