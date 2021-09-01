@@ -10,9 +10,16 @@ const DonationController = (router, connection) => {
   /* Donations - Get All */
   router.get('/donations', async (req, res) => {
     const options = {};
-    options.where = { status: { [Op.eq]: 'active' } };
-    const { filter, sortBy, orderBy } = req.query;
-    if (filter) {
+    const {
+      user, sortBy, orderBy, filter
+    } = req.query;
+    console.log('filter:', filter);
+    options.where = {
+      status: { [Op.eq]: 'active' },
+      title: { [Op.like]: `%${filter}%` },
+      // username: { [Op.like]: `%${filter}%` },
+    };
+    if (user) {
       if (!req.user) {
         return res
           .status(401)
@@ -20,15 +27,15 @@ const DonationController = (router, connection) => {
       }
       const { uid } = req.user;
 
-      if (filter === 'claimant') {
+      if (user === 'claimant') {
         options.where.claimantId = uid;
-      } else if (filter === 'donor') {
+      } else if (user === 'donor') {
         options.where.donorId = uid;
       } else {
         return res
           .status(400)
           .send(
-            'Invalid query - filter must have a value of "claimant" or "donor"'
+            'Invalid query - user must have a value of "claimant" or "donor"'
           );
       }
     }
@@ -40,6 +47,7 @@ const DonationController = (router, connection) => {
         options.order = [['createdAt', `${orderBy}`]];
       }
     }
+
     try {
       const {
         donation: donationModel,

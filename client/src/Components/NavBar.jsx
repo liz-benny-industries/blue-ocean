@@ -97,7 +97,7 @@ const Navigation = ({
   currentUser,
   setAuthOpen,
   logOut,
-  setFilter,
+  setSearchFilter,
   setSortBy,
   setOpenPostModal,
   setOrderByDesc,
@@ -107,7 +107,7 @@ const Navigation = ({
   const classes = useStyles();
 
   const filterDebounce = debounce(async (filter) => {
-    // setFilter(filter);
+    setSearchFilter(filter);
     console.debug('filter:', filter);
   }, 500);
 
