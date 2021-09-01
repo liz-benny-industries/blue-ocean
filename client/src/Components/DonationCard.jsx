@@ -7,7 +7,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 'react-material-ui-carousel';
-
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -27,6 +26,7 @@ import {
   Fade,
 } from '@material-ui/core';
 import axios from 'axios';
+import { getCurrentUserToken } from '../firebase';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 const items = [
@@ -102,33 +102,19 @@ export default function DonationCard({
   };
 
   const handleClaim = () => {
-    let idToken = currentUser;
-    let donationId = currentDonation.id;
-    // axios({
-    //   method: 'put',
-    //   url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}`,
-    //   baseURL: 'http://localhost:3000',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${idToken}`
-    //   },
-    //   body: `{ ${currentDonation.donor.email} }`
-    // });
-    // console.log(currentDonation.donor.email);
-    // console.log(currentUser);
-    getCurrentUserToken().then((idToken) => {
-      const headers = {
+    const idToken = currentUser;
+    const donationId = currentDonation.id;
+    axios({
+      method: 'put',
+      url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}`,
+      baseURL: 'http://localhost:3000',
+      headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-      };
-      return axios.put(`/donations/${donationId}/claim/?email=${currentDonation.donor.email}`, { ...donationInfo, images: ['image.jpg'] }, { headers });
-    })
-      .then((res) => {
-        console.log('DONATION POST Successful');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        Authorization: `Bearer ${idToken}`
+      }
+    });
+    handleClose();
+    console.log(currentUser);
   };
 
   const handleCancel = () => {

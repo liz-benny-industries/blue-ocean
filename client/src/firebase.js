@@ -1,4 +1,5 @@
 import * as firebase from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBlgQeLZhCz0J5AUUmSqdwhvW9JsLS47Mg',
@@ -10,4 +11,12 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+// export const getCurrentUserToken = () => {
+//   console.log('getCurrentUserToken got called!');
+// }
+export const getCurrentUserToken = () => {
+  return getAuth().currentUser.getIdToken()
+};
+
 export default firebase;
