@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import axios from 'axios';
 import Auth from './Components/Forms/Auth';
 import NavBar from './Components/NavBar';
 import DonationList from './Components/DonationList';
@@ -12,6 +13,12 @@ import ImageUpload from './Components/ImageUpload';
 const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState();
+  const [filter, setFilter] = useState('');
+  const [sortBy, setSortBy] = useState('');
+
+  const [donations, setDonations] = useState([]);
+  const [currentDonation, setCurrentDonation] = useState(null);
+  console.log('currentDonation:', currentDonation);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
 
@@ -20,10 +27,25 @@ const App = () => {
     if (user) {
       const { uid } = user;
       setCurrentUser(uid);
-      user.getIdToken().then((idToken) => {
-      });
+      user.getIdToken().then((idToken) => {});
     }
   });
+
+  useEffect(() => {
+    const queryString = `/donations${
+      filter !== '' ? `?${filter}` : ''
+    }${sortBy !== '' ? `?${sortBy}` : ''}`;
+
+    axios
+      .get(queryString)
+      .then((response) => {
+        // console.log(response.data);
+        setDonations(response.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [filter, sortBy]);
 
   return (
     <div>
@@ -32,17 +54,32 @@ const App = () => {
         currentUser={currentUser}
         setAuthOpen={setAuthOpen}
         logOut={setCurrentUser}
+        setFilter={setFilter}
+        setSortBy={setSortBy}
       />
       <br />
-      <h2>{currentUser || 'No User is signed in'}</h2>
-      <Auth
-        setAuthOpen={setAuthOpen}
-        isAuthOpen={isAuthOpen}
+      <Auth setAuthOpen={setAuthOpen} isAuthOpen={isAuthOpen} />
+      {openDonationCard ? (
+        <DonationCard
+          donation={currentDonation}
+          setOpenDonationCard={setOpenDonationCard}
+        />
+      ) : null}
+      {openPostModal ? (
+        <PostModal setOpenPostModal={setOpenPostModal} />
+      ) : null}
+      <DonationList
+        setCurrentDonation={setCurrentDonation}
+        donations={donations}
+        setOpenDonationCard={setOpenDonationCard}
       />
+<<<<<<< HEAD
       <ImageUpload />
       {openDonationCard ? <DonationCard setOpenDonationCard={setOpenDonationCard} /> : null}
       {openPostModal ? <PostModal setOpenPostModal={setOpenPostModal} /> : null}
       <DonationList setOpenDonationCard={setOpenDonationCard} />
+=======
+>>>>>>> 8768d63ce5279d6f817983cdbda3535d64cdb896
     </div>
   );
 };

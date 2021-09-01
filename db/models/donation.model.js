@@ -7,9 +7,17 @@ const donation = (sequelize) => sequelize.define('donation', {
     allowNull: false,
     defaultValue: DataTypes.UUIDV4,
   },
+  title: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   location: {
     type: DataTypes.TEXT,
     allowNull: false,
+  },
+  claimantId: {
+    type: DataTypes.TEXT,
+    allowNull: true,
   },
   description: {
     type: DataTypes.TEXT,

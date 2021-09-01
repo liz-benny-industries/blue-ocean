@@ -4,7 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper } from '@material-ui/core';
 import Listing from './Listing';
 
-export default function DonationList({ setOpenDonationCard }) {
+export default function DonationList({
+  setOpenDonationCard,
+  donations,
+  setCurrentDonation,
+}) {
   const useStyles = makeStyles(() => ({
     root: {
       display: 'flex',
@@ -21,7 +25,7 @@ export default function DonationList({ setOpenDonationCard }) {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-    }
+    },
   }));
 
   const classes = useStyles();
@@ -30,7 +34,15 @@ export default function DonationList({ setOpenDonationCard }) {
     <div className={classes.shell}>
       <Paper className={classes.root}>
         <Typography variant="h4">Donations</Typography>
-        <Listing setOpenDonationCard={setOpenDonationCard} />
+        {donations.map((donation) => (
+          <Listing
+            key={donation.id}
+            donation={donation}
+            onClick={setCurrentDonation}
+            setOpenDonationCard={setOpenDonationCard}
+            setCurrentDonation={setCurrentDonation}
+          />
+        ))}
       </Paper>
     </div>
   );

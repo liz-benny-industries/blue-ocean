@@ -1,4 +1,8 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-u
 /* eslint-disable max-len */
 import React from 'react';
 import axios from 'axios';
@@ -30,14 +34,14 @@ const items = [
   },
 ];
 
-function Item(props) {
-  return (
-    <Paper>
-      <h2>{props.item.name}</h2>
-      <p>{props.item.description}</p>
-    </Paper>
-  );
-}
+// function Item(props) {
+//   return (
+//     <Paper>
+//       <h2>{props.item.name}</h2>
+//       <p>{props.item.description}</p>
+//     </Paper>
+//   );
+// }
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,10 +80,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     margin: '.5rem',
-  }
+  },
 }));
 
-export default function DonationCard({ setOpenDonationCard, donation }) {
+export default function DonationCard({
+  setOpenDonationCard,
+  donation,
+}) {
   const classes = useStyles();
 
   const handleClose = () => {
@@ -105,7 +112,7 @@ export default function DonationCard({ setOpenDonationCard, donation }) {
         closeAfterTransition
         aria-labelledby="transition-donate-modal-title"
         aria-describedby="transition-donate-modal-description"
-        open={setOpenDonationCard}
+        open={!!donation}
         onClose={handleClose}
         className={classes.modal}
         BackdropComponent={Backdrop}
@@ -113,7 +120,7 @@ export default function DonationCard({ setOpenDonationCard, donation }) {
           timeout: 500,
         }}
       >
-        <Fade in={setOpenDonationCard}>
+        <Fade in={!!donation}>
           <div className={classes.paper}>
             <form
               noValidate
@@ -125,24 +132,25 @@ export default function DonationCard({ setOpenDonationCard, donation }) {
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    // image={tempImg}
-                    title="Image Title(optional)"
+                    title={donation.title}
+                    image={donation.images[0].url}
                   />
-                  <CardContent>
+                  {/* <CardContent>
                     <Carousel>
-                      {
-                        items.map((item, i) => <Item className={classes.item} key={i} item={item} />)
-                      }
+                      {items.map((item, i) => (
+                        <Item
+                          className={classes.item}
+                          key={i}
+                          item={item}
+                        />
+                      ))}
                     </Carousel>
-                  </CardContent>
+                  </CardContent> */}
                 </CardActionArea>
                 <CardActions className={classes.actions}>
-                  <Typography>Donor's Username</Typography>
-                  <Typography>Location</Typography>
-                  <Button
-                    size="small"
-                    color="primary"
-                  >
+                  <Typography>{donation.donor.username}</Typography>
+                  <Typography>{donation.location}</Typography>
+                  <Button size="small" color="primary">
                     Share
                   </Button>
                 </CardActions>
@@ -156,12 +164,8 @@ export default function DonationCard({ setOpenDonationCard, donation }) {
                 Contact Listing Owner
               </Button>
               <div className={classes.userControls}>
-                <Button onClick={handleCancel}>
-                  Cancel Claim
-                </Button>
-                <Button onClick={handleDelete}>
-                  Delete Post
-                </Button>
+                <Button onClick={handleCancel}>Cancel Claim</Button>
+                <Button onClick={handleDelete}>Delete Post</Button>
               </div>
             </form>
           </div>
