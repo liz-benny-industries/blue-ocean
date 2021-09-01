@@ -182,12 +182,12 @@ const DonationController = (router, connection) => {
       return res.status(401).send('Unauthorized');
     }
     const { uid } = req.user;
-    const { email } = req.query;
+    const { email, title } = req.query;
     console.log(email);
-    const { description } = req.body;
+    console.log(title);
     const message = `
       <div>
-        Someone has claimed your item: ${description}!
+        Someone has claimed your item: ${title}!
       </div>
       <span>Please login to coordinate pick-up details!</span>`;
 
