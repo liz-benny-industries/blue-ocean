@@ -9,6 +9,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Carousel from 'react-material-ui-carousel';
 import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import {
   Typography,
   Card,
   CardActions,
@@ -21,6 +26,8 @@ import {
   Button,
   Fade,
 } from '@material-ui/core';
+import axios from 'axios';
+import { getCurrentUserToken } from '../firebase';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 const items = [
@@ -86,6 +93,8 @@ const useStyles = makeStyles((theme) => ({
 export default function DonationCard({
   setOpenDonationCard,
   donation,
+  currentDonation,
+  currentUser
 }) {
   const classes = useStyles();
 
@@ -93,8 +102,20 @@ export default function DonationCard({
     setOpenDonationCard(false);
   };
 
-  const handleContact = () => {
-    // open email client
+  const handleClaim = () => {
+    const idToken = currentUser;
+    const donationId = currentDonation.id;
+    axios({
+      method: 'put',
+      url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}`,
+      baseURL: 'http://localhost:3000',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`
+      }
+    });
+    handleClose();
+    console.log(currentUser);
   };
 
   const handleCancel = () => {
@@ -164,12 +185,12 @@ export default function DonationCard({
                 </CardActions>
               </Card>
               <Button
-                onClick={handleContact}
+                onClick={handleClaim}
                 className={classes.button}
                 variant="contained"
                 color="primary"
               >
-                Contact Listing Owner
+                Claim
               </Button>
               <div className={classes.userControls}>
                 <Button onClick={handleCancel}>Cancel Claim</Button>

@@ -26,9 +26,8 @@ const App = () => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const { uid } = user;
-      setCurrentUser(uid);
       user.getIdToken().then((idToken) => {
-        console.log('idToken:', idToken);
+        setCurrentUser(idToken);
       });
     }
   });
@@ -68,6 +67,8 @@ const App = () => {
         <DonationCard
           donation={currentDonation}
           setOpenDonationCard={setOpenDonationCard}
+          currentDonation={currentDonation}
+          currentUser={currentUser}
         />
       ) : null}
       {openPostModal ? (
