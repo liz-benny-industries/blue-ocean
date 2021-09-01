@@ -21,12 +21,12 @@ const DonationController = (router, connection) => {
       if (filter === 'claimant') {
         options.where = {
           claimantId: uid,
-          status: { $not: 'canceled' },
+          status: { [Op.eq]: 'active' },
         };
       } else if (filter === 'donor') {
         options.where = {
           donorId: uid,
-          status: { $not: 'canceled' },
+          status: { [Op.eq]: 'active' },
         };
       } else {
         return res
@@ -62,6 +62,7 @@ const DonationController = (router, connection) => {
           required: true,
         },
       ];
+      // options.attributes =
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
