@@ -15,12 +15,16 @@ import {
   List,
   ListItem,
   ListItemText,
+  Menu,
+  MenuItem,
 } from '@material-ui/core';
 import {
   Public,
   Search,
   AccountCircleOutlined,
 } from '@material-ui/icons';
+
+import { debounce } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   flatList: {
@@ -87,10 +91,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = ({ currentUser, setAuthOpen, logOut, setOpenPostModal }) => {
+const Navigation = ({
+  currentUser,
+  setAuthOpen,
+  logOut,
+  setFilter,
+  setSortBy,
+  setOpenPostModal,
+}) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
-  const handleClick = () => {
+  const filterDebounce = debounce(async (filter) => {
+    // setFilter(filter);
+    console.debug('filter:', filter);
+  }, 500);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePostClick = () => {
     setOpenPostModal(true);
   };
 
@@ -121,6 +146,7 @@ const Navigation = ({ currentUser, setAuthOpen, logOut, setOpenPostModal }) => {
               <Search />
             </div>
             <InputBase
+              onChange={(e) => filterDebounce(e.target.value)}
               placeholder='Search...'
               classes={{
                 root: classes.inputRoot,
@@ -159,7 +185,7 @@ const Navigation = ({ currentUser, setAuthOpen, logOut, setOpenPostModal }) => {
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
-            onClick={handleClick}
+            onClick={handlePostClick}
             className={classes.listItem}
             primary='Post a Donation'
           />
@@ -178,6 +204,41 @@ const Navigation = ({ currentUser, setAuthOpen, logOut, setOpenPostModal }) => {
             'My Donations'
           </ListItemText>
         </ListItem>
+        <ListItem button>
+          <ListItemText
+            onClick={handleClick}
+            className={classes.listItem}
+            primary='Sorting'
+          >
+            Sorting
+          </ListItemText>
+        </ListItem>
+        <Menu
+          id='sort-menu'
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem
+            value={'Proximity'}
+            onClick={(e) => {
+              setSortBy(e.target.value);
+              handleClose();
+            }}
+          >
+            Proximity
+          </MenuItem>
+          <MenuItem
+            value={'Newest'}
+            onClick={(e) => {
+              setSortBy(e.target.value);
+              handleClose();
+            }}
+          >
+            Newest
+          </MenuItem>
+        </Menu>
       </List>
     </div>
   );

@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 const { sendMail } = require('../notification');
@@ -6,24 +7,51 @@ const { sendMail } = require('../notification');
 
 const DonationController = (router, connection) => {
   /* Donations - Get All */
+  // TODO - ALEX: This needs to return usernames (JOIN on users), images (JOIN on donation_id)
   router.get('/donations', async (req, res) => {
-    let options = {};
-    const { filter } = req.query;
+    const options = {};
+    const { filter, sortBy } = req.query;
     if (filter) {
       if (!req.user) {
-        return res.status(401).send('Unauthorized - no valid user to sort by');
+        return res
+          .status(401)
+          .send('Unauthorized - no valid user to sort by');
       }
       const { uid } = req.user;
       if (filter === 'claimant') {
-        options = { where: { claimantId: uid } };
+        options.where = { claimantId: uid };
       } else if (filter === 'donor') {
-        options = { where: { donorId: uid } };
+        options.where = { donorId: uid };
       } else {
-        return res.status(400).send('Invalid query - filter must have a value of "claimant" or "donor"');
+        return res
+          .status(400)
+          .send(
+            'Invalid query - filter must have a value of "claimant" or "donor"'
+          );
       }
     }
+    if (sortBy) {
+      if (sortBy === 'Proximity') {
+        options.order = 'location DESC';
+      } else if (sortBy === 'Newest') {
+        options.order = 'createdAt DESC';
+      }
+    }
+
     try {
-      const { donation: donationModel } = connection.models;
+      const {
+        donation: donationModel,
+        user: userModel,
+        image: imageModel,
+      } = connection.models;
+      options.include = [{
+        model: userModel,
+        as: 'donor',
+        required: true,
+      }, {
+        model: imageModel,
+        required: true,
+      }];
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
@@ -60,12 +88,13 @@ const DonationController = (router, connection) => {
     }
     const { uid } = req.user;
     try {
-      const { donation: donationModel, image: imageModel, user: userModel } = connection.models;
       const {
-        location,
-        description,
-        charitiesOnly,
-        images,
+        donation: donationModel,
+        image: imageModel,
+        user: userModel,
+      } = connection.models;
+      const {
+        location, description, charitiesOnly, images, title
       } = req.body;
 
       // images are required
@@ -79,6 +108,7 @@ const DonationController = (router, connection) => {
           description,
           charitiesOnly,
           donorId: uid,
+          title,
         },
         { transaction: t }
       );
@@ -100,7 +130,7 @@ const DonationController = (router, connection) => {
         );
       /* eslint-enable no-unused-expressions */
       await t.commit();
-      return res.status(201).end(); // * To send back the new data here, refetch, or...?
+      return res.status(201).end();
     } catch (e) {
       console.error(e);
       return res.status(500).end();
@@ -120,7 +150,11 @@ const DonationController = (router, connection) => {
         where: { id },
       });
       if (donorId !== uid) {
-        return res.status(401).send('Current user is not authorized to cancel this donation');
+        return res
+          .status(401)
+          .send(
+            'Current user is not authorized to cancel this donation'
+          );
       }
       await donationModel.update(
         { status: 'canceled' },
@@ -158,7 +192,7 @@ const DonationController = (router, connection) => {
           where: {
             id,
           },
-        },
+        }
       );
       sendMail(message);
       return res.status(201).end();
@@ -195,14 +229,16 @@ const DonationController = (router, connection) => {
         where: { id: donationId },
       });
       if (donorId !== uid) {
-        return res.status(401).send('Current user is not authorized to add images to this donation');
+        return res
+          .status(401)
+          .send(
+            'Current user is not authorized to add images to this donation'
+          );
       }
-      await imageModel.create(
-        {
-          url,
-          donationId,
-        },
-      );
+      await imageModel.create({
+        url,
+        donationId,
+      });
       return res.status(201).end();
     } catch (e) {
       console.error(e);
