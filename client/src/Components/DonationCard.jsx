@@ -93,7 +93,7 @@ export default function DonationCard({
   setOpenDonationCard,
   donation,
   currentDonation,
-  currentUser,
+  userIdToken,
 }) {
   const classes = useStyles();
 
@@ -102,7 +102,6 @@ export default function DonationCard({
   };
 
   const handleClaim = () => {
-    const idToken = currentUser;
     const donationId = currentDonation.id;
     axios({
       method: 'put',
@@ -110,11 +109,10 @@ export default function DonationCard({
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
+        Authorization: `Bearer ${userIdToken}`,
       },
     });
     handleClose();
-    console.log(currentUser);
   };
 
   const handleCancel = () => {
@@ -133,7 +131,7 @@ export default function DonationCard({
     //       handleClose();
     //     })
     //     .catch((e) => console.error(e));
-    const idToken = currentUser;
+
     const donationId = currentDonation.id;
     axios({
       method: 'put',
@@ -141,11 +139,10 @@ export default function DonationCard({
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
+        Authorization: `Bearer ${userIdToken}`,
       },
     });
     handleClose();
-    console.log(currentUser);
   };
 
   const handleDelete = () => {
