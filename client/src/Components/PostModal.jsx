@@ -98,7 +98,7 @@ export default function PostModal({ setOpenPostModal }) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={setOpenPostModal}
+        open={open}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -106,7 +106,7 @@ export default function PostModal({ setOpenPostModal }) {
           timeout: 300,
         }}
       >
-        <Fade in={setOpenPostModal}>
+        <Fade in={open}>
           <div className={classes.paper}>
             <Typography variant="h4" id="transition-modal-title">
               Decribe the Item

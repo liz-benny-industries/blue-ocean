@@ -131,11 +131,12 @@ export default function DonationCard({
     //       handleClose();
     //     })
     //     .catch((e) => console.error(e));
+    // });
 
     const donationId = currentDonation.id;
     axios({
       method: 'put',
-      url: `/donations/cancel/${donationId}`,
+      url: `/donations/${donationId}/cancel`,
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',

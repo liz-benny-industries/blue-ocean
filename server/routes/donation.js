@@ -157,7 +157,7 @@ const DonationController = (router, connection) => {
   });
 
   /* Donations - Cancel */
-  router.put('/donations/cancel/:donationId', async (req, res) => {
+  router.put('/donations/:donationId/cancel/', async (req, res) => {
     if (!req.user) {
       return res.status(401).send('Unauthorized');
     }
