@@ -97,6 +97,7 @@ const Navigation = ({
   logOut,
   setFilter,
   setSortBy,
+  setOpenPostModal,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
@@ -112,6 +113,10 @@ const Navigation = ({
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handlePostClick = () => {
+    setOpenPostModal(true);
   };
 
   return (
@@ -180,6 +185,7 @@ const Navigation = ({
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
+            onClick={handlePostClick}
             className={classes.listItem}
             primary='Post a Donation'
           />
