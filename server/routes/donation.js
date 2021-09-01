@@ -7,7 +7,6 @@ const { sendMail } = require('../notification');
 
 const DonationController = (router, connection) => {
   /* Donations - Get All */
-  // TODO - ALEX: This needs to return usernames (JOIN on users), images (JOIN on donation_id)
   router.get('/donations', async (req, res) => {
     const options = {};
     const { filter, sortBy, orderBy } = req.query;
@@ -18,6 +17,7 @@ const DonationController = (router, connection) => {
           .send('Unauthorized - no valid user to sort by');
       }
       const { uid } = req.user;
+
       if (filter === 'claimant') {
         options.where = {
           claimantId: uid,
@@ -36,6 +36,7 @@ const DonationController = (router, connection) => {
           );
       }
     }
+
     if (sortBy) {
       if (sortBy === 'Proximity') {
         options.order = [['location', `${orderBy}`]];

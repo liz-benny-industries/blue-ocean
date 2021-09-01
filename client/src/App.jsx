@@ -41,7 +41,6 @@ const App = () => {
         },
       })
       .then((response) => {
-        // console.log(response.data);
         setDonations(response.data);
       })
       .catch((e) => {

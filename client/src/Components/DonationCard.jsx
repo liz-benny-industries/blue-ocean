@@ -99,15 +99,15 @@ export default function DonationCard({
 
   const handleCancel = () => {
     // relist the item (unclaim)
-    axios
-      .put(`/donations/cancel/${donation.id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        },
-      })
-      .then((response) => console.log('response:', response))
-      .catch((e) => console.error(e));
+    // axios
+    //   .put(`/donations/cancel/${donation.id}`, {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${idToken}`,
+    //     },
+    //   })
+    //   .then((response) => console.log('response:', response))
+    //   .catch((e) => console.error(e));
   };
 
   const handleDelete = () => {
