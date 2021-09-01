@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({ setOpenPostModal }) {
+export default function PostModal({ setOpenPostModal }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [donationInfo, setDonationInfo] = useState({
@@ -71,13 +71,18 @@ export default function TransitionsModal({ setOpenPostModal }) {
 
   const donate = () => {
     console.log(donationInfo);
-    getCurrentUserToken().then((idToken) => {
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`,
-      };
-      return axios.post('/donations', { ...donationInfo, images: ['image.jpg'] }, { headers });
-    })
+    getCurrentUserToken()
+      .then((idToken) => {
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        };
+        return axios.post(
+          '/donations',
+          { ...donationInfo, images: ['image.jpg'] },
+          { headers }
+        );
+      })
       .then((res) => {
         console.log('DONATION POST Successful');
         handleClose();
@@ -103,7 +108,9 @@ export default function TransitionsModal({ setOpenPostModal }) {
       >
         <Fade in={setOpenPostModal}>
           <div className={classes.paper}>
-            <Typography variant="h4" id="transition-modal-title">Decribe the Item</Typography>
+            <Typography variant="h4" id="transition-modal-title">
+              Decribe the Item
+            </Typography>
             <form
               require
               noValidate
@@ -168,7 +175,6 @@ export default function TransitionsModal({ setOpenPostModal }) {
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  onClick={donate}
                   endIcon={<SendRoundedIcon />}
                 >
                   Donate

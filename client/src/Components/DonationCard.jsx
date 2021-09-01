@@ -93,7 +93,7 @@ export default function DonationCard({
   setOpenDonationCard,
   donation,
   currentDonation,
-  currentUser
+  userIdToken,
 }) {
   const classes = useStyles();
 
@@ -102,7 +102,6 @@ export default function DonationCard({
   };
 
   const handleClaim = () => {
-    const idToken = currentUser;
     const donationId = currentDonation.id;
     console.log(currentDonation.title)
     axios({
@@ -111,15 +110,40 @@ export default function DonationCard({
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${idToken}`
-      }
+        Authorization: `Bearer ${userIdToken}`,
+      },
     });
     handleClose();
-    console.log(currentUser);
   };
 
   const handleCancel = () => {
     // relist the item (unclaim)
+    // getCurrentUserToken().then((idToken) => {
+    //   const headers = {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${idToken}`,
+    //   };
+    //   return axios
+    //     .put(`/donations/cancel/${donation.id}`, {
+    //       headers,
+    //     })
+    //     .then((response) => {
+    //       console.log('response:', response);
+    //       handleClose();
+    //     })
+    //     .catch((e) => console.error(e));
+
+    const donationId = currentDonation.id;
+    axios({
+      method: 'put',
+      url: `/donations/cancel/${donationId}`,
+      baseURL: 'http://localhost:3000',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userIdToken}`,
+      },
+    });
+    handleClose();
   };
 
   const handleDelete = () => {

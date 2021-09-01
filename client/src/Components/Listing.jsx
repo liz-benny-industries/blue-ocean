@@ -63,7 +63,7 @@ export default function Listing({
             <Typography>{donation.createdAt}</Typography>
           </Paper>
           <Avatar
-            src={tempImg}
+            src={donation.images[0].url || tempImg}
             variant="square"
             className={classes.image}
           >

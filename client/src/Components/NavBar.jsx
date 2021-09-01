@@ -166,6 +166,7 @@ const Navigation = ({
             aria-label='open drawer'
           >
             <AccountCircleOutlined fontSize='large' />
+            {}
           </IconButton>
           <Button
             variant='contained'
@@ -205,7 +206,7 @@ const Navigation = ({
             className={classes.listItem}
             primary='My Donations'
           >
-            'My Donations'
+            My Donations
           </ListItemText>
         </ListItem>
         <ListItem button>
