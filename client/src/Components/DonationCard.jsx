@@ -1,4 +1,10 @@
+
 /* eslint-disable react/prop-types */
+=======
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-u
 /* eslint-disable max-len */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
