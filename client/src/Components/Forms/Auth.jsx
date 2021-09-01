@@ -17,7 +17,7 @@ import axios from 'axios';
 import firebase from '../../firebase';
 import Modal from '../Helpers/Modal';
 
-const Auth = ({ isAuthOpen, setAuthOpen }) => {
+const Auth = ({ modal, setModal }) => {
   const [authInfo, setAuthInfo] = useState({
     username: '',
     email: '',
@@ -57,7 +57,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
         console.log('newly generated idToken: ', idToken);
         return axios.post('/users', authInfo, { headers });
       })
-      .then(() => { setAuthOpen(false); })
+      .then(() => { setModal(''); })
       .catch((err) => {
         setError(err.code);
       });
@@ -73,7 +73,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
       .then((userCredential) => {
         const { user } = userCredential;
       })
-      .then(() => { setAuthOpen(false); })
+      .then(() => { setModal(''); })
       .catch((err) => {
         setError(err.code);
       });
@@ -86,9 +86,9 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
   return (
     <div className="UserForm">
       <Modal
-        isOpen={isAuthOpen}
+        isOpen={modal === 'auth'}
         close={() => {
-          setAuthOpen(false);
+          setModal('');
         }}
       >
         <h2

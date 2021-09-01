@@ -95,7 +95,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Navigation = ({
   currentUser,
-  setAuthOpen,
+  setModal,
+  modal,
   logOut,
   setFilter,
   setSortBy,
@@ -120,7 +121,7 @@ const Navigation = ({
   };
 
   const handlePostClick = () => {
-    setOpenPostModal(true);
+    setModal('post');
   };
 
   return (
@@ -180,7 +181,7 @@ const Navigation = ({
                     .catch((error) => {
                       console.log(error);
                     })
-                : setAuthOpen(true);
+                : setModal('auth');
             }}
           >
             {currentUser ? 'Sign Out' : 'Sign In'}

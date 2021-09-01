@@ -42,9 +42,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PostModal({ setOpenPostModal }) {
+export default function PostModal({ modal, setModal }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const [donationInfo, setDonationInfo] = useState({
     title: '',
     description: '',
@@ -62,11 +61,11 @@ export default function PostModal({ setOpenPostModal }) {
   };
 
   const handleOpen = () => {
-    setOpenPostModal(true);
+    setModal('post');
   };
 
   const handleClose = () => {
-    setOpenPostModal(false);
+    setModal('');
   };
 
   const donate = () => {
@@ -98,7 +97,7 @@ export default function PostModal({ setOpenPostModal }) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={setOpenPostModal}
+        open={modal === 'post'}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -106,7 +105,7 @@ export default function PostModal({ setOpenPostModal }) {
           timeout: 300,
         }}
       >
-        <Fade in={setOpenPostModal}>
+        <Fade in={modal === 'post'}>
           <div className={classes.paper}>
             <Typography variant="h4" id="transition-modal-title">
               Decribe the Item

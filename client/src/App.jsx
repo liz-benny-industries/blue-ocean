@@ -11,16 +11,14 @@ import PostModal from './Components/PostModal';
 import { getCurrentUserToken } from './firebase';
 
 const App = () => {
-  const [isAuthOpen, setAuthOpen] = useState(false);
+  const [modal, setModal] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [userIdToken, setUserIdToken] = useState('');
   const [filter, setFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [orderByDesc, setOrderByDesc] = useState(true);
-
   const [donations, setDonations] = useState([]);
   const [currentDonation, setCurrentDonation] = useState(null);
-  const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
   const [refetch, setRefetch] = React.useState(false);
 
@@ -57,7 +55,8 @@ const App = () => {
       <NavBar
         setOpenPostModal={setOpenPostModal}
         currentUser={currentUser}
-        setAuthOpen={setAuthOpen}
+        setModal={setModal}
+        modal={modal}
         logOut={setCurrentUser}
         setFilter={setFilter}
         setSortBy={setSortBy}
@@ -65,22 +64,20 @@ const App = () => {
         orderByDesc={orderByDesc}
       />
       <br />
-      <Auth setAuthOpen={setAuthOpen} isAuthOpen={isAuthOpen} />
-      {openDonationCard ? (
-        <DonationCard
-          donation={currentDonation}
-          setOpenDonationCard={setOpenDonationCard}
-          currentDonation={currentDonation}
-          userIdToken={userIdToken}
-        />
-      ) : null}
-      {openPostModal ? (
-        <PostModal setOpenPostModal={setOpenPostModal} />
-      ) : null}
+      <Auth modal={modal} setModal={setModal} />
+      <DonationCard
+        donation={currentDonation}
+        setModal={setModal}
+        modal={modal}
+        currentDonation={currentDonation}
+        userIdToken={userIdToken}
+      />
+      <PostModal setModal={setModal} modal={modal} />
       <DonationList
         setCurrentDonation={setCurrentDonation}
         donations={donations}
-        setOpenDonationCard={setOpenDonationCard}
+        setModal={setModal}
+        modal={modal}
       />
     </div>
   );

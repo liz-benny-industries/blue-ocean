@@ -5,7 +5,7 @@ import { Typography, Paper } from '@material-ui/core';
 import Listing from './Listing';
 
 export default function DonationList({
-  setOpenDonationCard,
+  setModal,
   donations,
   setCurrentDonation,
 }) {
@@ -38,7 +38,7 @@ export default function DonationList({
           <Listing
             key={donation.id}
             donation={donation}
-            setOpenDonationCard={setOpenDonationCard}
+            setModal={setModal}
             setCurrentDonation={setCurrentDonation}
           />
         ))}
