@@ -7,6 +7,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Carousel from 'react-material-ui-carousel';
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import {
   Typography,
   Card,
@@ -20,6 +26,7 @@ import {
   Button,
   Fade,
 } from '@material-ui/core';
+import axios from 'axios';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 const items = [
@@ -85,6 +92,8 @@ const useStyles = makeStyles((theme) => ({
 export default function DonationCard({
   setOpenDonationCard,
   donation,
+  currentDonation,
+  currentUser
 }) {
   const classes = useStyles();
 
@@ -92,8 +101,34 @@ export default function DonationCard({
     setOpenDonationCard(false);
   };
 
-  const handleContact = () => {
-    // open email client
+  const handleClaim = () => {
+    let idToken = currentUser;
+    let donationId = currentDonation.id;
+    // axios({
+    //   method: 'put',
+    //   url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}`,
+    //   baseURL: 'http://localhost:3000',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${idToken}`
+    //   },
+    //   body: `{ ${currentDonation.donor.email} }`
+    // });
+    // console.log(currentDonation.donor.email);
+    // console.log(currentUser);
+    getCurrentUserToken().then((idToken) => {
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      };
+      return axios.put(`/donations/${donationId}/claim/?email=${currentDonation.donor.email}`, { ...donationInfo, images: ['image.jpg'] }, { headers });
+    })
+      .then((res) => {
+        console.log('DONATION POST Successful');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleCancel = () => {
@@ -154,12 +189,12 @@ export default function DonationCard({
                 </CardActions>
               </Card>
               <Button
-                onClick={handleContact}
+                onClick={handleClaim}
                 className={classes.button}
                 variant="contained"
                 color="primary"
               >
-                Contact Listing Owner
+                Claim
               </Button>
               <div className={classes.userControls}>
                 <Button onClick={handleCancel}>Cancel Claim</Button>

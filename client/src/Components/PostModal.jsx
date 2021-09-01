@@ -65,7 +65,7 @@ export default function TransitionsModal({ setOpenPostModal }) {
 
   const donate = () => {
     console.log(donationInfo);
-    axios.post('/someEndPoint', donationInfo)
+    axios.post('/donations', donationInfo)
       .then((res) => {
         console.log('DONATION POST Successful');
       // do something cool
@@ -141,6 +141,7 @@ export default function TransitionsModal({ setOpenPostModal }) {
                   variant="contained"
                   color="primary"
                   className={classes.button}
+                  onClick={donate}
                   endIcon={<SendRoundedIcon />}
                 >
                   Donate

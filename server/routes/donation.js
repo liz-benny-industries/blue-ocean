@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { Op } = require('sequelize');
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
@@ -173,6 +174,8 @@ const DonationController = (router, connection) => {
       return res.status(401).send('Unauthorized');
     }
     const { uid } = req.user;
+    const { email } = req.query;
+    console.log(email);
     const { description } = req.body;
     const message = `
       <div>
@@ -194,7 +197,7 @@ const DonationController = (router, connection) => {
           },
         }
       );
-      sendMail(message);
+      sendMail(message, email);
       return res.status(201).end();
     } catch (e) {
       console.error(e);
