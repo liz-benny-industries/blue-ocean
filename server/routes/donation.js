@@ -120,7 +120,7 @@ const DonationController = (router, connection) => {
 
   /* Donations - Claim */
   router.put('/donations/:donationId/claim', async (req, res) => {
-    const { claimantId, description } = req.body;
+    const { description } = req.body;
     const message = `
       <div>
         Someone has claimed your item: ${description}! 
@@ -134,7 +134,7 @@ const DonationController = (router, connection) => {
       await donationModel.update(
         {
           status: 'claimed',
-          claimantId,
+          claimantId: req.user.uid
         },
         {
           where: {

@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
+require('dotenv').config();
+
 const {
   CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN
-} = require('../config/config');
+} = process.env;
 
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });

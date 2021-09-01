@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 const express = require('express');
 const path = require('path');
-const nodemailer = require('nodemailer');
-const { google } = require('googleapis');
-const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN } = require('../config/config');
+
 const {
   assertDbConnected,
   defineModels,
