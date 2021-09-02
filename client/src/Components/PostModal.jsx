@@ -69,7 +69,6 @@ export default function PostModal() {
 
   const donate = () => {
     console.log(donationInfo);
-    !currentUser && alert('Please Sign In To Post An Item');
     currentUser && getCurrentUserToken()
       .then((idToken) => {
         const headers = {

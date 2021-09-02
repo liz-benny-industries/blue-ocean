@@ -102,13 +102,16 @@ const Navigation = () => {
     setSortBy,
     setOrderByDesc,
     orderByDesc,
-    setCurrentUser
+    setCurrentUser,
+    setSearchFilter
    } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
   const filterDebounce = debounce(async (filter) => {
-    // setFilter(filter);
+    if (filter.length > 2) {
+      setSearchFilter(filter);
+    }
     console.debug('filter:', filter);
   }, 500);
 
@@ -121,6 +124,7 @@ const Navigation = () => {
   };
 
   const handlePostClick = () => {
+    console.log(currentUser);
     setModal('post');
   };
 
@@ -192,7 +196,7 @@ const Navigation = () => {
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
-            onClick={() => {currentUser ? handlePostClick : setModal('auth') }}
+            onClick={() => {currentUser ? handlePostClick() : setModal('auth') }}
             className={classes.listItem}
             primary='Post a Donation'
           />
