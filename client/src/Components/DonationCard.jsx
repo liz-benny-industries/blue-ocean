@@ -117,7 +117,6 @@ export default function DonationCard() {
     axios({
       method: 'put',
       url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}&title=${currentDonation.title}`,
-      baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${fireBaseIdToken}`,
@@ -131,7 +130,6 @@ export default function DonationCard() {
     axios({
       method: 'put',
       url: `/donations/cancel/${donationId}`,
-      baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${fireBaseIdToken}`,
