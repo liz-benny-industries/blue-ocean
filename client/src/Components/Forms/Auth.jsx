@@ -5,7 +5,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
 import {
@@ -14,10 +14,12 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import axios from 'axios';
+import AppContext from '../context';
 import firebase from '../../firebase';
 import Modal from '../Helpers/Modal';
 
-const Auth = ({ modal, setModal }) => {
+const Auth = () => {
+  const { modal, setModal } = useContext(AppContext);
   const [authInfo, setAuthInfo] = useState({
     username: '',
     email: '',

@@ -1,14 +1,16 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper } from '@material-ui/core';
 import Listing from './Listing';
+import AppContext from './context';
 
-export default function DonationList({
-  setModal,
-  donations,
-  setCurrentDonation,
-}) {
+export default function DonationList() {
+  const {
+    setModal,
+    donations,
+    setCurrentDonation,
+  } = useContext(AppContext);
   const useStyles = makeStyles(() => ({
     root: {
       display: 'flex',

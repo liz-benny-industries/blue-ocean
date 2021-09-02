@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import axios from 'axios';
@@ -15,6 +16,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core';
+import AppContext from './context';
 import { getCurrentUserToken } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,8 +44,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PostModal({ modal, setModal }) {
+export default function PostModal() {
   const classes = useStyles();
+  const { modal, setModal, currentUser } = useContext(AppContext);
   const [donationInfo, setDonationInfo] = useState({
     title: '',
     description: '',
@@ -60,17 +63,14 @@ export default function PostModal({ modal, setModal }) {
     }
   };
 
-  const handleOpen = () => {
-    setModal('post');
-  };
-
   const handleClose = () => {
     setModal('');
   };
 
   const donate = () => {
     console.log(donationInfo);
-    getCurrentUserToken()
+    !currentUser && alert('Please Sign In To Post An Item');
+    currentUser && getCurrentUserToken()
       .then((idToken) => {
         const headers = {
           'Content-Type': 'application/json',

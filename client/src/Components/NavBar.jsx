@@ -1,7 +1,8 @@
 /*eslint-disable*/
 
-import React, { useEffect } from 'react';
+import React, { useContext } from'react';
 import { getAuth, signOut } from 'firebase/auth';
+import AppContext from '../Components/context';
 import {
   AppBar,
   Toolbar,
@@ -27,6 +28,7 @@ import {
 } from '@material-ui/icons';
 
 import { debounce } from '../utils';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   flatList: {
@@ -93,17 +95,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = ({
-  currentUser,
-  setModal,
-  modal,
-  logOut,
-  setFilter,
-  setSortBy,
-  setOpenPostModal,
-  setOrderByDesc,
-  orderByDesc,
-}) => {
+const Navigation = () => {
+  const {
+    currentUser,
+    setModal,
+    setSortBy,
+    setOrderByDesc,
+    orderByDesc,
+    setCurrentUser
+   } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
@@ -176,7 +176,8 @@ const Navigation = ({
               currentUser
                 ? signOut(auth)
                     .then(() => {
-                      logOut('');
+                      setCurrentUser('');
+                      setModal('');
                     })
                     .catch((error) => {
                       console.log(error);
@@ -191,7 +192,7 @@ const Navigation = ({
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
-            onClick={handlePostClick}
+            onClick={() => {currentUser ? handlePostClick : setModal('auth') }}
             className={classes.listItem}
             primary='Post a Donation'
           />
