@@ -155,60 +155,33 @@ const DonationController = (router, connection) => {
 
       const users = await userModel.findAll();
       console.log('users:', users);
-
-      const distancePromises = users.map(
-        (user) => new Promise((resolve, reject) => {
-          const { location: donationLocation, id: donationId } = newDonation;
-          const { defaultLocation: userLocation, id: userId } = user;
-
-          distanceExists(distanceModel, userId, donationId).then(
-            (distanceDoesExist) => {
-              if (!distanceDoesExist) {
-                getDistance(userLocation, donationLocation)
-                  .then(([text, value]) => {
-                    distanceModel
-                      .create(
-                        {
-                          text,
-                          value,
-                          userId,
-                          donationId,
-                        },
-                        { transaction: t }
-                      )
-                      .then(() => {
-                        resolve(true);
-                      })
-                      .catch((e) => {
-                        console.error(e);
-                        console.debug(
-                          'Distance could not be created... Rolling back'
-                        );
-                        t.rollback().then(() => {
-                          reject(e);
-                        });
-                      });
-                  })
-                  .catch((e) => {
-                    console.error(e);
-                    console.debug(
-                      'Distance could not be calculated... Rolling back'
-                    );
-                    t.rollback().then(() => {
-                      reject(e);
-                    });
-                  });
-              }
-            }
+      /* eslint-disable no-await-in-loop */
+      for (let i = 0; i < users.length; i += 1) {
+        const { id: donationId, location: donationLocation } = newDonation;
+        const { id: userId, defaultLocation: userLocation } = users[i];
+        const distanceDoesExist = await distanceExists(
+          distanceModel,
+          userId,
+          donationId
+        );
+        if (!distanceDoesExist) {
+          const [text, value] = await getDistance(
+            userLocation,
+            donationLocation
           );
-        })
-      );
-
-      Promise.allSettled(distancePromises)
-        .then(() => {
-          t.commit().then(() => res.status(201).end());
-        })
-        .catch((e) => res.status(501).send('Distances could not be calculated'));
+          const newDistance = await distanceModel.create(
+            {
+              text,
+              value,
+              userId,
+              donationId,
+            },
+            { transaction: t }
+          );
+        }
+      }
+      await t.commit();
+      return res.status(201).end();
     } catch (e) {
       console.error(e);
       return res.status(500).end();

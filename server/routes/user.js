@@ -21,9 +21,7 @@ const UserController = (router, connection) => {
     const { uid } = req.user;
     try {
       const { user: userModel } = connection.models;
-      const {
-        isIndividual, username, email
-      } = req.body;
+      const { isIndividual, username, email } = req.body;
       const defaultLocation = req.body.defaultLocation || null;
 
       const newUser = await userModel.create({
@@ -61,7 +59,7 @@ const UserController = (router, connection) => {
           where: {
             id,
           },
-        },
+        }
       );
       return res.status(201).end();
     } catch (e) {

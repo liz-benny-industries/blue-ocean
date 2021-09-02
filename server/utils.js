@@ -5,7 +5,6 @@ const distanceExists = async (model, userId, donationId) => {
   const result = await model.findOne({
     where: { donationId, userId },
   });
-  console.log('result:', result);
   return !!result;
 };
 
