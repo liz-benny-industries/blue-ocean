@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PostModal() {
   const classes = useStyles();
-  const { modal, setModal, userId } = useContext(AppContext);
+  const { modal, setModal, user } = useContext(AppContext);
   const blankDonationInfo = {
     title: '',
     description: '',
@@ -74,9 +74,7 @@ export default function PostModal() {
   };
 
   const donate = () => {
-    console.log(donationInfo);
-    console.log(userId);
-    if (userId) {
+    if (user) {
       getuserIdToken()
         .then((idToken) => {
           const headers = {

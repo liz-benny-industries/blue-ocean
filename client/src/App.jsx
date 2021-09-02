@@ -10,7 +10,8 @@ import AppContext from './Components/context';
 
 const App = () => {
   const [modal, setModal] = useState(null);
-  const [userId, setUserId] = useState(null);
+  // const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
   const [userFilter, setUserFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
@@ -20,9 +21,9 @@ const App = () => {
 
   useEffect(() => {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (newUser) => {
       if (user) {
-        setUserId(user.uid);
+        setUser(newUser);
       }
     });
   }, []);
@@ -48,8 +49,8 @@ const App = () => {
   const contextVal = {
     modal,
     setModal,
-    userId,
-    setUserId,
+    user,
+    setUser,
     searchFilter,
     setSearchFilter,
     userFilter,
