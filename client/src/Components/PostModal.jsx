@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import axios from 'axios';
@@ -15,7 +16,8 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core';
-import { getCurrentUserToken } from '../firebase';
+import AppContext from './context';
+import { getuserIdToken } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -42,9 +44,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PostModal({ setOpenPostModal }) {
+export default function PostModal() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const { modal, setModal, userId } = useContext(AppContext);
   const [donationInfo, setDonationInfo] = useState({
     title: '',
     description: '',
@@ -61,35 +63,34 @@ export default function PostModal({ setOpenPostModal }) {
     }
   };
 
-  const handleOpen = () => {
-    setOpenPostModal(true);
-  };
-
   const handleClose = () => {
-    setOpenPostModal(false);
+    setModal('');
   };
 
   const donate = () => {
     console.log(donationInfo);
-    getCurrentUserToken()
-      .then((idToken) => {
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        };
-        return axios.post(
-          '/donations',
-          { ...donationInfo, images: ['image.jpg'] },
-          { headers }
-        );
-      })
-      .then((res) => {
-        console.log('DONATION POST Successful');
-        handleClose();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    console.log(userId);
+    if (userId) {
+      getuserIdToken()
+        .then((idToken) => {
+          const headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`,
+          };
+          return axios.post(
+            '/donations',
+            { ...donationInfo, images: ['image.jpg'] },
+            { headers }
+          );
+        })
+        .then((res) => {
+          console.log('DONATION POST Successful');
+          handleClose();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -98,7 +99,7 @@ export default function PostModal({ setOpenPostModal }) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={setOpenPostModal}
+        open={modal === 'post'}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -106,7 +107,7 @@ export default function PostModal({ setOpenPostModal }) {
           timeout: 300,
         }}
       >
-        <Fade in={setOpenPostModal}>
+        <Fade in={modal === 'post'}>
           <div className={classes.paper}>
             <Typography variant="h4" id="transition-modal-title">
               Decribe the Item

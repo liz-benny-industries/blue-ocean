@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 const { Op } = require('sequelize');
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 const { sendMail } = require('../notification');
 
@@ -201,12 +200,11 @@ const DonationController = (router, connection) => {
     }
     const { uid } = req.user;
     const { email, title } = req.query;
-    console.log(email);
     const message = `
       <div>
-        Someone has claimed your item: ${title}!
-      </div>
-      <span>Please login to coordinate pick-up details!</span>`;
+        Someone has claimed your: ${title}! <br/>
+        Please login to coordinate pick-up details!
+      </div>`;
 
     try {
       const { donation: donationModel } = connection.models;
