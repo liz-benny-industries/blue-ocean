@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const { Op } = require('sequelize');
+const Sequelize = require('sequelize');
 /* eslint-disable no-console */
 const { sendMail } = require('../notification');
 const { getDistance, distanceExists } = require('../utils');
@@ -13,12 +13,13 @@ const DonationController = (router, connection) => {
     const {
       user, sortBy, orderBy, filter
     } = req.query;
-    console.log('filter:', filter);
     options.where = {
-      status: { [Op.eq]: 'active' },
-      [Op.or]: [
-        { title: { [Op.like]: `%${filter}%` } },
-        { '$donor.username$': { [Op.like]: `%${filter}%` } },
+      status: { [Sequelize.Op.eq]: 'active' },
+      [Sequelize.Op.or]: [
+        { title: { [Sequelize.Op.like]: `%${filter}%` } },
+        {
+          '$donor.username$': { [Sequelize.Op.like]: `%${filter}%` },
+        },
       ],
     };
     if (user) {
@@ -67,9 +68,17 @@ const DonationController = (router, connection) => {
           model: imageModel,
           required: true,
         },
-        { model: distanceModel, required: true },
+        {
+          model: distanceModel,
+          required: true,
+          where: {
+            donationId: { [Sequelize.Op.col]: 'donation.id' },
+          },
+          order: [['donation', 'distance', 'value', `${orderBy}`]],
+        },
       ];
-      // console.log('options:', options);
+
+      console.log('options:', options);
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
@@ -154,11 +163,14 @@ const DonationController = (router, connection) => {
       }
 
       const users = await userModel.findAll();
-      console.log('users:', users);
+
+      const { id: donationId, location: donationLocation } = newDonation;
       /* eslint-disable no-await-in-loop */
       for (let i = 0; i < users.length; i += 1) {
-        const { id: donationId, location: donationLocation } = newDonation;
         const { id: userId, defaultLocation: userLocation } = users[i];
+        if (!userLocation) {
+          continue;
+        }
         const distanceDoesExist = await distanceExists(
           distanceModel,
           userId,
