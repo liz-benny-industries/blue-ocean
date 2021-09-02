@@ -1,6 +1,6 @@
 /*eslint-disable*/
 
-import React, { useContext } from'react';
+import React, { useState, useContext } from'react';
 import { getAuth, signOut } from 'firebase/auth';
 import AppContext from '../Components/context';
 import {
@@ -106,6 +106,7 @@ const Navigation = () => {
     setUser,
    } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [myDonations, setMyDonations] = useState(false);
   const classes = useStyles();
 
   const filterDebounce = debounce(async (filter) => {
@@ -129,6 +130,16 @@ const Navigation = () => {
   const handlePostClick = () => {
     setModal('post');
   };
+
+  const handleMyDonations = () => {
+    if (myDonations) {
+      setSearchFilter('');
+      setMyDonations(false);
+    } else {
+      setSearchFilter(user.uid);
+      setMyDonations(true);
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -213,7 +224,7 @@ const Navigation = () => {
           <ListItemText
             className={classes.listItem}
             primary='My Donations'
-          >
+            onClick={handleMyDonations}>
             My Donations
           </ListItemText>
         </ListItem>
