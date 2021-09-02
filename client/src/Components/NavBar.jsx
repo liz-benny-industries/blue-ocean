@@ -111,7 +111,10 @@ const Navigation = () => {
   const filterDebounce = debounce(async (filter) => {
     if (filter.length > 2) {
       setSearchFilter(filter);
+    } else {
+      setSearchFilter('');
     }
+
     console.debug('filter:', filter);
   }, 500);
 
