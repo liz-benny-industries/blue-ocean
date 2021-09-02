@@ -25,9 +25,13 @@ const defineModels = (sequelize) => {
 
 const configureRelationships = (sequelize) => {
   try {
-    const { user, donation, image } = sequelize.models;
+    const {
+      user, donation, image, distance
+    } = sequelize.models;
     donation.belongsTo(user, { as: 'donor' }); // TODO: Should not be null
     donation.hasMany(image);
+    distance.hasOne(user);
+    distance.hasOne(donation);
   } catch (e) {
     console.error(e);
     throw e;

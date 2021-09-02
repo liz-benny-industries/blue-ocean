@@ -108,6 +108,7 @@ const DonationController = (router, connection) => {
         donation: donationModel,
         image: imageModel,
         user: userModel,
+        distance: distanceModel,
       } = connection.models;
       const {
         location, description, charitiesOnly, images, title
@@ -145,6 +146,13 @@ const DonationController = (router, connection) => {
           },
           { transaction: t }
         );
+      }
+
+      const users = await userModel.findAll();
+
+      for (let i = 0; i < users.length; i += 1) {
+        const donationId = newDonation.id;
+        const userId = users[i].id;
       }
 
       /* eslint-enable no-unused-expressions */
