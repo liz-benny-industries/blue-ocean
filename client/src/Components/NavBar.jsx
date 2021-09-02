@@ -1,7 +1,8 @@
 /*eslint-disable*/
 
-import React, { useEffect } from 'react';
+import React, { useContext } from'react';
 import { getAuth, signOut } from 'firebase/auth';
+import AppContext from '../Components/context';
 import {
   AppBar,
   Toolbar,
@@ -27,6 +28,7 @@ import {
 } from '@material-ui/icons';
 
 import { debounce } from '../utils';
+
 
 const useStyles = makeStyles((theme) => ({
   flatList: {
@@ -93,16 +95,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navigation = ({
-  currentUser,
-  setAuthOpen,
-  logOut,
-  setSearchFilter,
-  setSortBy,
-  setOpenPostModal,
-  setOrderByDesc,
-  orderByDesc,
-}) => {
+const Navigation = () => {
+  const {
+    userId,
+    setModal,
+    setSortBy,
+    setSearchFilter,
+    setOrderByDesc,
+    orderByDesc,
+    setUserId,
+   } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
@@ -122,7 +124,8 @@ const Navigation = ({
   };
 
   const handlePostClick = () => {
-    setOpenPostModal(true);
+    console.log(userId);
+    setModal('post');
   };
 
   return (
@@ -174,25 +177,26 @@ const Navigation = ({
             variant='contained'
             onClick={() => {
               const auth = getAuth();
-              currentUser
+              userId
                 ? signOut(auth)
                     .then(() => {
-                      logOut('');
+                      setUserId('');
+                      setModal('');
                     })
                     .catch((error) => {
                       console.log(error);
                     })
-                : setAuthOpen(true);
+                : setModal('auth');
             }}
           >
-            {currentUser ? 'Sign Out' : 'Sign In'}
+            {userId ? 'Sign Out' : 'Sign In'}
           </Button>
         </Toolbar>
       </AppBar>
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
-            onClick={handlePostClick}
+            onClick={() => {userId ? handlePostClick() : setModal('auth') }}
             className={classes.listItem}
             primary='Post a Donation'
           />

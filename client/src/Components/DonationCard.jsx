@@ -1,32 +1,30 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-u
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
 import Carousel from 'react-material-ui-carousel';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+
 import {
   Typography,
   Card,
   CardActions,
   CardActionArea,
-  CardContent,
+  // CardContent,
   CardMedia,
   Modal,
-  Paper,
+  // Paper,
   Backdrop,
   Button,
   Fade,
 } from '@material-ui/core';
-import { getCurrentUserToken } from '../firebase';
+import axios from 'axios';
+import AppContext from './context';
+import { getuserIdToken } from '../firebase';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 const items = [
@@ -89,16 +87,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DonationCard({
-  setOpenDonationCard,
-  donation,
-  currentDonation,
-  userIdToken,
-}) {
+export default function DonationCard() {
+  const {
+    setModal,
+    modal,
+    currentDonation,
+    userId
+  } = useContext(AppContext);
   const classes = useStyles();
 
+  let fireBaseIdToken = '';
+  const donationModalOpen = currentDonation && modal === 'donation';
+
+  (function () {
+    if (userId) {
+      getuserIdToken()
+        .then((idToken) => {
+          fireBaseIdToken = idToken;
+        });
+    }
+  }());
+
   const handleClose = () => {
-    setOpenDonationCard(false);
+    setModal('');
   };
 
   const handleClaim = () => {
@@ -109,29 +120,13 @@ export default function DonationCard({
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userIdToken}`,
+        Authorization: `Bearer ${fireBaseIdToken}`,
       },
     });
     handleClose();
   };
 
   const handleCancel = () => {
-    // relist the item (unclaim)
-    // getCurrentUserToken().then((idToken) => {
-    //   const headers = {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${idToken}`,
-    //   };
-    //   return axios
-    //     .put(`/donations/cancel/${donation.id}`, {
-    //       headers,
-    //     })
-    //     .then((response) => {
-    //       console.log('response:', response);
-    //       handleClose();
-    //     })
-    //     .catch((e) => console.error(e));
-
     const donationId = currentDonation.id;
     axios({
       method: 'put',
@@ -139,10 +134,12 @@ export default function DonationCard({
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userIdToken}`,
+        Authorization: `Bearer ${fireBaseIdToken}`,
       },
-    });
-    handleClose();
+    }).then(() => {
+      handleClose();
+    })
+      .catch((e) => console.error(e));
   };
 
   const handleDelete = () => {
@@ -155,7 +152,7 @@ export default function DonationCard({
         closeAfterTransition
         aria-labelledby="transition-donate-modal-title"
         aria-describedby="transition-donate-modal-description"
-        open={!!donation}
+        open={donationModalOpen}
         onClose={handleClose}
         className={classes.modal}
         BackdropComponent={Backdrop}
@@ -163,7 +160,7 @@ export default function DonationCard({
           timeout: 500,
         }}
       >
-        <Fade in={!!donation}>
+        <Fade in={donationModalOpen}>
           <div className={classes.paper}>
             <form
               noValidate
@@ -175,8 +172,8 @@ export default function DonationCard({
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    title={donation.title}
-                    image={donation.images[0].url}
+                    title={currentDonation && currentDonation.title}
+                    image={currentDonation && currentDonation.images[0].url}
                   />
                   {/* <CardContent>
                     <Carousel>
@@ -191,25 +188,27 @@ export default function DonationCard({
                   </CardContent> */}
                 </CardActionArea>
                 <CardActions className={classes.actions}>
-                  <Typography>{donation.donor.username}</Typography>
-                  <Typography>{donation.location}</Typography>
+                  <Typography>{currentDonation && currentDonation.donor.username}</Typography>
+                  <Typography>{currentDonation && currentDonation.location}</Typography>
                   <Button size="small" color="primary">
                     Share
                   </Button>
                 </CardActions>
               </Card>
               <Button
-                onClick={handleClaim}
+                onClick={() => { userId ? handleClaim() : setModal('auth'); }}
                 className={classes.button}
                 variant="contained"
                 color="primary"
               >
                 Claim
               </Button>
+              {currentDonation && userId === currentDonation.donor.id && (
               <div className={classes.userControls}>
                 <Button onClick={handleCancel}>Cancel Claim</Button>
                 <Button onClick={handleDelete}>Delete Post</Button>
               </div>
+              )}
             </form>
           </div>
         </Fade>
