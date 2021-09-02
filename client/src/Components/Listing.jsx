@@ -38,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Listing({
-  setOpenDonationCard,
+  setModal,
   donation,
   setCurrentDonation,
 }) {
   const classes = useStyles();
 
   const handleClick = () => {
-    setOpenDonationCard(true);
+    setModal('donation');
     setCurrentDonation(donation);
   };
 

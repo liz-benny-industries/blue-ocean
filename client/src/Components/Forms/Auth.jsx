@@ -5,7 +5,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Alert from '@material-ui/lab/Alert';
 import {
@@ -14,10 +14,12 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import axios from 'axios';
+import AppContext from '../context';
 import firebase from '../../firebase';
 import Modal from '../Helpers/Modal';
 
-const Auth = ({ isAuthOpen, setAuthOpen }) => {
+const Auth = () => {
+  const { modal, setModal } = useContext(AppContext);
   const [authInfo, setAuthInfo] = useState({
     username: '',
     email: '',
@@ -57,7 +59,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
         console.log('newly generated idToken: ', idToken);
         return axios.post('/users', authInfo, { headers });
       })
-      .then(() => { setAuthOpen(false); })
+      .then(() => { setModal(''); })
       .catch((err) => {
         setError(err.code);
       });
@@ -73,7 +75,7 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
       .then((userCredential) => {
         const { user } = userCredential;
       })
-      .then(() => { setAuthOpen(false); })
+      .then(() => { setModal(''); })
       .catch((err) => {
         setError(err.code);
       });
@@ -86,9 +88,9 @@ const Auth = ({ isAuthOpen, setAuthOpen }) => {
   return (
     <div className="UserForm">
       <Modal
-        isOpen={isAuthOpen}
+        isOpen={modal === 'auth'}
         close={() => {
-          setAuthOpen(false);
+          setModal('');
         }}
       >
         <h2

@@ -12,9 +12,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// export const getCurrentUserToken = () => {
-//   console.log('getCurrentUserToken got called!');
-// }
 export const getCurrentUserToken = () => getAuth().currentUser.getIdToken();
 
 export default firebase;

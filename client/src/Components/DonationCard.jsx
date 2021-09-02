@@ -1,44 +1,36 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-u
-/* eslint-disable max-len */
-import React from 'react';
+/* eslint-disable no-unused-expressions */
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Carousel from 'react-material-ui-carousel';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+// import Carousel from 'react-material-ui-carousel';
+
 import {
   Typography,
   Card,
   CardActions,
   CardActionArea,
-  CardContent,
+  // CardContent,
   CardMedia,
   Modal,
-  Paper,
+  // Paper,
   Backdrop,
   Button,
   Fade,
 } from '@material-ui/core';
 import axios from 'axios';
+import AppContext from './context';
 import { getCurrentUserToken } from '../firebase';
 
-const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
-const items = [
-  {
-    name: 'Random Name #1',
-    description: 'Probably the most random thing you have ever seen!',
-  },
-  {
-    name: 'Random Name #2',
-    description: 'Hello World!',
-  },
-];
+// const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
+// const items = [
+//   {
+//     name: 'Random Name #1',
+//     description: 'Probably the most random thing you have ever seen!',
+//   },
+//   {
+//     name: 'Random Name #2',
+//     description: 'Hello World!',
+//   },
+// ];
 
 // function Item(props) {
 //   return (
@@ -89,28 +81,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DonationCard({
-  setOpenDonationCard,
-  donation,
-  currentDonation,
-  userIdToken,
-}) {
+export default function DonationCard() {
+  const {
+    setModal,
+    modal,
+    currentDonation,
+    currentUser
+  } = useContext(AppContext);
   const classes = useStyles();
+  let fireBaseIdToken = '';
 
   const handleClose = () => {
-    setOpenDonationCard(false);
+    setModal('');
   };
+
+  (function () {
+    if (currentUser) {
+      getCurrentUserToken()
+        .then((idToken) => {
+          fireBaseIdToken = idToken;
+        });
+    }
+  }());
 
   const handleClaim = () => {
     const donationId = currentDonation.id;
-    console.log(currentDonation.title)
     axios({
       method: 'put',
       url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}&title=${currentDonation.title}`,
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userIdToken}`,
+        Authorization: `Bearer ${fireBaseIdToken}`,
       },
     });
     handleClose();
@@ -140,7 +142,7 @@ export default function DonationCard({
       baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userIdToken}`,
+        Authorization: `Bearer ${fireBaseIdToken}`,
       },
     });
     handleClose();
@@ -156,7 +158,7 @@ export default function DonationCard({
         closeAfterTransition
         aria-labelledby="transition-donate-modal-title"
         aria-describedby="transition-donate-modal-description"
-        open={!!donation}
+        open={currentDonation && modal === 'donation'}
         onClose={handleClose}
         className={classes.modal}
         BackdropComponent={Backdrop}
@@ -164,7 +166,7 @@ export default function DonationCard({
           timeout: 500,
         }}
       >
-        <Fade in={!!donation}>
+        <Fade in={currentDonation && modal === 'donation'}>
           <div className={classes.paper}>
             <form
               noValidate
@@ -176,8 +178,8 @@ export default function DonationCard({
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
-                    title={donation.title}
-                    image={donation.images[0].url}
+                    title={currentDonation && currentDonation.title}
+                    image={currentDonation && currentDonation.images[0].url}
                   />
                   {/* <CardContent>
                     <Carousel>
@@ -192,25 +194,27 @@ export default function DonationCard({
                   </CardContent> */}
                 </CardActionArea>
                 <CardActions className={classes.actions}>
-                  <Typography>{donation.donor.username}</Typography>
-                  <Typography>{donation.location}</Typography>
+                  <Typography>{currentDonation && currentDonation.donor.username}</Typography>
+                  <Typography>{currentDonation && currentDonation.location}</Typography>
                   <Button size="small" color="primary">
                     Share
                   </Button>
                 </CardActions>
               </Card>
               <Button
-                onClick={handleClaim}
+                onClick={() => { currentUser ? handleClaim : setModal('auth'); }}
                 className={classes.button}
                 variant="contained"
                 color="primary"
               >
                 Claim
               </Button>
+              {currentDonation && currentUser === currentDonation.donor.id && (
               <div className={classes.userControls}>
                 <Button onClick={handleCancel}>Cancel Claim</Button>
                 <Button onClick={handleDelete}>Delete Post</Button>
               </div>
+              )}
             </form>
           </div>
         </Fade>
