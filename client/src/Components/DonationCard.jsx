@@ -202,7 +202,7 @@ export default function DonationCard() {
                 </CardActions>
               </Card>
               <Button
-                onClick={() => {currentUser ? handleClaim : setModal('auth'); }}
+                onClick={() => { currentUser ? handleClaim : setModal('auth'); }}
                 className={classes.button}
                 variant="contained"
                 color="primary"

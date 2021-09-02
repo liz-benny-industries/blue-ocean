@@ -28,7 +28,7 @@ import {
 } from '@material-ui/icons';
 
 import { debounce } from '../utils';
-import { useEffect } from 'react';
+
 
 const useStyles = makeStyles((theme) => ({
   flatList: {
