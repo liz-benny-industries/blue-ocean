@@ -14,7 +14,8 @@ const App = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [userIdToken, setUserIdToken] = useState('');
-  const [filter, setFilter] = useState('');
+  const [searchFilter, setSearchFilter] = useState('');
+  const [userFilter, setUserFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [orderByDesc, setOrderByDesc] = useState(true);
 
@@ -22,7 +23,6 @@ const App = () => {
   const [currentDonation, setCurrentDonation] = useState(null);
   const [openDonationCard, setOpenDonationCard] = React.useState(false);
   const [openPostModal, setOpenPostModal] = React.useState(false);
-  const [refetch, setRefetch] = React.useState(false);
 
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -39,7 +39,8 @@ const App = () => {
     axios
       .get('/donations', {
         params: {
-          filter,
+          user: userFilter,
+          filter: searchFilter,
           sortBy,
           orderBy: orderByDesc ? 'DESC' : 'ASC',
         },
@@ -50,7 +51,7 @@ const App = () => {
       .catch((e) => {
         console.error(e);
       });
-  }, [filter, sortBy, orderByDesc, refetch]);
+  }, [searchFilter, sortBy, orderByDesc]);
 
   return (
     <div>
@@ -59,7 +60,7 @@ const App = () => {
         currentUser={currentUser}
         setAuthOpen={setAuthOpen}
         logOut={setCurrentUser}
-        setFilter={setFilter}
+        setSearchFilter={setSearchFilter}
         setSortBy={setSortBy}
         setOrderByDesc={setOrderByDesc}
         orderByDesc={orderByDesc}
