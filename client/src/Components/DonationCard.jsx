@@ -126,7 +126,7 @@ export default function DonationCard() {
     handleClose();
   };
 
-  const handleCancel = () => {
+  const handleDelete = () => {
     const donationId = currentDonation.id;
     axios({
       method: 'put',
@@ -140,10 +140,6 @@ export default function DonationCard() {
       handleClose();
     })
       .catch((e) => console.error(e));
-  };
-
-  const handleDelete = () => {
-    // delete the listing
   };
 
   return (
@@ -205,7 +201,7 @@ export default function DonationCard() {
               </Button>
               {currentDonation && user && user.uid === currentDonation.donor.id && (
               <div className={classes.userControls}>
-                <Button onClick={handleCancel}>Cancel Claim</Button>
+                <Button onClick={() => {}}>Cancel Claim</Button>
                 <Button onClick={handleDelete}>Delete Post</Button>
               </div>
               )}
