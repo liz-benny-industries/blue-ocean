@@ -24,7 +24,7 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import AppContext from './context';
-import { getuserIdToken } from '../firebase';
+import { getUserIdToken } from '../firebase';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 const items = [
@@ -101,7 +101,7 @@ export default function DonationCard() {
 
   (function () {
     if (user) {
-      getuserIdToken()
+      getUserIdToken()
         .then((idToken) => {
           fireBaseIdToken = idToken;
         });

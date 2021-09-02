@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import React, { useState, useContext } from 'react';
+import React, { useReducer, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import axios from 'axios';
@@ -17,7 +17,7 @@ import {
   Checkbox,
 } from '@material-ui/core';
 import AppContext from './context';
-import { getuserIdToken } from '../firebase';
+import { getUserIdToken } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -44,28 +44,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initialInputs = {
+  title: '',
+  description: '',
+  location: '',
+  charitiesOnly: false,
+};
+
+function inputReducer(state, action) {
+  switch (action.type) {
+    case 'field': {
+      return {
+        ...state,
+        [action.name]: action.value,
+      };
+    }
+    case 'reset': {
+      return initialInputs;
+    }
+    default:
+      return state;
+  }
+}
+
 export default function PostModal() {
   const classes = useStyles();
   const { modal, setModal, user } = useContext(AppContext);
-  const blankDonationInfo = {
-    title: '',
-    description: '',
-    location: '',
-    charitiesOnly: false,
-  };
-  const [donationInfo, setDonationInfo] = useState(blankDonationInfo);
+  const [inputState, dispatch] = useReducer(inputReducer, initialInputs);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'charitiesOnly') {
-      setDonationInfo({ ...donationInfo, [name]: e.target.checked });
-    } else {
-      setDonationInfo({ ...donationInfo, [name]: value });
-    }
+    const { name } = e.target;
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    dispatch({ type: 'field', name, value });
   };
 
   const resetInputs = () => {
-    setDonationInfo(blankDonationInfo);
+    dispatch({ type: 'reset' });
   };
 
   const handleClose = () => {
@@ -75,7 +89,7 @@ export default function PostModal() {
 
   const donate = () => {
     if (user) {
-      getuserIdToken()
+      getUserIdToken()
         .then((idToken) => {
           const headers = {
             'Content-Type': 'application/json',
@@ -83,7 +97,7 @@ export default function PostModal() {
           };
           return axios.post(
             '/donations',
-            { ...donationInfo, images: ['image.jpg'] },
+            { ...inputState, images: ['image.jpg'] },
             { headers }
           );
         })
@@ -129,7 +143,7 @@ export default function PostModal() {
                 label="Item Title"
                 type="item-title"
                 name="title"
-                value={donationInfo.title}
+                value={inputState.title}
                 onChange={handleInputChange}
                 style={{ margin: '1rem' }}
               />
@@ -140,7 +154,7 @@ export default function PostModal() {
                 type="item-title"
                 name="location"
                 onChange={handleInputChange}
-                value={donationInfo.location}
+                value={inputState.location}
                 style={{ margin: '1rem' }}
               />
               <TextField
@@ -153,13 +167,13 @@ export default function PostModal() {
                 variant="outlined"
                 name="description"
                 onChange={handleInputChange}
-                value={donationInfo.descripton}
+                value={inputState.descripton}
                 style={{ margin: '1rem' }}
               />
               <FormControlLabel
                 control={(
                   <Checkbox
-                    checked={donationInfo.charitiesOnly}
+                    checked={inputState.charitiesOnly}
                     onChange={handleInputChange}
                     name="charitiesOnly"
                     color="primary"

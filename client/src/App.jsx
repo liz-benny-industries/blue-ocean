@@ -10,7 +10,6 @@ import AppContext from './Components/context';
 
 const App = () => {
   const [modal, setModal] = useState(null);
-  // const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
   const [userFilter, setUserFilter] = useState('');
@@ -22,7 +21,7 @@ const App = () => {
   useEffect(() => {
     const auth = getAuth();
     onAuthStateChanged(auth, (newUser) => {
-      if (user) {
+      if (newUser) {
         setUser(newUser);
       }
     });
