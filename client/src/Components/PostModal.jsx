@@ -17,7 +17,7 @@ import {
   Checkbox,
 } from '@material-ui/core';
 import AppContext from './context';
-import { getCurrentUserToken } from '../firebase';
+import { getuserIdToken } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PostModal() {
   const classes = useStyles();
-  const { modal, setModal, currentUser } = useContext(AppContext);
+  const { modal, setModal, userId } = useContext(AppContext);
   const [donationInfo, setDonationInfo] = useState({
     title: '',
     description: '',
@@ -69,25 +69,28 @@ export default function PostModal() {
 
   const donate = () => {
     console.log(donationInfo);
-    currentUser && getCurrentUserToken()
-      .then((idToken) => {
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        };
-        return axios.post(
-          '/donations',
-          { ...donationInfo, images: ['image.jpg'] },
-          { headers }
-        );
-      })
-      .then((res) => {
-        console.log('DONATION POST Successful');
-        handleClose();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    console.log(userId);
+    if (userId) {
+      getuserIdToken()
+        .then((idToken) => {
+          const headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`,
+          };
+          return axios.post(
+            '/donations',
+            { ...donationInfo, images: ['image.jpg'] },
+            { headers }
+          );
+        })
+        .then((res) => {
+          console.log('DONATION POST Successful');
+          handleClose();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (

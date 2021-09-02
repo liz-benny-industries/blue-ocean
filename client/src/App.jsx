@@ -9,8 +9,8 @@ import PostModal from './Components/PostModal';
 import AppContext from './Components/context';
 
 const App = () => {
-  const [modal, setModal] = useState('');
-  const [currentUser, setCurrentUser] = useState(null);
+  const [modal, setModal] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
   const [userFilter, setUserFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
@@ -21,7 +21,7 @@ const App = () => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      setCurrentUser(user.uid);
+      setUserId(user.uid);
     }
   });
 
@@ -46,8 +46,8 @@ const App = () => {
   const contextVal = {
     modal,
     setModal,
-    currentUser,
-    setCurrentUser,
+    userId,
+    setUserId,
     searchFilter,
     setSearchFilter,
     userFilter,

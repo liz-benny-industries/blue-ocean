@@ -19,7 +19,7 @@ import firebase from '../../firebase';
 import Modal from '../Helpers/Modal';
 
 const Auth = () => {
-  const { modal, setModal, setCurrentUser } = useContext(AppContext);
+  const { modal, setModal, setUserId } = useContext(AppContext);
   const [authInfo, setAuthInfo] = useState({
     username: '',
     email: '',

@@ -192,11 +192,6 @@ const DonationController = (router, connection) => {
     }
     const { uid } = req.user;
     const { email, title } = req.query;
-    console.log(email);
-<<<<<<< HEAD
-    console.log(title);
-=======
->>>>>>> a1e753fc0789658b7b673b93229dd1e7ef2f7f0d
     const message = `
       <div>
         Someone has claimed your: ${title}! <br/>

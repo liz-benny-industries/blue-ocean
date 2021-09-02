@@ -1,7 +1,13 @@
-/* eslint-disable no-unused-expressions */
-import React, { useContext } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-u
+/* eslint-disable max-len */
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-// import Carousel from 'react-material-ui-carousel';
+import Carousel from 'react-material-ui-carousel';
 
 import {
   Typography,
@@ -18,19 +24,19 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import AppContext from './context';
-import { getCurrentUserToken } from '../firebase';
+import { getuserIdToken } from '../firebase';
 
-// const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
-// const items = [
-//   {
-//     name: 'Random Name #1',
-//     description: 'Probably the most random thing you have ever seen!',
-//   },
-//   {
-//     name: 'Random Name #2',
-//     description: 'Hello World!',
-//   },
-// ];
+const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
+const items = [
+  {
+    name: 'Random Name #1',
+    description: 'Probably the most random thing you have ever seen!',
+  },
+  {
+    name: 'Random Name #2',
+    description: 'Hello World!',
+  },
+];
 
 // function Item(props) {
 //   return (
@@ -86,23 +92,25 @@ export default function DonationCard() {
     setModal,
     modal,
     currentDonation,
-    currentUser
+    userId
   } = useContext(AppContext);
   const classes = useStyles();
-  let fireBaseIdToken = '';
 
-  const handleClose = () => {
-    setModal('');
-  };
+  let fireBaseIdToken = '';
+  const donationModalOpen = currentDonation && modal === 'donation';
 
   (function () {
-    if (currentUser) {
-      getCurrentUserToken()
+    if (userId) {
+      getuserIdToken()
         .then((idToken) => {
           fireBaseIdToken = idToken;
         });
     }
   }());
+
+  const handleClose = () => {
+    setModal('');
+  };
 
   const handleClaim = () => {
     const donationId = currentDonation.id;
@@ -119,22 +127,6 @@ export default function DonationCard() {
   };
 
   const handleCancel = () => {
-    // relist the item (unclaim)
-    // getCurrentUserToken().then((idToken) => {
-    //   const headers = {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${idToken}`,
-    //   };
-    //   return axios
-    //     .put(`/donations/cancel/${donation.id}`, {
-    //       headers,
-    //     })
-    //     .then((response) => {
-    //       console.log('response:', response);
-    //       handleClose();
-    //     })
-    //     .catch((e) => console.error(e));
-
     const donationId = currentDonation.id;
     axios({
       method: 'put',
@@ -144,8 +136,10 @@ export default function DonationCard() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${fireBaseIdToken}`,
       },
-    });
-    handleClose();
+    }).then(() => {
+      handleClose();
+    })
+      .catch((e) => console.error(e));
   };
 
   const handleDelete = () => {
@@ -158,7 +152,7 @@ export default function DonationCard() {
         closeAfterTransition
         aria-labelledby="transition-donate-modal-title"
         aria-describedby="transition-donate-modal-description"
-        open={currentDonation && modal === 'donation'}
+        open={donationModalOpen}
         onClose={handleClose}
         className={classes.modal}
         BackdropComponent={Backdrop}
@@ -166,7 +160,7 @@ export default function DonationCard() {
           timeout: 500,
         }}
       >
-        <Fade in={currentDonation && modal === 'donation'}>
+        <Fade in={donationModalOpen}>
           <div className={classes.paper}>
             <form
               noValidate
@@ -202,14 +196,14 @@ export default function DonationCard() {
                 </CardActions>
               </Card>
               <Button
-                onClick={() => { currentUser ? handleClaim : setModal('auth'); }}
+                onClick={() => { userId ? handleClaim() : setModal('auth'); }}
                 className={classes.button}
                 variant="contained"
                 color="primary"
               >
                 Claim
               </Button>
-              {currentDonation && currentUser === currentDonation.donor.id && (
+              {currentDonation && userId === currentDonation.donor.id && (
               <div className={classes.userControls}>
                 <Button onClick={handleCancel}>Cancel Claim</Button>
                 <Button onClick={handleDelete}>Delete Post</Button>
