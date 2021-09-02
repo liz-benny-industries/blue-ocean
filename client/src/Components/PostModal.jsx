@@ -47,12 +47,13 @@ const useStyles = makeStyles((theme) => ({
 export default function PostModal() {
   const classes = useStyles();
   const { modal, setModal, userId } = useContext(AppContext);
-  const [donationInfo, setDonationInfo] = useState({
+  const blankDonationInfo = {
     title: '',
     description: '',
     location: '',
-    charitiesOnly: 'false',
-  });
+    charitiesOnly: false,
+  };
+  const [donationInfo, setDonationInfo] = useState(blankDonationInfo);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,8 +64,13 @@ export default function PostModal() {
     }
   };
 
+  const resetInputs = () => {
+    setDonationInfo(blankDonationInfo);
+  };
+
   const handleClose = () => {
     setModal('');
+    resetInputs();
   };
 
   const donate = () => {
@@ -110,7 +116,7 @@ export default function PostModal() {
         <Fade in={modal === 'post'}>
           <div className={classes.paper}>
             <Typography variant="h4" id="transition-modal-title">
-              Decribe the Item
+              Describe the Item
             </Typography>
             <form
               require
