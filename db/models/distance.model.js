@@ -11,7 +11,7 @@ module.exports = (sequelize) => sequelize.define('distance', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-  distance: {
+  text: {
     type: DataTypes.STRING,
     allowNull: false,
   },

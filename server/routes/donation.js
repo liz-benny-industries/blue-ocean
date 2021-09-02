@@ -2,6 +2,7 @@
 const { Op } = require('sequelize');
 /* eslint-disable no-console */
 const { sendMail } = require('../notification');
+const { getDistance, distanceExists } = require('../utils');
 
 // * example googleId: AiprFavvEEePTwTSooHpgK7OA832
 
@@ -54,6 +55,7 @@ const DonationController = (router, connection) => {
         donation: donationModel,
         user: userModel,
         image: imageModel,
+        distance: distanceModel,
       } = connection.models;
       options.include = [
         {
@@ -65,6 +67,7 @@ const DonationController = (router, connection) => {
           model: imageModel,
           required: true,
         },
+        { model: distanceModel, required: true },
       ];
       // console.log('options:', options);
       const newDonations = await donationModel.findAll(options);
@@ -128,6 +131,9 @@ const DonationController = (router, connection) => {
         },
         { transaction: t }
       );
+
+      await newDonation.save(); // * Save so ID can be found
+
       /* eslint-disable no-unused-expressions */
       if (images.length > 1) {
         await imageModel.bulkCreate(
@@ -148,15 +154,61 @@ const DonationController = (router, connection) => {
       }
 
       const users = await userModel.findAll();
+      console.log('users:', users);
 
-      for (let i = 0; i < users.length; i += 1) {
-        const donationId = newDonation.id;
-        const userId = users[i].id;
-      }
+      const distancePromises = users.map(
+        (user) => new Promise((resolve, reject) => {
+          const { location: donationLocation, id: donationId } = newDonation;
+          const { defaultLocation: userLocation, id: userId } = user;
 
-      /* eslint-enable no-unused-expressions */
-      await t.commit();
-      return res.status(201).end();
+          distanceExists(distanceModel, userId, donationId).then(
+            (distanceDoesExist) => {
+              if (!distanceDoesExist) {
+                getDistance(userLocation, donationLocation)
+                  .then(([text, value]) => {
+                    distanceModel
+                      .create(
+                        {
+                          text,
+                          value,
+                          userId,
+                          donationId,
+                        },
+                        { transaction: t }
+                      )
+                      .then(() => {
+                        resolve(true);
+                      })
+                      .catch((e) => {
+                        console.error(e);
+                        console.debug(
+                          'Distance could not be created... Rolling back'
+                        );
+                        t.rollback().then(() => {
+                          reject(e);
+                        });
+                      });
+                  })
+                  .catch((e) => {
+                    console.error(e);
+                    console.debug(
+                      'Distance could not be calculated... Rolling back'
+                    );
+                    t.rollback().then(() => {
+                      reject(e);
+                    });
+                  });
+              }
+            }
+          );
+        })
+      );
+
+      Promise.allSettled(distancePromises)
+        .then(() => {
+          t.commit().then(() => res.status(201).end());
+        })
+        .catch((e) => res.status(501).send('Distances could not be calculated'));
     } catch (e) {
       console.error(e);
       return res.status(500).end();
