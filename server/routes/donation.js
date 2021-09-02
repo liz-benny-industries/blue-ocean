@@ -17,7 +17,7 @@ const DonationController = (router, connection) => {
       status: { [Op.eq]: 'active' },
       [Op.or]: [
         { title: { [Op.like]: `%${filter}%` } },
-        { '$donor.id$': { [Op.like]: `%${filter}%` } },
+        { '$donor.username$': { [Op.like]: `%${filter}%` } },
       ],
     };
     if (user) {

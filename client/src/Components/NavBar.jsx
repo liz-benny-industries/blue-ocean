@@ -131,16 +131,6 @@ const Navigation = () => {
     setModal('post');
   };
 
-  const handleMyDonations = () => {
-    if (myDonations) {
-      setSearchFilter('');
-      setMyDonations(false);
-    } else {
-      setSearchFilter(user.uid);
-      setMyDonations(true);
-    }
-  }
-
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -223,8 +213,7 @@ const Navigation = () => {
         <ListItem button>
           <ListItemText
             className={classes.listItem}
-            primary='My Donations'
-            onClick={handleMyDonations}>
+            primary='My Donations'>
             My Donations
           </ListItemText>
         </ListItem>
