@@ -100,6 +100,7 @@ const Navigation = () => {
     currentUser,
     setModal,
     setSortBy,
+    setSearchFilter,
     setOrderByDesc,
     orderByDesc,
     setCurrentUser,

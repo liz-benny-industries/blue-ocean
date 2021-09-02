@@ -11,12 +11,12 @@ import AppContext from './Components/context';
 const App = () => {
   const [modal, setModal] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
-  const [filter, setFilter] = useState('');
+  const [searchFilter, setSearchFilter] = useState('');
+  const [userFilter, setUserFilter] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [orderByDesc, setOrderByDesc] = useState(true);
   const [donations, setDonations] = useState([]);
   const [currentDonation, setCurrentDonation] = useState(null);
-  const [refetch, setRefetch] = React.useState(false);
 
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -29,7 +29,8 @@ const App = () => {
     axios
       .get('/donations', {
         params: {
-          filter,
+          user: userFilter,
+          filter: searchFilter,
           sortBy,
           orderBy: orderByDesc ? 'DESC' : 'ASC',
         },
@@ -40,15 +41,17 @@ const App = () => {
       .catch((e) => {
         console.error(e);
       });
-  }, [filter, sortBy, orderByDesc, modal]);
+  }, [searchFilter, sortBy, orderByDesc, modal]);
 
   const contextVal = {
     modal,
     setModal,
     currentUser,
     setCurrentUser,
-    filter,
-    setFilter,
+    searchFilter,
+    setSearchFilter,
+    userFilter,
+    setUserFilter,
     sortBy,
     setSortBy,
     orderByDesc,
@@ -57,8 +60,7 @@ const App = () => {
     setDonations,
     currentDonation,
     setCurrentDonation,
-    refetch,
-    setRefetch
+
   };
 
   return (
