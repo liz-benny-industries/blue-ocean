@@ -1,5 +1,4 @@
 /*eslint-disable*/
-
 import React, { useContext } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import AppContext from '../Components/context';
@@ -111,7 +110,10 @@ const Navigation = () => {
   const filterDebounce = debounce(async (filter) => {
     if (filter.length > 2) {
       setSearchFilter(filter);
+    } else {
+      setSearchFilter('');
     }
+
     console.debug('filter:', filter);
   }, 500);
 
@@ -169,8 +171,10 @@ const Navigation = () => {
             color='inherit'
             aria-label='open drawer'
           >
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <AccountCircleOutlined fontSize='large' />
-            {}
+            <span style={{ fontSize: '1rem'}}>{user && user.email}</span>
+          </div>
           </IconButton>
           <Button
             variant='contained'
@@ -211,8 +215,7 @@ const Navigation = () => {
         <ListItem button>
           <ListItemText
             className={classes.listItem}
-            primary='My Donations'
-          >
+            primary='My Donations'>
             My Donations
           </ListItemText>
         </ListItem>
