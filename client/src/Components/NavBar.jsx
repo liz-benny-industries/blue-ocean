@@ -102,8 +102,8 @@ const Navigation = () => {
     setSearchFilter,
     setOrderByDesc,
     orderByDesc,
-		sortBy,
-		setUser,
+    sortBy,
+    setUser,
   } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
@@ -195,7 +195,9 @@ const Navigation = () => {
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
-            onClick={() => {user ? handlePostClick() : setModal('auth') }}
+            onClick={() => {
+              user ? handlePostClick() : setModal('auth');
+            }}
             className={classes.listItem}
             primary='Post a Donation'
           />
@@ -240,9 +242,9 @@ const Navigation = () => {
             Proximity
             {sortBy === 'Proximity' ? (
               orderByDesc ? (
-                <ArrowDropDown />
-              ) : (
                 <ArrowDropUp />
+              ) : (
+                <ArrowDropDown />
               )
             ) : null}
           </MenuItem>

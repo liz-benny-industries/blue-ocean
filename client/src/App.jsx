@@ -44,7 +44,6 @@ const App = () => {
         console.error(e);
       });
   }, [searchFilter, sortBy, orderByDesc, modal]);
-  console.log('donations:', donations);
 
   const contextVal = {
     modal,
