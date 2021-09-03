@@ -1,3 +1,5 @@
+const { getDistance } = require('../utils');
+
 const UserController = (router, connection) => {
   router.get('/users/:user_id', async (req, res) => {
     try {
@@ -20,22 +22,55 @@ const UserController = (router, connection) => {
     }
     const { uid } = req.user;
     try {
-      const { user: userModel } = connection.models;
+      const t = await connection.transaction();
       const {
-        isIndividual, username, email
-      } = req.body;
+        user: userModel,
+        donation: donationModel,
+        distance: distanceModel,
+      } = connection.models;
+      const { isIndividual, username, email } = req.body;
       const defaultLocation = req.body.defaultLocation || null;
 
-      const newUser = await userModel.create({
-        id: uid,
-        isIndividual,
-        username,
-        email,
-        defaultLocation,
-      });
+      const newUser = await userModel.create(
+        {
+          id: uid,
+          isIndividual,
+          username,
+          email,
+          defaultLocation,
+        },
+        { transaction: t }
+      );
+
       if (!newUser) {
         return res.status(406).send('User could not be created');
       }
+      await newUser.save();
+
+      const donations = await donationModel.findAll({});
+      const { id: userId, defaultLocation: userLocation } = newUser;
+
+      if (userLocation) {
+        /* eslint-disable no-await-in-loop */
+        for (let i = 0; i < donations.length; i += 1) {
+          const { id: donationId, location: donationLocation } = donations[i];
+          const [text, value] = await getDistance(
+            userLocation,
+            donationLocation
+          );
+          await distanceModel.create(
+            {
+              text,
+              value,
+              userId,
+              donationId,
+            },
+            { transaction: t }
+          );
+        }
+        /* eslint-enable no-await-in-loop */
+      }
+      await t.commit();
       return res.status(201).send(newUser);
     } catch (e) {
       console.error(e);
@@ -61,7 +96,7 @@ const UserController = (router, connection) => {
           where: {
             id,
           },
-        },
+        }
       );
       return res.status(201).end();
     } catch (e) {
