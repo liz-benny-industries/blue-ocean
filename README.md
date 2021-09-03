@@ -50,3 +50,5 @@ Deeper than a puddle, as wide as the sky.
 <!--  testing-library -->
 
 ### **KAPOW**
+
+*We have no official or unofficial affiliation with Liz Benny, and do not represent her. We are fans paying homage, and admire her speaking skills.*
