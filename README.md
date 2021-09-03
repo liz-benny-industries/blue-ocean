@@ -10,7 +10,7 @@ Deeper than a puddle, as wide as the sky.
 - API Keys:
   - Firebase Private Key for Authentication
   - Google OAuth Key for Email Notifications
-  - Google Maps API Key for Distance Finding
+  - ![Google Maps](https://developers.google.com/maps/documentation) API Key for Distance Finding
   - Amazon S3 Keys for Image Storage
 
 ## Run Instructions
@@ -23,32 +23,27 @@ Deeper than a puddle, as wide as the sky.
 
 ## Technologies
 
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+
 ![Material UI](https://img.shields.io/badge/materialui-%230081CB.svg?style=for-the-badge&logo=material-ui&logoColor=white)
 
-<!-- JavaScript -->
-<img align="center" alt="Material-UI" src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
+![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
 
-<!-- Material-UI -->
-<img align="center" alt="Material-UI" src="https://img.shields.io/badge/materialui-%230081CB.svg?style=for-the-badge&logo=material-ui&logoColor=white"/>
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
-<!-- Firebase -->
-<img align="center" alt="Firebase" src="https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase"/>
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 
-<!-- AWS -->
-<img align="center" alt="AWS" src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white"/>
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
-<!-- express -->
-<img align="center" alt="Express.js" src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB"/>
+![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 
-<!--  postgresql -->
-<img align="center" alt="Postgres" src ="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/>
+![Babel](https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black)
 
-<!--  eslint -->
-<img align="center" alt="Eslint" src ="https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white"/>
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 
-<!--  jest -->
-<!--  testing-library -->
+<!-- ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white) -->
+<!-- ![Testing-Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white) -->
 
 ### **KAPOW**
 
-*We have no official or unofficial affiliation with Liz Benny, and do not represent her. We are fans paying homage, and admire her speaking skills.*
+_We have no official or unofficial affiliation with Liz Benny, and do not represent her. We are fans paying homage, and admire her speaking skills._
