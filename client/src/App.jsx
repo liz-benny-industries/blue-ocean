@@ -7,6 +7,7 @@ import DonationList from './Components/DonationList';
 import DonationCard from './Components/DonationCard';
 import PostModal from './Components/PostModal';
 import AppContext from './Components/context';
+import { getUserIdToken } from './firebase';
 
 const App = () => {
   const [modal, setModal] = useState(null);
@@ -27,7 +28,15 @@ const App = () => {
     });
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    if (userFilter) {
+      await getUserIdToken().then((idToken) => {
+        headers.Authorization = `Bearer ${idToken}`;
+      });
+    }
     axios
       .get('/donations', {
         params: {
@@ -36,6 +45,7 @@ const App = () => {
           sortBy,
           orderBy: orderByDesc ? 'DESC' : 'ASC',
         },
+        headers,
       })
       .then((response) => {
         setDonations(response.data);
@@ -43,7 +53,7 @@ const App = () => {
       .catch((e) => {
         console.error(e);
       });
-  }, [searchFilter, sortBy, orderByDesc, modal]);
+  }, [searchFilter, userFilter, sortBy, orderByDesc, modal]);
 
   const contextVal = {
     modal,

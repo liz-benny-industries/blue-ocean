@@ -103,6 +103,7 @@ const Navigation = () => {
     orderByDesc,
     sortBy,
     setUser,
+    setUserFilter,
   } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
@@ -171,10 +172,18 @@ const Navigation = () => {
             color='inherit'
             aria-label='open drawer'
           >
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <AccountCircleOutlined fontSize='large' />
-            <span style={{ fontSize: '1rem'}}>{user && user.email}</span>
-          </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <AccountCircleOutlined fontSize='large' />
+              <span style={{ fontSize: '1rem' }}>
+                {user && user.email}
+              </span>
+            </div>
           </IconButton>
           <Button
             variant='contained'
@@ -206,19 +215,30 @@ const Navigation = () => {
             primary='Post a Donation'
           />
         </ListItem>
-        <ListItem button>
+        <ListItem
+          onClick={() => {
+            setUserFilter('');
+          }}
+          button
+        >
           <ListItemText
             className={classes.listItem}
             primary='Browse'
           />
         </ListItem>
-        <ListItem button>
-          <ListItemText
-            className={classes.listItem}
-            primary='My Donations'>
-            My Donations
-          </ListItemText>
-        </ListItem>
+        {user ? (
+          <ListItem button>
+            <ListItemText
+              onClick={() => {
+                setUserFilter('donor');
+              }}
+              className={classes.listItem}
+              primary='My Donations'
+            >
+              My Donations
+            </ListItemText>
+          </ListItem>
+        ) : null}
         <ListItem button>
           <ListItemText
             onClick={handleClick}
