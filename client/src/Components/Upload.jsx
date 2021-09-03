@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import AWS from 'aws-sdk';
 import AppContext from './context';
+import config from '../../../config/config';
+
 const S3_BUCKET = 'blue-ocean-images';
 const REGION = 'us-east-2';
 
 AWS.config.update({
-  accessKeyId: '',
-  secretAccessKey: ''
+  accessKeyId: config.ACCESS_KEY,
+  secretAccessKey: config.SECRET,
 });
 
 const myBucket = new AWS.S3({
@@ -29,10 +31,11 @@ const UploadImageToS3WithNativeSdk = ({ setImageURL }) => {
       ACL: 'public-read',
       Body: file,
       Bucket: S3_BUCKET,
-      Key: fileName
+      Key: fileName,
     };
 
-    myBucket.putObject(params)
+    myBucket
+      .putObject(params)
       .on('httpUploadProgress', (evt) => {
         setProgress(Math.round((evt.loaded / evt.total) * 100));
       })
@@ -40,7 +43,9 @@ const UploadImageToS3WithNativeSdk = ({ setImageURL }) => {
         if (err) {
           console.log(err);
         } else {
-          setImageURL(`https://blue-ocean-images.s3.us-east-2.amazonaws.com/${fileName}`);
+          setImageURL(
+            `https://blue-ocean-images.s3.us-east-2.amazonaws.com/${fileName}`
+          );
         }
       });
   };
@@ -48,9 +53,16 @@ const UploadImageToS3WithNativeSdk = ({ setImageURL }) => {
   return (
     <div>
       <div>
-        Native SDK File Upload Progress is {progress}%</div>
+        Native SDK File Upload Progress is
+        {' '}
+        {progress}
+        %
+      </div>
       <input type="file" onChange={handleFileInput} />
-      <button type="button" onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
+      <button type="button" onClick={() => uploadFile(selectedFile)}>
+        {' '}
+        Upload to S3
+      </button>
     </div>
   );
 };
