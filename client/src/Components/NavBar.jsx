@@ -169,8 +169,10 @@ const Navigation = () => {
             color='inherit'
             aria-label='open drawer'
           >
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <AccountCircleOutlined fontSize='large' />
-            {}
+            <span style={{ fontSize: '1rem'}}>{user && user.email}</span>
+          </div>
           </IconButton>
           <Button
             variant='contained'
