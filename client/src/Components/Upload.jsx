@@ -49,18 +49,15 @@ const UploadImageToS3WithNativeSdk = ({ setImageURL }) => {
         }
       });
   };
-  // https://blue-ocean-images.s3.us-east-2.amazonaws.com/
   return (
     <div>
       <div>
         Native SDK File Upload Progress is
-        {' '}
         {progress}
         %
       </div>
       <input type="file" onChange={handleFileInput} />
       <button type="button" onClick={() => uploadFile(selectedFile)}>
-        {' '}
         Upload to S3
       </button>
     </div>

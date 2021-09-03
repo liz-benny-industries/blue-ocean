@@ -31,7 +31,6 @@ const App = () => {
   useEffect(async () => {
     const headers = {
       'Content-Type': 'application/json',
-      // Authorization: `Bearer ${idToken}`,
     };
     if (userFilter) {
       await getUserIdToken().then((idToken) => {
