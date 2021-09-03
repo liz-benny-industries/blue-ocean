@@ -171,7 +171,9 @@ const DonationController = (router, connection) => {
       for (let i = 0; i < users.length; i += 1) {
         const { id: userId, defaultLocation: userLocation } = users[i];
         if (!userLocation) {
+          /* eslint-disable no-continue */
           continue;
+          /* eslint-enable no-continue */
         }
         const distanceDoesExist = await distanceExists(
           distanceModel,
