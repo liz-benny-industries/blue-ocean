@@ -10,6 +10,7 @@ export function debounce(func, timeout = 300) {
   };
 }
 
+// credit: https://stackoverflow.com/questions/7641791/javascript-library-for-human-friendly-relative-date-formatting
 export const formatDate = (date) => {
   const delta = Math.round(
     (+new Date() - +new Date(date.toString())) / 1000
@@ -21,7 +22,6 @@ export const formatDate = (date) => {
   const week = day * 7;
 
   let fuzzy;
-  console.log('delta:', delta);
 
   if (delta < 30) {
     fuzzy = 'just then.';
@@ -39,6 +39,5 @@ export const formatDate = (date) => {
     fuzzy = 'yesterday';
   }
 
-  console.log('fuzzy:', fuzzy);
   return fuzzy;
 };
