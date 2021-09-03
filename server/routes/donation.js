@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
-const { Op } = require('sequelize');
+const Sequelize = require('sequelize');
 /* eslint-disable no-console */
 const { sendMail } = require('../notification');
+const { getDistance, distanceExists } = require('../utils');
 
 // * example googleId: AiprFavvEEePTwTSooHpgK7OA832
 
@@ -12,12 +13,13 @@ const DonationController = (router, connection) => {
     const {
       user, sortBy, orderBy, filter
     } = req.query;
-    console.log('filter:', filter);
     options.where = {
-      status: { [Op.eq]: 'active' },
-      [Op.or]: [
-        { title: { [Op.like]: `%${filter}%` } },
-        { '$donor.username$': { [Op.like]: `%${filter}%` } },
+      status: { [Sequelize.Op.eq]: 'active' },
+      [Sequelize.Op.or]: [
+        { title: { [Sequelize.Op.like]: `%${filter}%` } },
+        {
+          '$donor.username$': { [Sequelize.Op.like]: `%${filter}%` },
+        },
       ],
     };
     if (user) {
@@ -54,6 +56,7 @@ const DonationController = (router, connection) => {
         donation: donationModel,
         user: userModel,
         image: imageModel,
+        distance: distanceModel,
       } = connection.models;
       options.include = [
         {
@@ -65,8 +68,17 @@ const DonationController = (router, connection) => {
           model: imageModel,
           required: true,
         },
+        {
+          model: distanceModel,
+          required: true,
+          where: {
+            donationId: { [Sequelize.Op.col]: 'donation.id' },
+          },
+          order: [['donation', 'distance', 'value', `${orderBy}`]],
+        },
       ];
-      // console.log('options:', options);
+
+      console.log('options:', options);
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
@@ -107,6 +119,7 @@ const DonationController = (router, connection) => {
         donation: donationModel,
         image: imageModel,
         user: userModel,
+        distance: distanceModel,
       } = connection.models;
       const {
         location, description, charitiesOnly, images, title
@@ -127,6 +140,9 @@ const DonationController = (router, connection) => {
         },
         { transaction: t }
       );
+
+      await newDonation.save(); // * Save so ID can be found
+
       /* eslint-disable no-unused-expressions */
       if (images.length > 1) {
         await imageModel.bulkCreate(
@@ -146,7 +162,36 @@ const DonationController = (router, connection) => {
         );
       }
 
-      /* eslint-enable no-unused-expressions */
+      const users = await userModel.findAll();
+
+      const { id: donationId, location: donationLocation } = newDonation;
+      /* eslint-disable no-await-in-loop */
+      for (let i = 0; i < users.length; i += 1) {
+        const { id: userId, defaultLocation: userLocation } = users[i];
+        if (!userLocation) {
+          continue;
+        }
+        const distanceDoesExist = await distanceExists(
+          distanceModel,
+          userId,
+          donationId
+        );
+        if (!distanceDoesExist) {
+          const [text, value] = await getDistance(
+            userLocation,
+            donationLocation
+          );
+          const newDistance = await distanceModel.create(
+            {
+              text,
+              value,
+              userId,
+              donationId,
+            },
+            { transaction: t }
+          );
+        }
+      }
       await t.commit();
       return res.status(201).end();
     } catch (e) {

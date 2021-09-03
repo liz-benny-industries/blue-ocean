@@ -62,7 +62,6 @@ const App = () => {
     setDonations,
     currentDonation,
     setCurrentDonation,
-
   };
 
   return (
