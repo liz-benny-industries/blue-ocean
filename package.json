@@ -10,7 +10,8 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --mode=development --watch",
     "serve": "webpack serve",
-    "start": "nodemon server/"
+    "start": "nodemon server/",
+    "start:prod": "node server/"
   },
   "repository": {
     "type": "git",

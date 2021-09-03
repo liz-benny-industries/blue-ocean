@@ -50,6 +50,8 @@ export default function Listing({
     setCurrentDonation(donation);
   };
 
+  console.log('donation:', donation);
+
   return (
     <div className={classes.shell}>
       <div className={classes.root}>
@@ -62,6 +64,9 @@ export default function Listing({
           </Paper>
           <Paper variant="outlined" className={classes.innerText}>
             <Typography>{donation.location}</Typography>
+          </Paper>
+          <Paper variant="outlined" className={classes.innerText}>
+            <Typography>{donation.donor.username}</Typography>
           </Paper>
           <Paper variant="outlined" className={classes.innerText}>
             <Typography>{donation.distances[0].text}</Typography>
