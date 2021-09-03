@@ -1,6 +1,6 @@
 /*eslint-disable*/
 
-import React, { useContext } from'react';
+import React, { useContext } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import AppContext from '../Components/context';
 import {
@@ -28,7 +28,6 @@ import {
 } from '@material-ui/icons';
 
 import { debounce } from '../utils';
-
 
 const useStyles = makeStyles((theme) => ({
   flatList: {
@@ -104,7 +103,8 @@ const Navigation = () => {
     setOrderByDesc,
     orderByDesc,
     setUserId,
-   } = useContext(AppContext);
+    sortBy,
+  } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
@@ -196,7 +196,9 @@ const Navigation = () => {
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
-            onClick={() => {userId ? handlePostClick() : setModal('auth') }}
+            onClick={() => {
+              userId ? handlePostClick() : setModal('auth');
+            }}
             className={classes.listItem}
             primary='Post a Donation'
           />
@@ -232,16 +234,20 @@ const Navigation = () => {
           onClose={handleClose}
         >
           <MenuItem
-            value={'Proximity'}
-            key={'Proximity'}
             onClick={(e) => {
-              console.log('e.target:', e.target);
-              setSortBy(e.target.value);
+              setSortBy('Proximity');
               setOrderByDesc(!orderByDesc);
               handleClose();
             }}
           >
             Proximity
+            {sortBy === 'Proximity' ? (
+              orderByDesc ? (
+                <ArrowDropDown />
+              ) : (
+                <ArrowDropUp />
+              )
+            ) : null}
           </MenuItem>
           <MenuItem
             onClick={(e) => {
@@ -250,8 +256,14 @@ const Navigation = () => {
               handleClose();
             }}
           >
-            'Recency'
-            {orderByDesc ? <ArrowDropDown /> : <ArrowDropUp />}
+            Recency
+            {sortBy === 'Recency' ? (
+              orderByDesc ? (
+                <ArrowDropDown />
+              ) : (
+                <ArrowDropUp />
+              )
+            ) : null}
           </MenuItem>
         </Menu>
       </List>
