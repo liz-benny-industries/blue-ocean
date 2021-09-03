@@ -1,13 +1,12 @@
 import React, { useState, useContext } from 'react';
 import AWS from 'aws-sdk';
 import AppContext from './context';
-import { accessKey, secretAccessKey } from '../../../config/config.js'
 const S3_BUCKET = 'blue-ocean-images';
 const REGION = 'us-east-2';
 
 AWS.config.update({
-  accessKeyId,
-  secretAccessKey,
+  accessKeyId: ''
+  secretAccessKey: ''
 });
 
 const myBucket = new AWS.S3({
