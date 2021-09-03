@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
@@ -6,6 +7,8 @@ import React, { useReducer, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import axios from 'axios';
+import S3FileUpload from 'react-s3';
+
 import {
   TextField,
   Modal,
@@ -18,6 +21,22 @@ import {
 } from '@material-ui/core';
 import AppContext from './context';
 import { getUserIdToken } from '../firebase';
+import Upload from './Upload';
+
+// const { Buffer } = require('buffer');
+// const {
+//   AWS_bucket_name,
+//   AWS_bucket_region,
+//   AWS_access_key,
+//   AWS_secret_key
+// } = process.env;
+
+// const s3Config = {
+//   bucketName: "blue-ocean-images",
+//   region: "us-east-2",
+//   accessKeyId: "AKIA573FLCM5KEFYVRFN",
+//   secretAccessKey: "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"
+// };
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -48,6 +67,7 @@ const initialInputs = {
   title: '',
   description: '',
   location: '',
+  imageURL: '',
   charitiesOnly: false,
 };
 
@@ -87,6 +107,10 @@ export default function PostModal() {
     resetInputs();
   };
 
+  const setImageURL = (imageURL) => {
+    dispatch({ type: 'field', name: 'images', value: [imageURL] });
+  };
+
   const donate = () => {
     if (user) {
       getUserIdToken()
@@ -97,7 +121,7 @@ export default function PostModal() {
           };
           return axios.post(
             '/donations',
-            { ...inputState, images: ['image.jpg'] },
+            { ...inputState },
             { headers }
           );
         })
@@ -182,13 +206,15 @@ export default function PostModal() {
                 label="This donation is for charities only"
               />
               <div className={classes.buttonBox}>
-                <Button
+                {/* <Button
                   variant="contained"
                   color="primary"
                   className={classes.button}
+                  component="label"
                 >
                   Add Image
-                </Button>
+                </Button> */}
+                <Upload setImageURL={setImageURL} />
                 <Button
                   onClick={donate}
                   variant="contained"
