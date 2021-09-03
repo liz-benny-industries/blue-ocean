@@ -37,6 +37,7 @@ const configureRelationships = (sequelize) => {
     donation.belongsTo(user, { as: 'donor' });
     donation.hasMany(image);
     donation.hasMany(distance);
+    user.hasMany(distance);
     distance.belongsTo(user);
     distance.belongsTo(donation);
   } catch (e) {
