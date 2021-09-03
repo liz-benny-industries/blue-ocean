@@ -30,7 +30,7 @@ const donation = (sequelize) => sequelize.define('donation', {
   status: {
     type: DataTypes.ENUM(
       'active',
-      'canceled',
+      'canceled', // Todo: change to deleted
       'claimed',
       'delivered'
     ),

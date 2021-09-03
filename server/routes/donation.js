@@ -9,48 +9,6 @@ const { getDistance, distanceExists } = require('../utils');
 const DonationController = (router, connection) => {
   /* Donations - Get All */
   router.get('/donations', async (req, res) => {
-    const options = {};
-    const {
-      user, sortBy, orderBy, filter
-    } = req.query;
-    options.where = {
-      status: { [Sequelize.Op.eq]: 'active' },
-      [Sequelize.Op.or]: [
-        { title: { [Sequelize.Op.like]: `%${filter}%` } },
-        {
-          '$donor.username$': { [Sequelize.Op.like]: `%${filter}%` },
-        },
-      ],
-    };
-    if (user) {
-      if (!req.user) {
-        return res
-          .status(401)
-          .send('Unauthorized - no valid user to sort by');
-      }
-      const { uid } = req.user;
-
-      if (user === 'claimant') {
-        options.where.claimantId = uid;
-      } else if (user === 'donor') {
-        options.where.donorId = uid;
-      } else {
-        return res
-          .status(400)
-          .send(
-            'Invalid query - user must have a value of "claimant" or "donor"'
-          );
-      }
-    }
-
-    if (sortBy) {
-      if (sortBy === 'Proximity') {
-        options.order = [['location', `${orderBy}`]];
-      } else if (sortBy === 'Recency') {
-        options.order = [['createdAt', `${orderBy}`]];
-      }
-    }
-
     try {
       const {
         donation: donationModel,
@@ -58,6 +16,42 @@ const DonationController = (router, connection) => {
         image: imageModel,
         distance: distanceModel,
       } = connection.models;
+
+      const options = {};
+      const {
+        user, sortBy, orderBy, filter
+      } = req.query;
+      options.where = {
+        status: { [Sequelize.Op.eq]: 'active' },
+        [Sequelize.Op.or]: [
+          { title: { [Sequelize.Op.like]: `%${filter}%` } },
+          {
+            '$donor.username$': {
+              [Sequelize.Op.like]: `%${filter}%`,
+            },
+          },
+        ],
+      };
+      if (user) {
+        if (!req.user) {
+          return res
+            .status(401)
+            .send('Unauthorized - no valid user to sort by');
+        }
+        const { uid } = req.user;
+
+        if (user === 'claimant') {
+          options.where.claimantId = uid;
+        } else if (user === 'donor') {
+          options.where.donorId = uid;
+        } else {
+          return res
+            .status(400)
+            .send(
+              'Invalid query - user must have a value of "claimant" or "donor"'
+            );
+        }
+      }
       options.include = [
         {
           model: userModel,
@@ -74,11 +68,19 @@ const DonationController = (router, connection) => {
           where: {
             donationId: { [Sequelize.Op.col]: 'donation.id' },
           },
-          order: [['donation', 'distance', 'value', `${orderBy}`]],
+          order: [['distance', 'value', `${orderBy}`]], // TODO: Test if this is necessary
         },
       ];
 
-      console.log('options:', options);
+      if (sortBy) {
+        if (sortBy === 'Proximity') {
+          options.order = [[distanceModel, 'value', `${orderBy}`]];
+        } else if (sortBy === 'Recency') {
+          options.order = [['createdAt', `${orderBy}`]];
+        }
+      }
+
+      // console.log('options:', options);
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
@@ -168,28 +170,27 @@ const DonationController = (router, connection) => {
       /* eslint-disable no-await-in-loop */
       for (let i = 0; i < users.length; i += 1) {
         const { id: userId, defaultLocation: userLocation } = users[i];
-        if (!userLocation) {
-          continue;
-        }
-        const distanceDoesExist = await distanceExists(
-          distanceModel,
-          userId,
-          donationId
-        );
-        if (!distanceDoesExist) {
-          const [text, value] = await getDistance(
-            userLocation,
-            donationLocation
+        if (userLocation) {
+          const distanceDoesExist = await distanceExists(
+            distanceModel,
+            userId,
+            donationId
           );
-          const newDistance = await distanceModel.create(
-            {
-              text,
-              value,
-              userId,
-              donationId,
-            },
-            { transaction: t }
-          );
+          if (!distanceDoesExist) {
+            const [text, value] = await getDistance(
+              userLocation,
+              donationLocation
+            );
+            const newDistance = await distanceModel.create(
+              {
+                text,
+                value,
+                userId,
+                donationId,
+              },
+              { transaction: t }
+            );
+          }
         }
       }
       await t.commit();
