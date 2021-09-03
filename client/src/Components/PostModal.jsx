@@ -16,10 +16,14 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import AppContext from './context';
 import { getUserIdToken } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
+  alert: {
+    margin: '1em',
+  },
   modal: {
     display: 'flex',
     alignItems: 'center',
@@ -49,6 +53,7 @@ const initialInputs = {
   description: '',
   location: '',
   charitiesOnly: false,
+  triedSubmit: false,
 };
 
 function inputReducer(state, action) {
@@ -70,11 +75,16 @@ function inputReducer(state, action) {
 export default function PostModal() {
   const classes = useStyles();
   const { modal, setModal, user } = useContext(AppContext);
-  const [inputState, dispatch] = useReducer(inputReducer, initialInputs);
+  const [inputState, dispatch] = useReducer(
+    inputReducer,
+    initialInputs
+  );
 
   const handleInputChange = (e) => {
     const { name } = e.target;
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    const value = e.target.type === 'checkbox'
+      ? e.target.checked
+      : e.target.value;
     dispatch({ type: 'field', name, value });
   };
 
@@ -88,6 +98,11 @@ export default function PostModal() {
   };
 
   const donate = () => {
+    dispatch({ type: 'field', name: 'triedSubmit', value: true });
+    const { title, description, location } = inputState;
+    if (['', "''", ' '].includes(title, description, location)) {
+      return;
+    }
     if (user) {
       getUserIdToken()
         .then((idToken) => {
@@ -198,6 +213,25 @@ export default function PostModal() {
                 >
                   Donate
                 </Button>
+              </div>
+              <div>
+                {inputState.triedSubmit && inputState.title === '' ? (
+                  <Alert className={classes.alert} severity="error">
+                    Title cannot be empty
+                  </Alert>
+                ) : null}
+                {inputState.triedSubmit
+                && inputState.description === '' ? (
+                  <Alert className={classes.alert} severity="error">
+                    Description cannot be empty
+                  </Alert>
+                  ) : null}
+                {inputState.triedSubmit
+                && ['', "''", ' '].includes(inputState.location) ? (
+                  <Alert className={classes.alert} severity="error">
+                    Location cannot be empty
+                  </Alert>
+                  ) : null}
               </div>
             </form>
           </div>
