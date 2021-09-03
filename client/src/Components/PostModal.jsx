@@ -7,7 +7,6 @@ import React, { useReducer, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import axios from 'axios';
-import S3FileUpload from 'react-s3';
 
 import {
   TextField,
@@ -22,21 +21,6 @@ import {
 import AppContext from './context';
 import { getUserIdToken } from '../firebase';
 import Upload from './Upload';
-
-// const { Buffer } = require('buffer');
-// const {
-//   AWS_bucket_name,
-//   AWS_bucket_region,
-//   AWS_access_key,
-//   AWS_secret_key
-// } = process.env;
-
-// const s3Config = {
-//   bucketName: "blue-ocean-images",
-//   region: "us-east-2",
-//   accessKeyId: "AKIA573FLCM5KEFYVRFN",
-//   secretAccessKey: "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"
-// };
 
 const useStyles = makeStyles((theme) => ({
   modal: {
