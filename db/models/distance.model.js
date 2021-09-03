@@ -9,10 +9,10 @@ module.exports = (sequelize) => sequelize.define('distance', {
   },
   value: {
     type: DataTypes.FLOAT,
-    allowNull: true,
+    allowNull: true, // * might be fine as false
   },
   text: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: true, // * might be fine as false
   },
 });
