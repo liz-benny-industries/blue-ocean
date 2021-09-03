@@ -1,6 +1,5 @@
 /*eslint-disable*/
-
-import React, { useState, useContext } from'react';
+import React, { useContext } from'react';
 import { getAuth, signOut } from 'firebase/auth';
 import AppContext from '../Components/context';
 import {
@@ -106,7 +105,6 @@ const Navigation = () => {
     setUser,
    } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [myDonations, setMyDonations] = useState(false);
   const classes = useStyles();
 
   const filterDebounce = debounce(async (filter) => {
