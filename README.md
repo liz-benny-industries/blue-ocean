@@ -10,7 +10,7 @@ Deeper than a puddle, as wide as the sky.
 - API Keys:
   - Firebase Private Key for Authentication
   - Google OAuth Key for Email Notifications
-  - ![Google Maps](https://developers.google.com/maps/documentation) API Key for Distance Finding
+  - Google Maps API Key for Distance Finding
   - Amazon S3 Keys for Image Storage
 
 ## Run Instructions
