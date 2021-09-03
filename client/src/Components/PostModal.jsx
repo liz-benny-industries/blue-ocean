@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
@@ -6,6 +7,7 @@ import React, { useReducer, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import axios from 'axios';
+
 import {
   TextField,
   Modal,
@@ -18,6 +20,7 @@ import {
 } from '@material-ui/core';
 import AppContext from './context';
 import { getUserIdToken } from '../firebase';
+import Upload from './Upload';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -48,6 +51,7 @@ const initialInputs = {
   title: '',
   description: '',
   location: '',
+  imageURL: '',
   charitiesOnly: false,
 };
 
@@ -87,6 +91,10 @@ export default function PostModal() {
     resetInputs();
   };
 
+  const setImageURL = (imageURL) => {
+    dispatch({ type: 'field', name: 'images', value: [imageURL] });
+  };
+
   const donate = () => {
     if (user) {
       getUserIdToken()
@@ -97,7 +105,7 @@ export default function PostModal() {
           };
           return axios.post(
             '/donations',
-            { ...inputState, images: ['image.jpg'] },
+            { ...inputState },
             { headers }
           );
         })
@@ -182,13 +190,15 @@ export default function PostModal() {
                 label="This donation is for charities only"
               />
               <div className={classes.buttonBox}>
-                <Button
+                {/* <Button
                   variant="contained"
                   color="primary"
                   className={classes.button}
+                  component="label"
                 >
                   Add Image
-                </Button>
+                </Button> */}
+                <Upload setImageURL={setImageURL} />
                 <Button
                   onClick={donate}
                   variant="contained"
