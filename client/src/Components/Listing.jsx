@@ -50,8 +50,6 @@ export default function Listing({
     setCurrentDonation(donation);
   };
 
-  console.log('donation:', donation);
-
   return (
     <div className={classes.shell}>
       <div className={classes.root}>
