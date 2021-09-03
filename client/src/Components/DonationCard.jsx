@@ -24,7 +24,7 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import AppContext from './context';
-import { getuserIdToken } from '../firebase';
+import { getUserIdToken } from '../firebase';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 const items = [
@@ -92,7 +92,7 @@ export default function DonationCard() {
     setModal,
     modal,
     currentDonation,
-    userId
+    user
   } = useContext(AppContext);
   const classes = useStyles();
 
@@ -100,8 +100,8 @@ export default function DonationCard() {
   const donationModalOpen = currentDonation && modal === 'donation';
 
   (function () {
-    if (userId) {
-      getuserIdToken()
+    if (user) {
+      getUserIdToken()
         .then((idToken) => {
           fireBaseIdToken = idToken;
         });
@@ -117,7 +117,6 @@ export default function DonationCard() {
     axios({
       method: 'put',
       url: `/donations/${donationId}/claim/?email=${currentDonation.donor.email}&title=${currentDonation.title}`,
-      baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${fireBaseIdToken}`,
@@ -131,7 +130,6 @@ export default function DonationCard() {
     axios({
       method: 'put',
       url: `/donations/cancel/${donationId}`,
-      baseURL: 'http://localhost:3000',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${fireBaseIdToken}`,
@@ -196,14 +194,14 @@ export default function DonationCard() {
                 </CardActions>
               </Card>
               <Button
-                onClick={() => { userId ? handleClaim() : setModal('auth'); }}
+                onClick={() => { user ? handleClaim() : setModal('auth'); }}
                 className={classes.button}
                 variant="contained"
                 color="primary"
               >
                 Claim
               </Button>
-              {currentDonation && userId === currentDonation.donor.id && (
+              {currentDonation && user && user.uid === currentDonation.donor.id && (
               <div className={classes.userControls}>
                 <Button onClick={handleCancel}>Cancel Claim</Button>
                 <Button onClick={handleDelete}>Delete Post</Button>

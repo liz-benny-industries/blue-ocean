@@ -96,14 +96,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Navigation = () => {
   const {
-    userId,
+    user,
     setModal,
     setSortBy,
     setSearchFilter,
     setOrderByDesc,
     orderByDesc,
-    setUserId,
-    sortBy,
+		sortBy,
+		setUser,
   } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
@@ -124,7 +124,6 @@ const Navigation = () => {
   };
 
   const handlePostClick = () => {
-    console.log(userId);
     setModal('post');
   };
 
@@ -177,10 +176,10 @@ const Navigation = () => {
             variant='contained'
             onClick={() => {
               const auth = getAuth();
-              userId
+              user
                 ? signOut(auth)
                     .then(() => {
-                      setUserId('');
+                      setUser(null);
                       setModal('');
                     })
                     .catch((error) => {
@@ -189,16 +188,14 @@ const Navigation = () => {
                 : setModal('auth');
             }}
           >
-            {userId ? 'Sign Out' : 'Sign In'}
+            {user ? 'Sign Out' : 'Sign In'}
           </Button>
         </Toolbar>
       </AppBar>
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
-            onClick={() => {
-              userId ? handlePostClick() : setModal('auth');
-            }}
+            onClick={() => {user ? handlePostClick() : setModal('auth') }}
             className={classes.listItem}
             primary='Post a Donation'
           />
