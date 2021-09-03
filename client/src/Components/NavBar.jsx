@@ -1,5 +1,4 @@
 /*eslint-disable*/
-
 import React, { useContext } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import AppContext from '../Components/context';
@@ -111,7 +110,10 @@ const Navigation = () => {
   const filterDebounce = debounce(async (filter) => {
     if (filter.length > 2) {
       setSearchFilter(filter);
+    } else {
+      setSearchFilter('');
     }
+
     console.debug('filter:', filter);
   }, 500);
 
@@ -213,8 +215,7 @@ const Navigation = () => {
         <ListItem button>
           <ListItemText
             className={classes.listItem}
-            primary='My Donations'
-          >
+            primary='My Donations'>
             My Donations
           </ListItemText>
         </ListItem>
