@@ -68,7 +68,7 @@ const DonationController = (router, connection) => {
           where: {
             donationId: { [Sequelize.Op.col]: 'donation.id' },
           },
-          order: [['distance', 'value', `${orderBy}`]],
+          order: [['distance', 'value', `${orderBy}`]], // TODO: Test if this is necessary
         },
       ];
 
@@ -80,7 +80,7 @@ const DonationController = (router, connection) => {
         }
       }
 
-      console.log('options:', options);
+      // console.log('options:', options);
       const newDonations = await donationModel.findAll(options);
       if (!newDonations) {
         return res.status(404).send('No matching donation found');
@@ -170,30 +170,27 @@ const DonationController = (router, connection) => {
       /* eslint-disable no-await-in-loop */
       for (let i = 0; i < users.length; i += 1) {
         const { id: userId, defaultLocation: userLocation } = users[i];
-        if (!userLocation) {
-          /* eslint-disable no-continue */
-          continue;
-          /* eslint-enable no-continue */
-        }
-        const distanceDoesExist = await distanceExists(
-          distanceModel,
-          userId,
-          donationId
-        );
-        if (!distanceDoesExist) {
-          const [text, value] = await getDistance(
-            userLocation,
-            donationLocation
+        if (userLocation) {
+          const distanceDoesExist = await distanceExists(
+            distanceModel,
+            userId,
+            donationId
           );
-          const newDistance = await distanceModel.create(
-            {
-              text,
-              value,
-              userId,
-              donationId,
-            },
-            { transaction: t }
-          );
+          if (!distanceDoesExist) {
+            const [text, value] = await getDistance(
+              userLocation,
+              donationLocation
+            );
+            const newDistance = await distanceModel.create(
+              {
+                text,
+                value,
+                userId,
+                donationId,
+              },
+              { transaction: t }
+            );
+          }
         }
       }
       await t.commit();
