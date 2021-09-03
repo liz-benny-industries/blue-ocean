@@ -7,9 +7,9 @@ const S3_BUCKET = 'blue-ocean-images';
 const REGION = 'us-east-2';
 
 AWS.config.update({
-  // accessKeyId: config.ACCESS_KEY,
+  // accessKeyId: config.S3_ACCESS_KEY,
   accessKeyId: '',
-  // secretAccessKey: config.SECRET,
+  // secretAccessKey: config.S3_SECRET,
   secretAccessKey: '',
 });
 

@@ -6,11 +6,7 @@ import Listing from './Listing';
 import AppContext from './context';
 
 export default function DonationList() {
-  const {
-    setModal,
-    donations,
-    setCurrentDonation,
-  } = useContext(AppContext);
+  const { setModal, donations, setCurrentDonation } = useContext(AppContext);
   const useStyles = makeStyles(() => ({
     root: {
       display: 'flex',
