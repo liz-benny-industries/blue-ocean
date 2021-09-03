@@ -1,6 +1,5 @@
 /*eslint-disable*/
-
-import React, { useContext } from'react';
+import React, { useContext } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import AppContext from '../Components/context';
 import {
@@ -28,7 +27,6 @@ import {
 } from '@material-ui/icons';
 
 import { debounce } from '../utils';
-
 
 const useStyles = makeStyles((theme) => ({
   flatList: {
@@ -103,15 +101,19 @@ const Navigation = () => {
     setSearchFilter,
     setOrderByDesc,
     orderByDesc,
+    sortBy,
     setUser,
-   } = useContext(AppContext);
+  } = useContext(AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
 
   const filterDebounce = debounce(async (filter) => {
     if (filter.length > 2) {
       setSearchFilter(filter);
+    } else {
+      setSearchFilter('');
     }
+
     console.debug('filter:', filter);
   }, 500);
 
@@ -169,8 +171,10 @@ const Navigation = () => {
             color='inherit'
             aria-label='open drawer'
           >
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <AccountCircleOutlined fontSize='large' />
-            {}
+            <span style={{ fontSize: '1rem'}}>{user && user.email}</span>
+          </div>
           </IconButton>
           <Button
             variant='contained'
@@ -195,7 +199,9 @@ const Navigation = () => {
       <List className={classes.flatList}>
         <ListItem className={classes.listItem} button>
           <ListItemText
-            onClick={() => {user ? handlePostClick() : setModal('auth') }}
+            onClick={() => {
+              user ? handlePostClick() : setModal('auth');
+            }}
             className={classes.listItem}
             primary='Post a Donation'
           />
@@ -209,8 +215,7 @@ const Navigation = () => {
         <ListItem button>
           <ListItemText
             className={classes.listItem}
-            primary='My Donations'
-          >
+            primary='My Donations'>
             My Donations
           </ListItemText>
         </ListItem>
@@ -231,16 +236,20 @@ const Navigation = () => {
           onClose={handleClose}
         >
           <MenuItem
-            value={'Proximity'}
-            key={'Proximity'}
             onClick={(e) => {
-              console.log('e.target:', e.target);
-              setSortBy(e.target.value);
+              setSortBy('Proximity');
               setOrderByDesc(!orderByDesc);
               handleClose();
             }}
           >
             Proximity
+            {sortBy === 'Proximity' ? (
+              orderByDesc ? (
+                <ArrowDropUp />
+              ) : (
+                <ArrowDropDown />
+              )
+            ) : null}
           </MenuItem>
           <MenuItem
             onClick={(e) => {
@@ -249,8 +258,14 @@ const Navigation = () => {
               handleClose();
             }}
           >
-            'Recency'
-            {orderByDesc ? <ArrowDropDown /> : <ArrowDropUp />}
+            Recency
+            {sortBy === 'Recency' ? (
+              orderByDesc ? (
+                <ArrowDropDown />
+              ) : (
+                <ArrowDropUp />
+              )
+            ) : null}
           </MenuItem>
         </Menu>
       </List>

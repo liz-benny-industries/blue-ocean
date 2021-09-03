@@ -14,7 +14,7 @@ import {
   Card,
   CardActions,
   CardActionArea,
-  // CardContent,
+  CardContent,
   CardMedia,
   Modal,
   // Paper,
@@ -125,7 +125,7 @@ export default function DonationCard() {
     handleClose();
   };
 
-  const handleCancel = () => {
+  const handleDelete = () => {
     const donationId = currentDonation.id;
     axios({
       method: 'put',
@@ -138,10 +138,6 @@ export default function DonationCard() {
       handleClose();
     })
       .catch((e) => console.error(e));
-  };
-
-  const handleDelete = () => {
-    // delete the listing
   };
 
   return (
@@ -166,15 +162,15 @@ export default function DonationCard() {
               className={classes.root}
               autoComplete="off"
             >
-              <Card className={classes.root}>
+              <Card className={classes.root} style={{ display: 'flex', flexDirection: 'column' }}>
                 <CardActionArea>
                   <CardMedia
                     className={classes.media}
                     title={currentDonation && currentDonation.title}
                     image={currentDonation && currentDonation.images[0].url}
                   />
-                  {/* <CardContent>
-                    <Carousel>
+                </CardActionArea>
+                {/* <Carousel>
                       {items.map((item, i) => (
                         <Item
                           className={classes.item}
@@ -182,9 +178,7 @@ export default function DonationCard() {
                           item={item}
                         />
                       ))}
-                    </Carousel>
-                  </CardContent> */}
-                </CardActionArea>
+                    </Carousel> */}
                 <CardActions className={classes.actions}>
                   <Typography>{currentDonation && currentDonation.donor.username}</Typography>
                   <Typography>{currentDonation && currentDonation.location}</Typography>
@@ -193,6 +187,9 @@ export default function DonationCard() {
                   </Button>
                 </CardActions>
               </Card>
+              <CardContent>
+                <Typography>{currentDonation && currentDonation.description}</Typography>
+              </CardContent>
               <Button
                 onClick={() => { user ? handleClaim() : setModal('auth'); }}
                 className={classes.button}
@@ -203,7 +200,7 @@ export default function DonationCard() {
               </Button>
               {currentDonation && user && user.uid === currentDonation.donor.id && (
               <div className={classes.userControls}>
-                <Button onClick={handleCancel}>Cancel Claim</Button>
+                <Button onClick={() => {}}>Cancel Claim</Button>
                 <Button onClick={handleDelete}>Delete Post</Button>
               </div>
               )}

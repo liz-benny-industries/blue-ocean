@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { deepOrange } from '@material-ui/core/colors';
 import { Paper, Avatar, Typography } from '@material-ui/core';
+import { formatDate } from '../utils';
 
 const tempImg = 'https://www.clipartmax.com/png/middle/244-2441405_charmander-by-monstermmorpg-charmander-by-monstermmorpg-charmander-dream-pokemon-charmander.png';
 
@@ -57,10 +58,13 @@ export default function Listing({
             <Typography>{donation.title}</Typography>
           </Paper>
           <Paper variant="outlined" className={classes.innerText}>
+            <Typography>{formatDate(donation.createdAt)}</Typography>
+          </Paper>
+          <Paper variant="outlined" className={classes.innerText}>
             <Typography>{donation.location}</Typography>
           </Paper>
           <Paper variant="outlined" className={classes.innerText}>
-            <Typography>{donation.createdAt}</Typography>
+            <Typography>{donation.distances[0].text}</Typography>
           </Paper>
           <Avatar
             src={donation.images[0].url || tempImg}

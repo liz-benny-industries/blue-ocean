@@ -6,8 +6,8 @@ const S3_BUCKET = 'blue-ocean-images';
 const REGION = 'us-east-2';
 
 AWS.config.update({
-  accessKeyId: 'AKIA573FLCM5EJJF2EUJ',
-  secretAccessKey: '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'
+  accessKeyId: '',
+  secretAccessKey: ''
 });
 
 const myBucket = new AWS.S3({
