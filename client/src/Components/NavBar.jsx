@@ -1,6 +1,5 @@
 /*eslint-disable*/
-
-import React, { useState, useContext } from'react';
+import React, { useContext } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import AppContext from '../Components/context';
 import {
