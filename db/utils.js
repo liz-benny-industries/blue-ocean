@@ -1,6 +1,7 @@
 const userModel = require('./models/user.model');
 const donationModel = require('./models/donation.model');
 const imageModel = require('./models/image.model');
+const distanceModel = require('./models/distance.model');
 
 /* eslint-disable global-require */
 
@@ -18,16 +19,27 @@ const assertDbConnected = async (sequelize) => {
 };
 
 const defineModels = (sequelize) => {
-  const models = [userModel, donationModel, imageModel];
+  const models = [
+    userModel,
+    donationModel,
+    imageModel,
+    distanceModel,
+  ];
   models.forEach((model) => model(sequelize));
   console.log('sequelize.models:', sequelize.models);
 };
 
 const configureRelationships = (sequelize) => {
   try {
-    const { user, donation, image } = sequelize.models;
-    donation.belongsTo(user, { as: 'donor' }); // TODO: Should not be null
+    const {
+      user, donation, image, distance
+    } = sequelize.models;
+    donation.belongsTo(user, { as: 'donor' });
     donation.hasMany(image);
+    donation.hasMany(distance);
+    user.hasMany(distance);
+    distance.belongsTo(user);
+    distance.belongsTo(donation);
   } catch (e) {
     console.error(e);
     throw e;
