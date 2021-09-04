@@ -1,4 +1,3 @@
-const supertest = require('supertest');
 const regeneratorRuntime = require('regenerator-runtime');
 const { Sequelize } = require('sequelize');
 const request = require('supertest')('http://localhost:3003');
@@ -11,6 +10,7 @@ beforeAll(async () => {
 
 afterAll(() => {
   // Closing the DB connection allows Jest to exit successfully.
+  // process.kill(process.pid, 'SIGTERM');
 });
 
 describe('FREE CHICKEN TEST', () => {
@@ -36,7 +36,7 @@ describe('Donation Routes', () => {
       await request.get('/donations')
         .expect(200)
         .then((response) => {
-          // console.log(response);
+        // console.log(response);
         });
     } catch (e) {
       expect(e).toMatch('error');
@@ -50,12 +50,13 @@ describe('User Routes', () => {
       isIndividual: true,
       username: 'Very THIICCCC Boi',
       email: 'thicboi@gmail.com',
-      defaultLocation: 'Las Vegas, NV'
+      defaultLocation: 'Las Vegas, NV',
+      user: 'testing'
     };
-    JSON.stringify(testUser);
+    // JSON.stringify(testUser);
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'secret',
+      Authorization: 'secret ',
     };
     try {
       await request.post('/users', testUser, { headers })
