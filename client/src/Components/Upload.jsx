@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import AWS from 'aws-sdk';
 import AppContext from './context';
-import config from '../../../config/config';
+// import config from '../../../config/config';
+const { config } = window;
 
 const S3_BUCKET = 'blue-ocean-images';
 const REGION = 'us-east-2';
