@@ -1,4 +1,5 @@
 const axios = require('axios');
+const regeneratorRuntime = require('regenerator-runtime');
 require('dotenv').config();
 
 const distanceExists = async (model, userId, donationId) => {

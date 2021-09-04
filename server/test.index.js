@@ -7,7 +7,7 @@ const {
   defineModels,
   configureRelationships,
 } = require('../db/utils');
-const sequelize = require('../db');
+const testSequelize = require('../db');
 const { decodeIDToken } = require('./routes/middleware');
 const { DonationController, UserController } = require('./routes');
 
@@ -19,18 +19,18 @@ app.use(morgan('common'));
 
 const init = async () => {
   try {
-    await assertDbConnected(sequelize);
-    defineModels(sequelize);
-    configureRelationships(sequelize);
-    await sequelize.sync();
-    DonationController(app, sequelize);
-    UserController(app, sequelize);
-    app.listen(3000, () => {
-      console.log('👂👀 Server Listening on PORT 3000👂👀');
+    await assertDbConnected(testSequelize);
+    defineModels(testSequelize);
+    configureRelationships(testSequelize);
+    await testSequelize.sync();
+    DonationController(app, testSequelize);
+    UserController(app, testSequelize);
+    app.listen(3003, () => {
+      console.log('🧬🧬TESTING on PORT 3003🧬🧬');
     });
   } catch (e) {
     console.log('Server could not be started');
   }
 };
 
-init();
+module.exports = { init, testSequelize };

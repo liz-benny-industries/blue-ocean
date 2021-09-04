@@ -1,8 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import React, { useReducer, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';

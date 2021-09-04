@@ -1,3 +1,4 @@
+const regeneratorRuntime = require('regenerator-runtime');
 const userModel = require('./models/user.model');
 const donationModel = require('./models/donation.model');
 const imageModel = require('./models/image.model');
