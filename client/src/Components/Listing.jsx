@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     '& > *': {
       width: '55rem',
-      height: '3rem',
       padding: '.5rem',
       margin: '.5rem',
       display: 'flex',

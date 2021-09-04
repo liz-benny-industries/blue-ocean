@@ -56,10 +56,12 @@ const Auth = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${idToken}`,
         };
-        console.log('newly generated idToken: ', idToken);
+        // console.log('newly generated idToken: ', idToken);
         return axios.post('/users', authInfo, { headers });
       })
-      .then(() => { setModal(''); })
+      .then(() => {
+        setModal('');
+      })
       .catch((err) => {
         setError(err.code);
       });
@@ -75,7 +77,9 @@ const Auth = () => {
       .then((userCredential) => {
         const { user } = userCredential;
       })
-      .then(() => { setModal(''); })
+      .then(() => {
+        setModal('');
+      })
       .catch((err) => {
         setError(err.code);
       });

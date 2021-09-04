@@ -1,5 +1,5 @@
-describe('awesome test', () => {
-  it('should be awesome', () => {
-    expect(2).toBe(2);
-  });
+// const request = require('supertest');
+
+it('should contain at least one test', () => {
+  expect(true).toBe(true);
 });

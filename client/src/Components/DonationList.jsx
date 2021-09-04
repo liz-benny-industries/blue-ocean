@@ -12,12 +12,10 @@ export default function DonationList() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      width: '72rem',
-      height: '100%',
+      maxWidth: '72rem',
       padding: '.5rem',
       margin: '.5rem',
       overflowY: 'auto',
-      maxHeight: '40rem',
     },
     shell: {
       display: 'flex',

@@ -1,17 +1,39 @@
 # blue-ocean
 
-Deeper than a puddle, as wide as the sky.
+"Deeper than a puddle, as wide as the sky."
+[Deployment](http://3.144.32.109:3000/)
 
 ## Requirements
 
 - A running installation of PostGreSQL
-- An ENV file with specifications matching our example in the root directory.
-- A config file matching our specifications.
+- An ENV file with the following properties:
+```
+    DB_USER='FILL_ME_IN'
+    DB_PASSWORD='FILL_ME_IN'
+    DB_PORT=5432
+    DB_NAME='donation_station'
+    DB_HOST='localhost'
+    MAPS_API_KEY='FILL_ME_IN'
+    CLIENT_ID='FILL_ME_IN'
+    CLIENT_SECRET='FILL_ME_IN'
+    REDIRECT_URI='FILL_ME_IN'
+    REFRESH_TOKEN='FILL_ME_IN'
+```
+- A config file within a config directory which exports the following properties:
+```
+    const S3_ACCESS_KEY = 'FILL_ME_IN';
+    const S3_SECRET = 'FILL_ME_IN';
+
+    module.exports = {
+      S3_ACCESS_KEY,
+      S3_SECRET,
+    };
+```
 - API Keys:
-  - Firebase Private Key for Authentication
-  - Google OAuth Key for Email Notifications
-  - Google Maps API Key for Distance Finding
-  - Amazon S3 Keys for Image Storage
+  - Firebase Private Key for Authentication (contained in JSON file in the root)
+  - Google OAuth Key for Email Notifications (CLIENT_ID and CLIENT_SECRET in ENV file)
+  - Google Maps API Key for Distance Finding (MAPS_API_KEY in ENV file)
+  - Amazon S3 Keys for Image Storage (S3_ACCESS_KEY and S3_SECRET in the config file)
 
 ## Run Instructions
 
