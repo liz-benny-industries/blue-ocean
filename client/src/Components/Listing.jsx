@@ -64,6 +64,9 @@ export default function Listing({
             <Typography>{donation.location}</Typography>
           </Paper>
           <Paper variant="outlined" className={classes.innerText}>
+            <Typography>{donation.donor.username}</Typography>
+          </Paper>
+          <Paper variant="outlined" className={classes.innerText}>
             <Typography>{donation.distances[0].text}</Typography>
           </Paper>
           <Avatar
