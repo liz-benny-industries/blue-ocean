@@ -1,0 +1,18 @@
+export const getContext = () => ({
+  modal: '',
+  setModal: jest.fn().mockImplementationOnce(() => 1 + 1),
+  user: null,
+  setUser: jest.fn(),
+  searchFilter: '',
+  setSearchFilter: jest.fn(),
+  userFilter: '',
+  setUserFilter: jest.fn(),
+  sortBy: '',
+  setSortBy: jest.fn(),
+  orderByDesc: true,
+  setOrderByDesc: jest.fn(),
+  donations: [],
+  setDonations: jest.fn(),
+  currentDonation: undefined,
+  setCurrentDonation: jest.fn(),
+});

@@ -1,7 +1,7 @@
-/*eslint-disable*/
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-unused-expressions */
 import React, { useContext } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
-import AppContext from '../Components/context';
 import {
   AppBar,
   Toolbar,
@@ -25,6 +25,7 @@ import {
   ArrowDropDown,
   ArrowDropUp,
 } from '@material-ui/icons';
+import AppContext from './context';
 
 import { debounce } from '../utils';
 
@@ -105,7 +106,9 @@ const Navigation = () => {
     setUser,
     setUserFilter,
   } = useContext(AppContext);
+  // console.log('AppContext:', AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
+
   const classes = useStyles();
 
   const filterDebounce = debounce(async (filter) => {
@@ -132,23 +135,25 @@ const Navigation = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
+      <AppBar position="static">
         <Toolbar style={{ justifyContent: 'space-between' }}>
           <div style={{ display: 'flex' }}>
             <IconButton
-              edge='start'
+              edge="start"
               className={classes.menuButton}
-              color='inherit'
-              aria-label='open drawer'
+              color="inherit"
+              aria-label="open drawer"
             >
-              <Public fontSize='large' />
+              <Public fontSize="large" />
             </IconButton>
             <Box>
-              <Typography variant='h5' className={classes.title}>
-                Lendl Global
+              <Typography variant="h5" className={classes.title}>
+                <span title="company-title">Lendl Global</span>
               </Typography>
-              <Typography variant='caption'>
-                We're in everything!
+              <Typography variant="caption">
+                <span title="company-motto">
+                  We're in everything!
+                </span>
               </Typography>
             </Box>
           </div>
@@ -158,7 +163,7 @@ const Navigation = () => {
             </div>
             <InputBase
               onChange={(e) => filterDebounce(e.target.value)}
-              placeholder='Search...'
+              placeholder="Search..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -167,10 +172,10 @@ const Navigation = () => {
             />
           </div>
           <IconButton
-            edge='start'
+            edge="start"
             className={classes.menuButton}
-            color='inherit'
-            aria-label='open drawer'
+            color="inherit"
+            aria-label="open drawer"
           >
             <div
               style={{
@@ -179,25 +184,26 @@ const Navigation = () => {
                 alignItems: 'center',
               }}
             >
-              <AccountCircleOutlined fontSize='large' />
-              <span style={{ fontSize: '1rem' }}>
+              <AccountCircleOutlined fontSize="large" />
+              <span title="user-email" style={{ fontSize: '1rem' }}>
                 {user && user.email}
               </span>
             </div>
           </IconButton>
           <Button
-            variant='contained'
+            title="auth-button"
+            variant="contained"
             onClick={() => {
               const auth = getAuth();
               user
                 ? signOut(auth)
-                    .then(() => {
-                      setUser(null);
-                      setModal('');
-                    })
-                    .catch((error) => {
-                      console.log(error);
-                    })
+                  .then(() => {
+                    setUser(null);
+                    setModal('');
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  })
                 : setModal('auth');
             }}
           >
@@ -212,7 +218,7 @@ const Navigation = () => {
               user ? handlePostClick() : setModal('auth');
             }}
             className={classes.listItem}
-            primary='Post a Donation'
+            primary="Post a Donation"
           />
         </ListItem>
         <ListItem
@@ -223,7 +229,7 @@ const Navigation = () => {
         >
           <ListItemText
             className={classes.listItem}
-            primary='Browse'
+            primary="Browse"
           />
         </ListItem>
         {user ? (
@@ -233,7 +239,7 @@ const Navigation = () => {
                 setUserFilter('donor');
               }}
               className={classes.listItem}
-              primary='My Donations'
+              primary="My Donations"
             >
               My Donations
             </ListItemText>
@@ -243,20 +249,20 @@ const Navigation = () => {
           <ListItemText
             onClick={handleClick}
             className={classes.listItem}
-            primary='Sorting'
+            primary="Sorting"
           >
             Sorting
           </ListItemText>
         </ListItem>
         <Menu
-          id='sort-menu'
+          id="sort-menu"
           anchorEl={anchorEl}
           keepMounted
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
           <MenuItem
-            onClick={(e) => {
+            onClick={() => {
               setSortBy('Proximity');
               setOrderByDesc(!orderByDesc);
               handleClose();
@@ -272,7 +278,7 @@ const Navigation = () => {
             ) : null}
           </MenuItem>
           <MenuItem
-            onClick={(e) => {
+            onClick={() => {
               setSortBy('Recency');
               setOrderByDesc(!orderByDesc);
               handleClose();

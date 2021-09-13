@@ -1,7 +1,7 @@
-const ACCESS_KEY = 'FILL_ME_IN';
-const SECRET = 'FILL_ME_IN';
+const S3_ACCESS_KEY = 'FILL_ME_IN';
+const S3_SECRET = 'FILL_ME_IN';
 
 module.exports = {
-  ACCESS_KEY,
-  SECRET,
+  S3_ACCESS_KEY,
+  S3_SECRET,
 };
