@@ -12,6 +12,8 @@ const sequelize = require('../db');
 const { decodeIDToken } = require('./routes/middleware');
 const { DonationController, UserController } = require('./routes');
 
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(express.json());
@@ -26,8 +28,8 @@ const init = async () => {
     await sequelize.sync();
     DonationController(app, sequelize);
     UserController(app, sequelize);
-    app.listen(3000, () => {
-      console.log('👂👀 Server Listening on PORT 3000👂👀');
+    app.listen(PORT, () => {
+      console.log(`👂👀 Server Listening on PORT ${PORT}`);
     });
   } catch (e) {
     console.log('Server could not be started');
