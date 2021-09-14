@@ -36,10 +36,10 @@ An application for posting items you'd like to donate. Features include authenti
 	S3_SECRET=FILL_ME_IN
 ```
 - API Keys:
-  - Firebase Private Key for Authentication (contained in JSON file in the root)
-  - Google OAuth Key for Email Notifications (CLIENT_ID and CLIENT_SECRET in ENV file)
-  - Google Maps API Key for Distance Finding (MAPS_API_KEY in ENV file)
-  - Amazon S3 Keys for Image Storage (S3_ACCESS_KEY and S3_SECRET in the config file)
+  - Firebase Private Key for Authentication (contained in the server ENV file)
+  - Google OAuth Key for Email Notifications (contained in the server ENV file)
+  - Google Maps API Key for Distance Finding (contained in the server ENV file)
+  - Amazon S3 Keys for Image Storage (contained in the client ENV file)
 
 ## Run Instructions
 
