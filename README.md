@@ -1,33 +1,39 @@
 # blue-ocean
 
-"Deeper than a puddle, as wide as the sky."
-[Deployment](http://3.144.32.109:3000/)
+An application for posting items you'd like to donate. Features include authentication, distance calculation, and sorting donations based on post recency or proximity.
+
+[Deployment](https://adb-blue-ocean.herokuapp.com/)
 
 ## Requirements
 
 - A running installation of PostGreSQL
-- An ENV file with the following properties:
+- An ENV file in `server` with the following properties:
 ```
-    DB_USER='FILL_ME_IN'
-    DB_PASSWORD='FILL_ME_IN'
-    DB_PORT=5432
-    DB_NAME='donation_station'
-    DB_HOST='localhost'
-    MAPS_API_KEY='FILL_ME_IN'
-    CLIENT_ID='FILL_ME_IN'
-    CLIENT_SECRET='FILL_ME_IN'
-    REDIRECT_URI='FILL_ME_IN'
-    REFRESH_TOKEN='FILL_ME_IN'
+	DB_USER='postgres'
+	DB_PASSWORD='postgres'
+	DB_PORT=5432
+	DB_NAME='donation_station'
+	DB_HOST='localhost'
+	GOOGLE_MAPS_API_KEY=FILL_ME_IN
+	GOOGLE_AUTH_CLIENT_ID=FILL_ME_IN
+	GOOGLE_AUTH_CLIENT_SECRET=FILL_ME_IN
+	GOOGLE_AUTH_REDIRECT_URI=FILL_ME_IN
+	GOOGLE_AUTH_REFRESH_TOKEN=FILL_ME_IN
+	FIREBASE_TYPE=FILL_ME_IN
+	FIREBASE_PROJECT_ID=FILL_ME_IN
+	FIREBASE_PRIVATE_KEY_ID=FILL_ME_IN
+	FIREBASE_PRIVATE_KEY=FILL_ME_IN
+	FIREBASE_CLIENT_EMAIL=FILL_ME_IN
+	FIREBASE_CLIENT_ID=FILL_ME_IN
+	FIREBASE_AUTH_URI=FILL_ME_IN
+	FIREBASE_TOKEN_URI=FILL_ME_IN
+	FIREBASE_AUTH_PROVIDER_URL=FILL_ME_IN
+	FIREBASE_CLIENT_CERT_URL=FILL_ME_IN
 ```
-- A config file within a config directory which exports the following properties:
+- An ENV file in `client` with the following properties:
 ```
-    const S3_ACCESS_KEY = 'FILL_ME_IN';
-    const S3_SECRET = 'FILL_ME_IN';
-
-    module.exports = {
-      S3_ACCESS_KEY,
-      S3_SECRET,
-    };
+  S3_ACCESS_KEY=FILL_ME_IN
+	S3_SECRET=FILL_ME_IN
 ```
 - API Keys:
   - Firebase Private Key for Authentication (contained in JSON file in the root)
