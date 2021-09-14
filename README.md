@@ -32,7 +32,7 @@ An application for posting items you'd like to donate. Features include authenti
 ```
 - An ENV file in `client` with the following properties:
 ```
-  S3_ACCESS_KEY=FILL_ME_IN
+	S3_ACCESS_KEY=FILL_ME_IN
 	S3_SECRET=FILL_ME_IN
 ```
 - API Keys:
