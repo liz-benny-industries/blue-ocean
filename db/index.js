@@ -7,7 +7,15 @@ const {
 
 const connection = new Sequelize(
   `postgres://${user}:${password}@${host}:${port}/${name}`,
-  { logging: false }
+  {
+    logging: false,
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
+  }
 );
 
 module.exports = connection;
