@@ -6,7 +6,8 @@ const {
 } = dbCreds;
 
 const connection = new Sequelize(
-  `postgres://${user}:${password}@${host}:${port}/${name}`
+  `postgres://${user}:${password}@${host}:${port}/${name}`,
+  { logging: false }
 );
 
 module.exports = connection;
