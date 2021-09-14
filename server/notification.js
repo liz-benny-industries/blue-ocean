@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
-const { googleAuthCreds } = require('../config/config');
+const { googleAuthCreds } = require('./config');
 
 const {
   clientId,

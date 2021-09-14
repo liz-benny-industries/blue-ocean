@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: 'server/.env' });
 
 const {
   DB_USER,
@@ -37,19 +37,27 @@ module.exports = {
   googleAuthCreds: {
     clientId: GOOGLE_AUTH_CLIENT_ID || '0',
     clientSecret: GOOGLE_AUTH_CLIENT_SECRET || '',
-    redirectUri: GOOGLE_AUTH_REDIRECT_URI || 'https://developers.google.com/oauthplayground',
+    redirectUri:
+      GOOGLE_AUTH_REDIRECT_URI
+      || 'https://developers.google.com/oauthplayground',
     refreshToken: GOOGLE_AUTH_REFRESH_TOKEN || '',
   },
   firebaseCreds: {
     type: FIREBASE_TYPE || 'service_account',
     projectId: FIREBASE_PROJECT_ID || 'sandbox-3a2e3',
     privateKeyId: FIREBASE_PRIVATE_KEY_ID || '',
-    privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n') || '',
+    privateKey:
+      (FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n') || '',
     clientEmail: FIREBASE_CLIENT_EMAIL || '',
     clientId: FIREBASE_CLIENT_ID || 0,
-    authUri: FIREBASE_AUTH_URI || 'https://accounts.google.com/o/oauth2/auth',
-    tokenUri: FIREBASE_TOKEN_URI || 'https://oauth2.googleapis.com/token',
-    authProviderUrl: FIREBASE_AUTH_PROVIDER_URL || 'https://www.googleapis.com/oauth2/v1/certs',
+    authUri:
+      FIREBASE_AUTH_URI
+      || 'https://accounts.google.com/o/oauth2/auth',
+    tokenUri:
+      FIREBASE_TOKEN_URI || 'https://oauth2.googleapis.com/token',
+    authProviderUrl:
+      FIREBASE_AUTH_PROVIDER_URL
+      || 'https://www.googleapis.com/oauth2/v1/certs',
     clientCertUrl: FIREBASE_CLIENT_CERT_URL || '',
   },
   s3Creds: {

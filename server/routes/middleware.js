@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const { firebaseCreds } = require('../../config/config');
+const { firebaseCreds } = require('../config');
 
 const {
   type,

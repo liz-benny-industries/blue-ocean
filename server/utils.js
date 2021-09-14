@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { mapApiKey } = require('../config/config');
+const { mapApiKey } = require('./config');
 
 const distanceExists = async (model, userId, donationId) => {
   const result = await model.findOne({
