@@ -15,6 +15,13 @@ const { DonationController, UserController } = require('./routes');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+app.use('*.js' || '*.jsx', (req, res, next) => {
+  req.url += '.gz';
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(express.json());
 app.use(decodeIDToken);
