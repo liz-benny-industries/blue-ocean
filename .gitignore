@@ -5,7 +5,7 @@ client/public/main.js
 client/public/main.js.LICENSE.txt
 client/public/index.html
 client/public/config.js
-client/public/*.gz
+client/public/*.*.gz
 .env
 db/config.js
 coverage
