@@ -46,8 +46,8 @@ An application for posting items you'd like to donate. Features include authenti
 1. Clone this Repository or download its zip.
 2. Navigate to its directory using a console.
 3. Install the dependencies with `npm install`
-4. Bundle the code with `npm run build:prod`
-5. Serve the result on `localhost:3000` using `npm run start:prod`
+4. Bundle the code with `npm run build`
+5. Serve the result on `localhost:3000` using `npm run start`
 
 ## Technologies
 
