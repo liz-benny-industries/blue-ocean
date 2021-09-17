@@ -3,6 +3,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -24,11 +27,23 @@ const config = {
 
     new MiniCssExtractPlugin(),
 
-    // new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG'])
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new Dotenv({ path: 'client/.env' }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 0,
+      minRatio: 0.8,
+    }),
   ],
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: { sourceMap: false },
+      }),
+    ],
+    nodeEnv: 'production',
+  },
   module: {
     rules: [
       {

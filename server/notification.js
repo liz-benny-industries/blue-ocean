@@ -1,14 +1,21 @@
 /* eslint-disable no-console */
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
-require('dotenv').config();
+const { googleAuthCreds } = require('./config');
 
 const {
-  CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN
-} = process.env;
+  clientId,
+  clientSecret,
+  redirectUri,
+  refreshToken: refresh_token,
+} = googleAuthCreds;
 
-const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
-oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+const oauth2Client = new google.auth.OAuth2(
+  clientId,
+  clientSecret,
+  redirectUri
+);
+oauth2Client.setCredentials({ refresh_token });
 
 async function sendMail(message, email) {
   try {
@@ -19,10 +26,10 @@ async function sendMail(message, email) {
       auth: {
         type: 'OAuth2',
         user: 'bulletstobytes@gmail.com',
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        refreshToken: REFRESH_TOKEN,
-        accessToken
+        clientId,
+        clientSecret,
+        refreshToken: refresh_token,
+        accessToken,
       },
     });
 
@@ -31,7 +38,7 @@ async function sendMail(message, email) {
       to: email,
       subject: 'Someone claimed your item!',
       text: 'Hello',
-      html: message
+      html: message,
     };
 
     const result = await transport.sendMail(mailOptions);

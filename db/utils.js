@@ -26,7 +26,6 @@ const defineModels = (sequelize) => {
     distanceModel,
   ];
   models.forEach((model) => model(sequelize));
-  console.log('sequelize.models:', sequelize.models);
 };
 
 const configureRelationships = (sequelize) => {

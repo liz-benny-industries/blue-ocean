@@ -1,5 +1,5 @@
 const axios = require('axios');
-require('dotenv').config();
+const { mapApiKey } = require('./config');
 
 const distanceExists = async (model, userId, donationId) => {
   const result = await model.findOne({
@@ -10,7 +10,7 @@ const distanceExists = async (model, userId, donationId) => {
 
 const getDistance = async (source, destination) => {
   try {
-    const key = process.env.MAPS_API_KEY;
+    const key = mapApiKey;
     const baseUrl = 'https://maps.googleapis.com/maps/api/distancematrix/json';
     const params = {
       destinations: destination,

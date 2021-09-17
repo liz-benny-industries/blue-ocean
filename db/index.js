@@ -1,12 +1,21 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config();
+const { dbCreds } = require('../server/config');
 
 const {
-  DB_USER, DB_PASSWORD, DB_PORT, DB_NAME, DB_HOST
-} = process.env;
+  user, password, port, name, host
+} = dbCreds;
 
 const connection = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+  `postgres://${user}:${password}@${host}:${port}/${name}`,
+  {
+    logging: false,
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
+  }
 );
 
 module.exports = connection;
