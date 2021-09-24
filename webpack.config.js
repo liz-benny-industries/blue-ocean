@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -27,7 +28,6 @@ const config = {
 
     new MiniCssExtractPlugin(),
 
-    new Dotenv({ path: './client/.env', systemvars: true }),
     new CompressionPlugin({
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/,
@@ -84,8 +84,19 @@ const config = {
 module.exports = () => {
   if (isProduction) {
     config.mode = 'production';
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env': {
+          S3_ACCESS_KEY: JSON.stringify(process.env.S3_ACCESS_KEY),
+          S3_SECRET: JSON.stringify(process.env.S3_SECRET),
+        },
+      })
+    );
   } else {
     config.mode = 'development';
+    config.plugins.push(
+      new Dotenv({ path: './client/.env', systemvars: true })
+    );
   }
   return config;
 };
