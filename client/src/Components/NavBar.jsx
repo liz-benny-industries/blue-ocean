@@ -106,7 +106,6 @@ const Navigation = () => {
     setUser,
     setUserFilter,
   } = useContext(AppContext);
-  // console.log('AppContext:', AppContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const classes = useStyles();
