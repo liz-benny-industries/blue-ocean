@@ -27,7 +27,7 @@ const config = {
 
     new MiniCssExtractPlugin(),
 
-    new Dotenv({ path: './client/.env' }),
+    new Dotenv({ path: './client/.env', systemvars: true }),
     new CompressionPlugin({
       algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/,
