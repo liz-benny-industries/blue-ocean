@@ -3,8 +3,8 @@ import AWS from 'aws-sdk';
 import { s3Creds } from '../../config';
 import AppContext from './context';
 
-const S3_BUCKET = 'blue-ocean-images';
-const REGION = 'us-east-2';
+const S3_BUCKET = 'blue-ocean-lp';
+const REGION = 'us-west-1';
 
 AWS.config.update({
   accessKeyId: s3Creds.accessKey,
@@ -44,7 +44,7 @@ const UploadImageToS3WithNativeSdk = ({ setImageURL }) => {
           console.log(err);
         } else {
           setImageURL(
-            `https://blue-ocean-images.s3.us-east-2.amazonaws.com/${fileName}`
+            `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${fileName}`
           );
         }
       });
