@@ -13,7 +13,7 @@
 ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 
-An application for posting items you'd like to donate. Features include authentication, travel time calculations between your entered address and the item's listed address, and sorting donations based on post recency or proximity. [Click here to visit and use our deployment!](https://adb-blue-ocean.herokuapp.com/)
+An application for posting items you'd like to donate. Features include authentication, travel time calculations between your entered address and the item's listed address, and sorting donations based on post recency or proximity. [Click here to visit and demo our deployment!](https://adb-blue-ocean.herokuapp.com/)
 
 ## Demo
 
