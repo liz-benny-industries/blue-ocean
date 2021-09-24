@@ -19,6 +19,15 @@ An application for posting items you'd like to donate. Features include authenti
 
 ![ds](https://user-images.githubusercontent.com/42557448/134745072-14c24d6b-d12f-4de2-9f73-1c9c4cbe5f85.gif)
 
+## Features
+
+* Account creation and Public key infrastructure authentication;
+* Email notifications upon donation claim
+* Donation posting, claiming, deletion
+* Sort by distance and recency of donation creation
+* Persistent image storage
+* Distance and direction-finding between the user address and donation address
+
 ## Requirements
 
 - A running installation of PostGreSQL
@@ -56,13 +65,24 @@ An application for posting items you'd like to donate. Features include authenti
   - Google Maps API Key for Distance Finding (contained in the server ENV file)
   - Amazon S3 Keys for Image Storage (contained in the client ENV file)
 
-## Run Instructions
+## Development
 
 1. Clone this Repository or download its zip.
 2. Navigate to its directory using a console.
 3. Install the dependencies with `npm install`
 4. Bundle the code with `npm run build`
 5. Serve the result on `localhost:3000` using `npm run start`
+
+## Changelog/Roadmap
+
+September 2021 - Version 1.0 Released
+
+**Future Plans**
+* Live Chat between Donor and Claimant
+* Server-side using NextJS
+* Scalability, Load-Balancing
+* Improved Dev Ops Pipeline
+* Continuous Delivery using CircleCI
 
 ### **KAPOW**
 
