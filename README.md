@@ -17,6 +17,10 @@ An application for posting items you'd like to donate. Features include authenti
 
 [Deployment](https://adb-blue-ocean.herokuapp.com/)
 
+## Demo
+
+![ds](https://user-images.githubusercontent.com/42557448/134745072-14c24d6b-d12f-4de2-9f73-1c9c4cbe5f85.gif)
+
 ## Requirements
 
 - A running installation of PostGreSQL
