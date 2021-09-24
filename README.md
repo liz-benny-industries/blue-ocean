@@ -15,7 +15,7 @@
 
 An application for posting items you'd like to donate. Features include authentication, travel time calculations between your entered address and the item's listed address, and sorting donations based on post recency or proximity.
 
-[Deployment](https://adb-blue-ocean.herokuapp.com/)
+## [Deployment](https://adb-blue-ocean.herokuapp.com/)
 
 ## Demo
 
