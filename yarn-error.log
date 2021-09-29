@@ -1,0 +1,115 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe E:\Programming\Yarn\bin\yarn.js
+
+PATH: 
+  E:\Programming\Git\mingw64\bin;E:\Programming\Git\usr\bin;C:\Users\brown\bin;C:\Program Files\AdoptOpenJDK\jdk-11.0.4.11-hotspot\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Calibre2;E:\Programming\MSYS2\mingw64\bin;E:\Programming\MSYS2\usr\bin;E:\Programming\MSYS2\mingw32\bin;C:\WINDOWS\System32\OpenSSH;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Users\brown\AppData\Local\Programs\Python\Python37-32;C:\Program Files\Java\jdk-13\bin;C:\Users\brown\AppData\Local\Julia-1.3.0\bin\julia.exe;E:\Programming\YoutubeDL;E:\Programming\ffmpeg\bin;C:\Program Files\dotnet;E:\Programming\PostgreSQL\13\bin;E:\Programming\Yarn\bin;E:\Programming\Git\cmd;C:\Users\brown\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\nodejs;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\k6;C:\Users\brown\.cargo\bin;C:\Users\brown\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\brown\AppData\Local\Programs\Python\Python37-32;C:\Users\brown\AppData\Local\Microsoft\WindowsApps;C:\Users\brown\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\brown\AppData\Roaming\npm;C:\Users\brown\AppData\Local\Yarn\bin;E:\Program Files\heroku\bin;C:\Users\brown\AppData\Roaming\nvm;C:\Program Files\nodejs
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  14.17.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, lstat 'D:\ProgrammingProjects\blue-ocean\node_modules\@firebase\component\dist\src\component.d.ts'
+
+npm manifest: 
+  {
+    "name": "blue-ocean",
+    "version": "1.0.0",
+    "description": "Deeper than a puddle, as wide as the sky.",
+    "main": "index.js",
+    "scripts": {
+      "test": "jest",
+      "test:watch": "jest --watch",
+      "build": "webpack --mode=production --node-env=production",
+      "build:dev": "webpack --mode=development",
+      "build:prod": "webpack --mode=production --node-env=production",
+      "watch": "webpack --mode=development --watch",
+      "start:dev": "nodemon server/",
+      "start": "node server/"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/liz-benny-industries/blue-ocean.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/liz-benny-industries/blue-ocean/issues"
+    },
+    "homepage": "https://github.com/liz-benny-industries/blue-ocean#readme",
+    "devDependencies": {
+      "@babel/core": "^7.15.0",
+      "@babel/plugin-transform-modules-commonjs": "^7.15.4",
+      "@babel/preset-env": "^7.14.8",
+      "@babel/preset-react": "^7.14.5",
+      "@testing-library/jest-dom": "^5.14.1",
+      "@testing-library/react": "^12.0.0",
+      "@webpack-cli/generators": "^2.3.0",
+      "babel-jest": "^27.1.0",
+      "babel-loader": "^8.2.2",
+      "compression-webpack-plugin": "^9.0.0",
+      "css-loader": "^6.2.0",
+      "eslint": "^7.32.0",
+      "eslint-config-airbnb": "^18.2.1",
+      "eslint-plugin-import": "^2.24.2",
+      "eslint-plugin-jest": "^24.4.0",
+      "eslint-plugin-jsx-a11y": "^6.4.1",
+      "eslint-plugin-react": "^7.24.0",
+      "eslint-plugin-react-hooks": "^4.2.0",
+      "html-webpack-plugin": "^5.3.2",
+      "jest": "^27.0.6",
+      "jsdom": "^16.7.0",
+      "mini-css-extract-plugin": "^2.1.0",
+      "nodemon": "^2.0.12",
+      "prettier": "^2.3.2",
+      "sass": "^1.36.0",
+      "sass-loader": "^12.1.0",
+      "sequelize-cli": "^6.2.0",
+      "style-loader": "^3.2.1",
+      "terser-webpack-plugin": "^5.2.4",
+      "webpack": "^5.51.1",
+      "webpack-cli": "^4.8.0",
+      "webpack-dev-server": "^3.11.2"
+    },
+    "dependencies": {
+      "@material-ui/core": "^4.12.3",
+      "@material-ui/icons": "^4.11.2",
+      "@material-ui/lab": "^4.0.0-alpha.60",
+      "aws-sdk": "^2.982.0",
+      "axios": "^0.21.1",
+      "cors": "^2.8.5",
+      "dotenv": "^10.0.0",
+      "dotenv-webpack": "^7.0.3",
+      "express": "^4.17.1",
+      "firebase": "^9.0.0",
+      "firebase-admin": "^9.11.1",
+      "googleapis": "^84.0.0",
+      "morgan": "^1.10.0",
+      "nodemailer": "^6.6.3",
+      "nodemon": "^2.0.12",
+      "pg": "^8.7.1",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-material-ui-carousel": "^2.3.1",
+      "react-scripts": "^4.0.3",
+      "regenerator-runtime": "^0.13.9",
+      "sequelize": "^6.6.5",
+      "styled-components": "^5.3.1",
+      "supertest": "^6.1.6"
+    },
+    "optionalDependencies": {
+      "fsevents": "^2.3.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

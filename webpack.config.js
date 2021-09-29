@@ -6,13 +6,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 
-const config = {
+module.exports = {
   entry: './client/src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'client/public/'),
@@ -34,6 +33,7 @@ const config = {
       threshold: 0,
       minRatio: 0.8,
     }),
+    new Dotenv({ path: './client/.env', systemvars: !!isProduction }),
   ],
   optimization: {
     minimizer: [
@@ -76,27 +76,8 @@ const config = {
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
+  mode: !!isProduction,
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-};
-
-module.exports = () => {
-  if (isProduction) {
-    config.mode = 'production';
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env': {
-          S3_ACCESS_KEY: JSON.stringify(process.env.S3_ACCESS_KEY),
-          S3_SECRET: JSON.stringify(process.env.S3_SECRET),
-        },
-      })
-    );
-  } else {
-    config.mode = 'development';
-    config.plugins.push(
-      new Dotenv({ path: './client/.env', systemvars: true })
-    );
-  }
-  return config;
 };
