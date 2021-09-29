@@ -1,4 +1,4 @@
-# blue-ocean
+# Donation Station
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Material UI](https://img.shields.io/badge/materialui-%230081CB.svg?style=for-the-badge&logo=material-ui&logoColor=white)
@@ -13,9 +13,20 @@
 ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 
-An application for posting items you'd like to donate. Features include authentication, travel time calculations between your entered address and the item's listed address, and sorting donations based on post recency or proximity.
+An application for posting items you'd like to donate. Features include authentication, travel time calculations between your entered address and the item's listed address, and sorting donations based on post recency or proximity. [Click here to visit and demo our deployment!](https://adb-blue-ocean.herokuapp.com/)
 
-[Deployment](https://adb-blue-ocean.herokuapp.com/)
+## Demo
+
+![ds](https://user-images.githubusercontent.com/42557448/134745072-14c24d6b-d12f-4de2-9f73-1c9c4cbe5f85.gif)
+
+## Features
+
+* Account creation and Public key infrastructure authentication;
+* Email notifications upon donation claim
+* Donation posting, claiming, deletion
+* Sort by distance and recency of donation creation
+* Persistent image storage
+* Distance and direction-finding between the user address and donation address
 
 ## Requirements
 
@@ -54,13 +65,24 @@ An application for posting items you'd like to donate. Features include authenti
   - Google Maps API Key for Distance Finding (contained in the server ENV file)
   - Amazon S3 Keys for Image Storage (contained in the client ENV file)
 
-## Run Instructions
+## Development
 
 1. Clone this Repository or download its zip.
 2. Navigate to its directory using a console.
 3. Install the dependencies with `npm install`
 4. Bundle the code with `npm run build`
 5. Serve the result on `localhost:3000` using `npm run start`
+
+## Changelog/Roadmap
+
+September 2021 - Version 1.0 Released
+
+**Future Plans**
+* Live Chat between Donor and Claimant
+* Server-side using NextJS
+* Scalability, Load-Balancing
+* Improved Dev Ops Pipeline
+* Continuous Delivery using CircleCI
 
 ### **KAPOW**
 
