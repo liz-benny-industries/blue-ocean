@@ -30,13 +30,8 @@ describe('<MyComponent />', () => {
     );
 
     const result = cmpt.getByTitle('company-title').textContent;
-
     const expected = 'Lendl Global';
 
     expect(result).toEqual(expected);
   });
-
-  // it('should work', () => {
-  //   const wrapper = render(<NavBar />);
-  // });
 });
