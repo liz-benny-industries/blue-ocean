@@ -75,6 +75,8 @@ An application for posting items you'd like to donate. Features include authenti
 
 ## Changelog/Roadmap
 
+![GitHub Release](https://img.shields.io/badge/release-v.1.0.0-brightgreen)
+
 September 2021 - Version 1.0 Released
 
 **Future Plans**

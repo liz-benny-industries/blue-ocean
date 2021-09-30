@@ -13,7 +13,6 @@ xtest('has a company title', async () => {
 
   await act(async () => {
     component = render(<NavBar />);
-    console.log('component:', component);
     expect(component.getByTitle('company-title').textContent).toBe(
       'Lendl Global'
     );
